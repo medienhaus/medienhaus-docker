@@ -1,0 +1,119 @@
+#version: "3"
+
+services:
+
+  #nginx:
+  #  image: nginx:latest
+  #  container_name: nginx
+  #  restart: unless-stopped
+  #  ports:
+  #    - "80:80"
+  #    - "443:443"
+  #  volumes:
+  #    #- ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  #    #- ./_htpasswd:/etc/nginx/conf.d/htpasswd:ro
+  #    #- ./html:/var/www/html
+
+  #nginx_proxy_manager:
+  #  image: jc21/nginx-proxy-manager:latest
+  #  container_name: nginx_proxy_manager
+  #  restart: unless-stopped
+  #  ports:
+  #    - "80:80"
+  #    - "81:81"
+  #    - "443:443"
+  #  volumes:
+  #    - ./nginx/data:/data
+  #    - ./nginx/letsencrypt:/etc/letsencrypt
+
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=dev+letsencrypt@medienhaus.dev"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - ./letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  #whoami:
+  #  image: traefik/whoami:latest
+  #  container_name: whoami
+  #  labels:
+  #    - "traefik.enable=true"
+  #    - "traefik.http.routers.whoami.rule=Host(`whoami.develop.medienhaus.dev`)"
+  #    #- "traefik.http.routers.whoami.entrypoints=web"
+  #    - "traefik.http.routers.whoami.entrypoints=websecure"
+  #    - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: super_sudo
+      POSTGRES_DB: postgres
+    #ports:
+    #  - "5432:5432"
+    volumes:
+      - ./postgres/data/:/var/lib/postgresql/data/
+
+  etherpad:
+    build:
+      context: ./etherpad-lite
+      args: 
+        ETHERPAD_PLUGINS: "ep_adminpads2 ep_comments_page ep_headings2 ep_markdown ep_table_of_contents"
+        #ETHERPAD_PLUGINS: "ep_adminpads2 ep_comments_page ep_headings2 ep_markdown ep_mypads ep_table_of_contents"
+    container_name: etherpad
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - postgres
+    labels:
+      - "traefik.enable=true"
+      #- "traefik.http.routers.etherpad.entrypoints=web"
+      - "traefik.http.routers.etherpad.entrypoints=websecure"
+      - "traefik.http.routers.etherpad.tls.certresolver=myresolver"
+      - "traefik.http.routers.etherpad.rule=Host(`etherpad.develop.medienhaus.dev`)"
+    ports:
+      - "9001:9001"
+
+  spacedeck:
+    build: ./spacedeck-open
+    container_name: spacedeck
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - postgres
+    labels:
+      - "traefik.enable=true"
+      #- "traefik.http.routers.spacedeck.entrypoints=web"
+      - "traefik.http.routers.spacedeck.entrypoints=websecure"
+      - "traefik.http.routers.spacedeck.tls.certresolver=myresolver"
+      - "traefik.http.routers.spacedeck.rule=Host(`spacedeck.develop.medienhaus.dev`)"
+    ports:
+      - "9666:9666"
+    volumes:
+      - ./spacedeck-open/config:/app/config
+      - ./spacedeck-open/storage:/app/storage
+      - ./spacedeck-open/database:/app/database
+
+networks: 
+  default:
+    external:
+      name: medienhaus_dev

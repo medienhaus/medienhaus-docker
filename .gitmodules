@@ -1,0 +1,10 @@
+[submodule "etherpad-lite"]
+	path = etherpad-lite
+	url = https://github.com/ether/etherpad-lite.git
+[submodule "etherpad-skin-medienhaus"]
+	path = etherpad-skin-medienhaus
+	url = https://github.com/medienhaus/etherpad-skin-medienhaus.git
+[submodule "spacedeck-open"]
+	path = spacedeck-open
+	url = https://github.com/arillo/spacedeck-open.git
+	branch = feature/merge-mnt
