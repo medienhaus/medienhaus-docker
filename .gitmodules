@@ -8,3 +8,9 @@
 	path = spacedeck-open
 	url = https://github.com/arillo/spacedeck-open.git
 	branch = feature/merge-mnt
+[submodule "peertube"]
+	path = peertube
+	url = https://github.com/Chocobozzz/PeerTube.git
+[submodule "rallly"]
+	path = rallly
+	url = https://github.com/lukevella/rallly.git

@@ -72,6 +72,7 @@ services:
     #  - "5432:5432"
     volumes:
       - ./postgres/data/:/var/lib/postgresql/data/
+      #- ./umami/sql/schema.postgresql.sql:/docker-entrypoint-initdb.d/schema.postgresql.sql:ro
 
   etherpad:
     build:
@@ -93,6 +94,31 @@ services:
     ports:
       - "9001:9001"
 
+  rallly:
+    #build: ./rallly
+    build:
+      context: ./rallly
+      args:
+        - DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly?pgbouncer=true
+    container_name: rallly
+    restart: unless-stopped
+    command: sh -c "yarn prisma migrate deploy && yarn start"
+    depends_on:
+      - traefik
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly
+    #env_file:
+    #  - ./rallly/.env
+    labels:
+      - "traefik.enable=true"
+      #- "traefik.http.routers.rallly.entrypoints=web"
+      - "traefik.http.routers.rallly.entrypoints=websecure"
+      - "traefik.http.routers.rallly.tls.certresolver=myresolver"
+      - "traefik.http.routers.rallly.rule=Host(`rallly.develop.medienhaus.dev`)"
+    ports:
+      - "3000:3000"
+
   spacedeck:
     build: ./spacedeck-open
     container_name: spacedeck
@@ -113,7 +139,28 @@ services:
       - ./spacedeck-open/storage:/app/storage
       - ./spacedeck-open/database:/app/database
 
+  umami:
+    image: ghcr.io/mikecao/umami:postgresql-latest
+    container_name: umami
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://umami_user:super_sudo@postgres:5432/umami
+      DATABASE_TYPE: postgresql
+      HASH_SALT: t00LZoeEcLWMKFNSKiO1ULK9Vb3B4L0N6H5HrS6i1jSGcGKrq6Uin7TS00jjK5AJ
+    labels:
+      - "traefik.enable=true"
+      #- "traefik.http.routers.umami.entrypoints=web"
+      - "traefik.http.routers.umami.entrypoints=websecure"
+      - "traefik.http.routers.umami.tls.certresolver=myresolver"
+      - "traefik.http.routers.umami.rule=Host(`umami.develop.medienhaus.dev`)"
+    ports:
+      - "1337:3000"
+
 networks: 
   default:
-    external:
-      name: medienhaus_dev
+    driver: bridge
+  #  external:
+  #    name: medienhaus_dev
