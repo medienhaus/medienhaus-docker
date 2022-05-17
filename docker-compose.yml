@@ -72,7 +72,6 @@ services:
     #  - "5432:5432"
     volumes:
       - ./postgres/data/:/var/lib/postgresql/data/
-      #- ./umami/sql/schema.postgresql.sql:/docker-entrypoint-initdb.d/schema.postgresql.sql:ro
 
   etherpad:
     build:
@@ -138,26 +137,6 @@ services:
       - ./spacedeck-open/config:/app/config
       - ./spacedeck-open/storage:/app/storage
       - ./spacedeck-open/database:/app/database
-
-  umami:
-    image: ghcr.io/mikecao/umami:postgresql-latest
-    container_name: umami
-    restart: unless-stopped
-    depends_on:
-      - traefik
-      - postgres
-    environment:
-      DATABASE_URL: postgresql://umami_user:super_sudo@postgres:5432/umami
-      DATABASE_TYPE: postgresql
-      HASH_SALT: t00LZoeEcLWMKFNSKiO1ULK9Vb3B4L0N6H5HrS6i1jSGcGKrq6Uin7TS00jjK5AJ
-    labels:
-      - "traefik.enable=true"
-      #- "traefik.http.routers.umami.entrypoints=web"
-      - "traefik.http.routers.umami.entrypoints=websecure"
-      - "traefik.http.routers.umami.tls.certresolver=myresolver"
-      - "traefik.http.routers.umami.rule=Host(`umami.develop.medienhaus.dev`)"
-    ports:
-      - "1337:3000"
 
 networks: 
   default:
