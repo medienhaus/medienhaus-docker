@@ -28,7 +28,7 @@ services:
       - "443:443"
       - "8080:8080"
     volumes:
-      - ./letsencrypt:/letsencrypt
+      - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   # ------------------------------------------------------
@@ -52,8 +52,10 @@ services:
   # ------------------------------------------------------
   # etherpad
   # ------------------------------------------------------
+  # /*
   # etherpad does not offer an official docker-compose.yml
   # which we could extend, hence the following composition
+  # */
   # ------------------------------------------------------
 
   etherpad:
