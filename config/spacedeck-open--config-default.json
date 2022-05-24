@@ -1,0 +1,51 @@
+{
+  "team_name": "medienhaus_dev/sketch",
+  "contact_email": "dev+spacedeck@medienhaus.dev",
+
+  "host": "::",
+  "port": 9666,
+  "endpoint": "http://localhost:9666",
+
+  "invite_code": "invite_code_1234",
+  "session_key": "session_key_1234",
+
+  "export_api_secret": "export_api_secret_1234",
+
+  "storage_dialect": "postgres",
+  "storage_host": "postgres",
+  "storage_username": "spacedeck_user",
+  "storage_password": "spacedeck_password",
+  "storage_database": "spacedeck",
+
+  "storage_local_path": "./storage",
+  "storage_local_db": "./database.sqlite",
+  "storage_region": "eu-central-1",
+  "storage_endpoint": "http://localhost:4572",
+  "storage_bucket": "my_spacedeck_bucket",
+  "storage_cdn": "/storage",
+
+  "mongodb_host": "localhost",
+  "redis_mock": true,
+  "redis_host": "localhost",
+
+  "auth_type": "ldap",
+  "auth_ldap_server": "ldaps://scheper.udk-berlin.de",
+  "auth_ldap_bind_dn": "cn=bbb-gru-udk-bind,ou=dsa,dc=udk-berlin,dc=de",
+  "auth_ldap_bind_credentials": "93ea7e7d7ed56bbaca9b9de1e89c8c98",
+  "auth_ldap_search_base": "dc=udk-berlin,dc=de",
+  "auth_ldap_search_filter": "(|(mailRoutingAddress={{mail}})(uid={{username}}))",
+  "auth_ldap_search_attributes": ["uid", "mailRoutingAddress", "cn"],
+  "auth_ldap_attribute_uid": "uid",
+  "auth_ldap_attribute_mail": "mailRoutingAddress",
+  "auth_ldap_attribute_name": "cn",
+
+  "mail_provider": "smtp",
+  "mail_smtp_host": "post.medienhaus.udk-berlin.de",
+  "mail_smtp_port": 465,
+  "mail_smtp_secure": true,
+  "mail_smtp_require_tls": true,
+  "mail_smtp_user": "sketch@medienhaus.udk-berlin.de",
+  "mail_smtp_pass": "geino2piaL5iy7c",
+
+  "spacedeck": {}
+}

@@ -1,5 +1,0 @@
-config/*
-letsencrypt/*
-postgres/*
-
-!config/*.example.*
