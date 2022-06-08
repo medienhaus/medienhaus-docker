@@ -40,14 +40,17 @@ services:
     container_name: postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: super_sudo
-      POSTGRES_DB: postgres
+      #- "POSTGRES_USER=postgres"
+      #- "POSTGRES_PASSWORD=super_sudo"
+      #- "POSTGRES_DB=postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "super_sudo"
+      POSTGRES_DB: "postgres"
     #ports:
     #  - "5432:5432"
     volumes:
-      #- ./postgres/data/:/var/lib/postgresql/data/
-      - ./data/postgres/:/var/lib/postgresql/data/
+      #- ./postgres/data:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
 
   # ------------------------------------------------------
   # redis
@@ -61,6 +64,64 @@ services:
   #    - ./data/redis:/data
 
   # ------------------------------------------------------
+  # openldap
+  # ------------------------------------------------------
+
+  openldap:
+    image: bitnami/openldap:latest
+    container_name: openldap
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - postgres
+    environment:
+      LDAP_PORT_NUMBER: "1389"
+      #LDAP_ROOT: "dc=example,dc=org"
+      LDAP_ROOT: "dc=medienhaus,dc=dev"
+      #LDAP_ADMIN_USERNAME: "admin"
+      LDAP_ADMIN_USERNAME: "medienhaus"
+      #LDAP_ADMIN_PASSWORD: "adminpassword"
+      LDAP_ADMIN_PASSWORD: "super_sudo"
+      #LDAP_CONFIG_ADMIN_ENABLED: "no"
+      #LDAP_CONFIG_ADMIN_USERNAME: "admin"
+      #LDAP_CONFIG_ADMIN_PASSWORD: "configpassword"
+      #LDAP_USERS: "user01,user02"
+      LDAP_USERS: "alice,bob,cyber,deus"
+      #LDAP_PASSWORDS: "bitnami1,bitnami2"
+      LDAP_PASSWORDS: "foo,bar,baz,qux"
+      LDAP_USER_DC: "accounts"
+      LDAP_GROUP: "read-only"
+      #LDAP_ADD_SCHEMAS: "no"
+      ##LDAP_EXTRA_SCHEMAS: "foo,bar,baz"
+      #LDAP_SKIP_DEFAULT_TREE: "no"
+      ##LDAP_CUSTOM_LDIF_DIR: "/ldifs"
+      #LDAP_CUSTOM_SCHEMA_FILE: "/schema/custom.ldif"
+      #LDAP_ULIMIT_NOFILES: "1024"
+      #LDAP_ALLOW_ANON_BINDING: "yes"
+      #LDAP_LOGLEVEL: "256"
+      #LDAP_ENABLE_TLS: "no"
+      #LDAP_LDAPS_PORT_NUMBER: "1636"
+      #LDAP_TLS_CERT_FILE: ""
+      #LDAP_TLS_KEY_FILE: ""
+      #LDAP_TLS_CA_FILE: ""
+      #LDAP_TLS_DH_PARAMS_FILE: ""
+    labels:
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.openldap.entrypoints=websecure"
+      #- "traefik.http.routers.openldap.tls.certresolver=myresolver"
+      #- "traefik.http.routers.openldap.rule=Host(`openldap.develop.medienhaus.dev`)"
+      traefik.enable: "true"
+      traefik.http.routers.openldap.entrypoints: "websecure"
+      traefik.http.routers.openldap.tls.certresolver: "myresolver"
+      traefik.http.routers.openldap.rule: "Host(`openldap.develop.medienhaus.dev`)"
+    #ports:
+    #  - "1389:1389"
+    #  - "1636:1636"
+    volumes:
+    #  - openldap_data:/bitnami/openldap
+      - ./data/openldap:/bitnami/openldap
+
+  # ------------------------------------------------------
   # etherpad
   # ------------------------------------------------------
   # /*
@@ -72,7 +133,7 @@ services:
   etherpad:
     build:
       context: ./etherpad-lite
-      args: 
+      args:
         ETHERPAD_PLUGINS: "ep_adminpads2 ep_comments_page ep_headings2 ep_markdown ep_table_of_contents"
         #ETHERPAD_PLUGINS: "ep_adminpads2 ep_comments_page ep_headings2 ep_markdown ep_mypads ep_table_of_contents"
     container_name: etherpad
@@ -81,10 +142,14 @@ services:
       - traefik
       - postgres
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.etherpad.entrypoints=websecure"
-      - "traefik.http.routers.etherpad.tls.certresolver=myresolver"
-      - "traefik.http.routers.etherpad.rule=Host(`etherpad.develop.medienhaus.dev`)"
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.etherpad.entrypoints=websecure"
+      #- "traefik.http.routers.etherpad.tls.certresolver=myresolver"
+      #- "traefik.http.routers.etherpad.rule=Host(`etherpad.develop.medienhaus.dev`)"
+      traefik.enable: "true"
+      traefik.http.routers.etherpad.entrypoints: "websecure"
+      traefik.http.routers.etherpad.tls.certresolver: "myresolver"
+      traefik.http.routers.etherpad.rule: "Host(`etherpad.develop.medienhaus.dev`)"
     #ports:
     #  - "9001:9001"
 
@@ -97,22 +162,28 @@ services:
     build:
       context: ./rallly
       args:
-        - DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly?pgbouncer=true
+        - "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly?pgbouncer=true"
     container_name: rallly
     restart: unless-stopped
-    command: sh -c "yarn prisma migrate deploy && yarn start"
+    command:
+      - 'sh -c "yarn prisma migrate deploy && yarn start"'
     depends_on:
       - traefik
       - postgres
     #env_file:
     #  - ./rallly/.env
     environment:
-      - DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly
+      #- "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly"
+      DATABASE_URL: "postgres://rallly_user:super_sudo@postgres:5432/rallly"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.rallly.entrypoints=websecure"
-      - "traefik.http.routers.rallly.tls.certresolver=myresolver"
-      - "traefik.http.routers.rallly.rule=Host(`rallly.develop.medienhaus.dev`)"
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.rallly.entrypoints=websecure"
+      #- "traefik.http.routers.rallly.tls.certresolver=myresolver"
+      #- "traefik.http.routers.rallly.rule=Host(`rallly.develop.medienhaus.dev`)"
+      traefik.enable: "true"
+      traefik.http.routers.rallly.entrypoints: "websecure"
+      traefik.http.routers.rallly.tls.certresolver: "myresolver"
+      traefik.http.routers.rallly.rule: "Host(`rallly.develop.medienhaus.dev`)"
     #ports:
     #  - "3000:3000"
 
@@ -128,10 +199,14 @@ services:
       - traefik
       - postgres
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.spacedeck.entrypoints=websecure"
-      - "traefik.http.routers.spacedeck.tls.certresolver=myresolver"
-      - "traefik.http.routers.spacedeck.rule=Host(`spacedeck.develop.medienhaus.dev`)"
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.spacedeck.entrypoints=websecure"
+      #- "traefik.http.routers.spacedeck.tls.certresolver=myresolver"
+      #- "traefik.http.routers.spacedeck.rule=Host(`spacedeck.develop.medienhaus.dev`)"
+      traefik.enable: "true"
+      traefik.http.routers.spacedeck.entrypoints: "websecure"
+      traefik.http.routers.spacedeck.tls.certresolver: "myresolver"
+      traefik.http.routers.spacedeck.rule: "Host(`spacedeck.develop.medienhaus.dev`)"
     #ports:
     #  - "9666:9666"
     volumes:
@@ -143,6 +218,14 @@ services:
 # networks
 # ------------------------------------------------------
 
-networks: 
+networks:
   default:
     driver: bridge
+
+# ------------------------------------------------------
+# volumes
+# ------------------------------------------------------
+
+#volumes:
+#  openldap_data:
+#    driver: local
