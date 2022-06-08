@@ -50,7 +50,7 @@ services:
     #  - "5432:5432"
     volumes:
       #- ./postgres/data:/var/lib/postgresql/data
-      - ./data/postgres:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data:rw
 
   # ------------------------------------------------------
   # redis
@@ -66,6 +66,15 @@ services:
   # ------------------------------------------------------
   # openldap
   # ------------------------------------------------------
+
+  openldap--fix-permissions:
+    image: bitnami/openldap:latest
+    container_name: openldap--fix-permissions
+    restart: unless-stopped
+    command: "chown -R 1001:1001 /bitnami"
+    user: "root"
+    volumes:
+      - ./data/openldap:/bitnami
 
   openldap:
     image: bitnami/openldap:latest
