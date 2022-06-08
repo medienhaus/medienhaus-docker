@@ -114,6 +114,7 @@ services:
       - traefik
       - postgres
     environment:
+      BITNAMI_DEBUG: "true"
       LDAP_PORT_NUMBER: "1389"
       #LDAP_ROOT: "dc=example,dc=org"
       LDAP_ROOT: "dc=medienhaus,dc=dev"
