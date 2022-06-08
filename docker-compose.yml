@@ -166,7 +166,7 @@ services:
     container_name: rallly
     restart: unless-stopped
     command:
-      - 'sh -c "yarn prisma migrate deploy && yarn start"'
+      - /bin/sh -c "yarn prisma migrate deploy && yarn start"
     depends_on:
       - traefik
       - postgres

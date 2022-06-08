@@ -56,7 +56,7 @@ services:
   #  depends_on:
   #    - peertube-webserver
   #  entrypoint:
-  #    - '/bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done;"'
+  #    - /bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done;"
   #  volumes:
   #    #- ./data/certbot:/var/www/certbot
   #    - peertube-certbot:/var/www/certbot
