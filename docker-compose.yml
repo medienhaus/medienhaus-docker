@@ -125,9 +125,9 @@ services:
       traefik.http.routers.openldap.entrypoints: "websecure"
       traefik.http.routers.openldap.tls.certresolver: "myresolver"
       traefik.http.routers.openldap.rule: "Host(`openldap.develop.medienhaus.dev`)"
-    #ports:
-    #  - "1389:1389"
-    #  - "1636:1636"
+    ports:
+      - "389:1389"
+    #  - "636:1636"
     volumes:
     #  - openldap_data:/bitnami/openldap
       - ./data/openldap:/bitnami/openldap
