@@ -75,9 +75,9 @@ services:
       #- postfix
     env_file:
       - ./peertube/support/docker/production/.env
-    ports:
-      - "1935:1935"
-      - "9000:9000"
+    #ports:
+    #  - "1935:1935"
+    #  - "9000:9000"
     volumes:
       #- ./data/peertube/assets:/app/client/dist
       - peertube-assets:/app/client/dist

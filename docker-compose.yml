@@ -85,8 +85,8 @@ services:
       - "traefik.http.routers.etherpad.entrypoints=websecure"
       - "traefik.http.routers.etherpad.tls.certresolver=myresolver"
       - "traefik.http.routers.etherpad.rule=Host(`etherpad.develop.medienhaus.dev`)"
-    ports:
-      - "9001:9001"
+    #ports:
+    #  - "9001:9001"
 
   # ------------------------------------------------------
   # rallly
@@ -113,8 +113,8 @@ services:
       - "traefik.http.routers.rallly.entrypoints=websecure"
       - "traefik.http.routers.rallly.tls.certresolver=myresolver"
       - "traefik.http.routers.rallly.rule=Host(`rallly.develop.medienhaus.dev`)"
-    ports:
-      - "3000:3000"
+    #ports:
+    #  - "3000:3000"
 
   # ------------------------------------------------------
   # spacedeck
@@ -132,8 +132,8 @@ services:
       - "traefik.http.routers.spacedeck.entrypoints=websecure"
       - "traefik.http.routers.spacedeck.tls.certresolver=myresolver"
       - "traefik.http.routers.spacedeck.rule=Host(`spacedeck.develop.medienhaus.dev`)"
-    ports:
-      - "9666:9666"
+    #ports:
+    #  - "9666:9666"
     volumes:
       - ./spacedeck-open/config:/app/config
       - ./spacedeck-open/storage:/app/storage
