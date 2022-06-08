@@ -165,8 +165,7 @@ services:
         - "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly?pgbouncer=true"
     container_name: rallly
     restart: unless-stopped
-    command:
-      - /bin/sh -c "yarn prisma migrate deploy && yarn start"
+    command: /bin/sh -c "yarn prisma migrate deploy && yarn start"
     depends_on:
       - traefik
       - postgres
