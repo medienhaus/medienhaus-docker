@@ -20,9 +20,9 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.ldap-tcp.address=:389/tcp"
-      - "--entrypoints.ldap-udp.address=:389/udp"
-      - "--entrypoints.ldaps.address=:636/tcp"
+      - "--entrypoints.ldap-tcp.address=:1389/tcp"
+      - "--entrypoints.ldap-udp.address=:1389/udp"
+      - "--entrypoints.ldaps.address=:1636/tcp"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.myresolver.acme.email=dev+letsencrypt@medienhaus.dev"
@@ -38,8 +38,8 @@ services:
     ports:
       - "80:80"      # http
       - "443:443"    # https
-      - "389:1389"   # ldap
-      - "636:1636"   # ldaps
+      - "1389:1389"  # ldap
+      - "1636:1636"  # ldaps
     volumes:
       - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
