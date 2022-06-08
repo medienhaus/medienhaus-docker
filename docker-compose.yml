@@ -45,6 +45,20 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   # ------------------------------------------------------
+  # traefik--certs-dumper
+  # ------------------------------------------------------
+
+  traefik--certs-dumper:
+    image: ldez/traefik-certs-dumper:latest
+    container_name: traefik--certs-dumper
+    restart: "no"
+    #depends_on:
+    #  - traefik
+    entrypoint: sh -c 'apk add jq; while ![ -e /data/acme.json ] || ![ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --domain-subdir=true'
+    volumes:
+      - ./data/letsencrypt:/data
+
+  # ------------------------------------------------------
   # postgres
   # ------------------------------------------------------
 
@@ -77,7 +91,7 @@ services:
   #    - ./data/redis:/data
 
   # ------------------------------------------------------
-  # openldap
+  # openldap--fix-permissions
   # ------------------------------------------------------
 
   openldap--fix-permissions:
@@ -88,6 +102,10 @@ services:
     user: "root"
     volumes:
       - ./data/openldap:/bitnami
+
+  # ------------------------------------------------------
+  # openldap
+  # ------------------------------------------------------
 
   openldap:
     image: bitnami/openldap:latest
