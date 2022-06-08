@@ -141,6 +141,7 @@ services:
       #LDAP_ALLOW_ANON_BINDING: "yes"
       #LDAP_LOGLEVEL: "256"
       #LDAP_ENABLE_TLS: "no"
+      LDAP_ENABLE_TLS: "yes"
       LDAP_LDAPS_PORT_NUMBER: "1636"
       LDAP_TLS_CERT_FILE: "/etc/letsencrypt/live/openldap.develop.medienhaus.dev/certificate.crt"
       LDAP_TLS_KEY_FILE: "/etc/letsencrypt/live/openldap.develop.medienhaus.dev/privatekey.key"
