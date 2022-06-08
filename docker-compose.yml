@@ -145,7 +145,8 @@ services:
       LDAP_LDAPS_PORT_NUMBER: "1636"
       LDAP_TLS_CERT_FILE: "/etc/letsencrypt/live/openldap.develop.medienhaus.dev/certificate.crt"
       LDAP_TLS_KEY_FILE: "/etc/letsencrypt/live/openldap.develop.medienhaus.dev/privatekey.key"
-      LDAP_TLS_CA_FILE: "/etc/ssl/certs/ca-certificates.pem"
+      #LDAP_TLS_CA_FILE: "/etc/ssl/certs/ca-certificates.crt"
+      LDAP_TLS_CA_FILE: "/etc/letsencrypt/live/openldap.develop.medienhaus.dev/certificate.crt"
       #LDAP_TLS_CA_FILE: "/bitnami/ca-certificates.crt"
       #LDAP_TLS_DH_PARAMS_FILE: ""
     labels:
