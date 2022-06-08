@@ -54,7 +54,8 @@ services:
     restart: "no"
     #depends_on:
     #  - traefik
-    entrypoint: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --dest /dump --domain-subdir=true' && exit
+    command: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --dest /dump --domain-subdir=true'
+    #entrypoint: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --dest /dump --domain-subdir=true'
     volumes:
       - ./data/letsencrypt:/data:ro
       - ./data/certificates:/dump
