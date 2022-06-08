@@ -54,8 +54,8 @@ services:
     restart: "no"
     #depends_on:
     #  - traefik
-    command: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --dest /dump --domain-subdir=true'
     #entrypoint: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --dest /dump --domain-subdir=true'
+    command: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --dest /dump --domain-subdir=true'
     volumes:
       - ./data/letsencrypt:/data:ro
       - ./data/certificates:/dump
@@ -144,9 +144,9 @@ services:
       #LDAP_ALLOW_ANON_BINDING: "yes"
       #LDAP_LOGLEVEL: "256"
       #LDAP_ENABLE_TLS: "no"
-      #LDAP_LDAPS_PORT_NUMBER: "1636"
-      #LDAP_TLS_CERT_FILE: ""
-      #LDAP_TLS_KEY_FILE: ""
+      LDAP_LDAPS_PORT_NUMBER: "1636"
+      LDAP_TLS_CERT_FILE: "/certificates/certificate.crt"
+      LDAP_TLS_KEY_FILE: "/certificates/privatekey.key"
       #LDAP_TLS_CA_FILE: ""
       #LDAP_TLS_DH_PARAMS_FILE: ""
     labels:
@@ -171,7 +171,7 @@ services:
     #  - "1389:1389"
     #  - "1636:1636"
     volumes:
-    #  - openldap_data:/bitnami/openldap
+      - ./data/certificates:/certificates:ro
       - ./data/openldap:/bitnami/openldap
 
   # ------------------------------------------------------
