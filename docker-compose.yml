@@ -69,8 +69,8 @@ services:
 
   openldap--fix-permissions:
     image: bitnami/openldap:latest
-    container_name: openldap--fix-permissions
-    restart: unless-stopped
+    #container_name: openldap--fix-permissions
+    #restart: no
     command: "chown -R 1001:1001 /bitnami"
     user: "root"
     volumes:
