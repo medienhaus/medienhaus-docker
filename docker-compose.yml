@@ -12,6 +12,7 @@ services:
     restart: unless-stopped
     command:
       #- "--log.level=DEBUG"
+      - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
@@ -26,12 +27,19 @@ services:
       #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.myresolver.acme.email=dev+letsencrypt@medienhaus.dev"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.api.entrypoints: "websecure"
+      traefik.http.routers.api.tls.certresolver: "myresolver"
+      traefik.http.routers.api.rule: "Host(`traefik.develop.medienhaus.dev`)"
+      traefik.http.routers.api.service: "api@internal"
+      #traefik.http.routers.api.middlewares: "auth"
+      #traefik.http.middlewares.auth.basicauth.users: "medienhaus:$apr1$nnkZijJH$SY3UClGcBGKWE.LR3Tyxh1"
     ports:
       - "80:80"      # http
       - "443:443"    # https
       - "1389:1389"  # ldap
       - "1636:1636"  # ldaps
-      - "8080:8080"  # traefik
     volumes:
       - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -74,8 +82,8 @@ services:
 
   openldap--fix-permissions:
     image: bitnami/openldap:latest
-    #container_name: openldap--fix-permissions
-    #restart: no
+    container_name: openldap--fix-permissions
+    restart: "no"
     command: "chown -R 1001:1001 /bitnami"
     user: "root"
     volumes:
@@ -108,9 +116,9 @@ services:
       #LDAP_GROUP: "readers"
       LDAP_GROUP: "read-only"
       #LDAP_ADD_SCHEMAS: "no"
-      ##LDAP_EXTRA_SCHEMAS: "foo,bar,baz"
+      #LDAP_EXTRA_SCHEMAS: "cosine, inetorgperson, nis"
       #LDAP_SKIP_DEFAULT_TREE: "no"
-      ##LDAP_CUSTOM_LDIF_DIR: "/ldifs"
+      #LDAP_CUSTOM_LDIF_DIR: "/ldifs"
       #LDAP_CUSTOM_SCHEMA_FILE: "/schema/custom.ldif"
       #LDAP_ULIMIT_NOFILES: "1024"
       #LDAP_ALLOW_ANON_BINDING: "yes"
@@ -130,28 +138,15 @@ services:
       #traefik.http.routers.openldap.entrypoints: "ldapsecure"
       #traefik.http.routers.openldap.tls.certresolver: "myresolver"
       #traefik.http.routers.openldap.rule: "Host(`openldap.develop.medienhaus.dev`)"
-
       traefik.enable: "true"
-
-      # ldap-tcp
       traefik.tcp.routers.ldap-tcp.rule: "HostSNI(`*`)"
       traefik.tcp.routers.ldap-tcp.entrypoints: "ldap-tcp"
-      #traefik.tcp.routers.ldap-tcp.service: "ldap-tcp-svc"
-      #traefik.tcp.services.ldap-tcp-svc.loadbalancer.server.port: "389/tcp"
-
-      # ldap-udp
       traefik.udp.routers.ldap-udp.entrypoints: "ldap-udp"
-      #traefik.udp.routers.ldap-udp.service: "ldap-udp-svc"
-      #traefik.udp.services.ldap-udp-svc.loadbalancer.server.port: "389/udp"
-
-      # ldaps
       traefik.tcp.routers.ldaps.rule: "HostSNI(`*`)"
       traefik.tcp.routers.ldaps.entrypoints: "ldaps"
       traefik.tcp.routers.ldaps.tls: "true"
-      #traefik.tcp.routers.ldaps.tls.passthrough: "true"
-      #traefik.tcp.routers.ldaps.tls.certresolver: "route53"
-      #traefik.tcp.routers.ldaps.service: "ldaps-svc"
-      #traefik.tcp.services.ldaps-svc.loadbalancer.server.port: "636"
+      traefik.tcp.routers.ldaps.tls.passthrough: "true"
+      traefik.tcp.routers.ldaps.tls.certresolver: "myresolver"
     #ports:
     #  - "1389:1389"
     #  - "1636:1636"
