@@ -45,17 +45,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   # ------------------------------------------------------
-  # traefik--certs-dumper
+  # traefik--dump--certs
   # ------------------------------------------------------
 
-  traefik--certs-dumper:
+  traefik--dump-certs:
     image: ldez/traefik-certs-dumper:latest
-    container_name: traefik--certs-dumper
-    restart: "no"
-    #depends_on:
-    #  - traefik
-    #entrypoint: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --dest /dump --domain-subdir=true'
-    command: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --watch --source /data/acme.json --dest /dump --domain-subdir=true'
+    container_name: traefik--dump-certs
+    restart: unless-stopped
+    entrypoint: sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --source /data/acme.json --watch --dest /dump --domain-subdir'
     volumes:
       - ./data/letsencrypt:/data:ro
       - ./data/certificates:/dump
@@ -145,9 +142,9 @@ services:
       #LDAP_LOGLEVEL: "256"
       #LDAP_ENABLE_TLS: "no"
       LDAP_LDAPS_PORT_NUMBER: "1636"
-      LDAP_TLS_CERT_FILE: "/certificates/certificate.crt"
-      LDAP_TLS_KEY_FILE: "/certificates/privatekey.key"
-      #LDAP_TLS_CA_FILE: ""
+      LDAP_TLS_CERT_FILE: "/certificates/openldap.develop.medienhaus.dev/certificate.crt"
+      LDAP_TLS_KEY_FILE: "/certificates/openldap.develop.medienhaus.dev/privatekey.key"
+      LDAP_TLS_CA_FILE: "/certificates/ca-certificates.crt"
       #LDAP_TLS_DH_PARAMS_FILE: ""
     labels:
       #- "traefik.enable=true"
