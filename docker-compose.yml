@@ -55,8 +55,8 @@ services:
     entrypoint: /bin/sh -c 'apk add jq && cp /etc/ssl/certs/ca-certificates.crt /dump/ && while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --source /data/acme.json --watch --dest /dump --domain-subdir'
     volumes:
       - ./data/letsencrypt:/data:ro
-      - ./data/traefik-certs-dumper/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
       - ./data/traefik-certs-dumper/letsencrypt:/dump
+      - ./data/traefik-certs-dumper/ssl-certs:/etc/ssl/certs
 
   # ------------------------------------------------------
   # postgres
