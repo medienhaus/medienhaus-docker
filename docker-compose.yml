@@ -20,9 +20,9 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.ldap-tcp.address=:389/tcp"
-      - "--entrypoints.ldap-udp.address=:389/udp"
-      - "--entrypoints.ldaps.address=:636/tcp"
+      - "--entrypoints.ldap-tcp.address=:1389/tcp"
+      - "--entrypoints.ldap-udp.address=:1389/udp"
+      - "--entrypoints.ldaps.address=:1636/tcp"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.myresolver.acme.email=dev+letsencrypt@medienhaus.dev"
@@ -36,10 +36,8 @@ services:
       #traefik.http.routers.api.middlewares: "auth"
       #traefik.http.middlewares.auth.basicauth.users: "medienhaus:$apr1$nnkZijJH$SY3UClGcBGKWE.LR3Tyxh1"
     ports:
-      - "80:80"      # http
-      - "443:443"    # https
-      - "389:1389"   # ldap
-      - "636:1636"   # ldaps
+      - "80:80"
+      - "443:443"
     volumes:
       - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
