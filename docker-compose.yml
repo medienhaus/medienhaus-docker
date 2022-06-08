@@ -38,8 +38,8 @@ services:
     ports:
       - "80:80"      # http
       - "443:443"    # https
-      #- "389:1389"  # ldap
-      #- "636:1636"  # ldaps
+      - "389:1389"   # ldap
+      - "636:1636"   # ldaps
     volumes:
       - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -167,9 +167,9 @@ services:
       traefik.tcp.routers.ldaps.tls: "true"
       traefik.tcp.routers.ldaps.tls.passthrough: "true"
       traefik.tcp.routers.ldaps.tls.certresolver: "myresolver"
-    ports:
-      - "389:1389"
-      - "636:1636"
+    #ports:
+    #  - "1389:1389"
+    #  - "1636:1636"
     volumes:
       - ./data/openldap:/bitnami/openldap
       - ./data/traefik-certs-dumper:/etc/letsencrypt/live:ro
