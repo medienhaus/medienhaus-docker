@@ -168,7 +168,7 @@ services:
       traefik.tcp.routers.ldaps-tcp.tls: "true"
       traefik.tcp.routers.ldaps-tcp.tls.passthrough: "true"
       traefik.tcp.routers.ldaps-tcp.tls.certresolver: "myresolver"
-      traefik.tcp.routers.ldaps-udp.entrypoints: "ldaps-tcp"
+      traefik.tcp.routers.ldaps-udp.entrypoints: "ldaps-udp"
       traefik.tcp.routers.ldaps-udp.tls: "true"
       traefik.tcp.routers.ldaps-udp.tls.passthrough: "true"
       traefik.tcp.routers.ldaps-udp.tls.certresolver: "myresolver"
