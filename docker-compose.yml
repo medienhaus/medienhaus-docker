@@ -20,8 +20,8 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
-      #- "--entrypoints.ldap-tcp.address=:1389/tcp"
-      #- "--entrypoints.ldap-udp.address=:1389/udp"
+      - "--entrypoints.ldap-tcp.address=:1389/tcp"
+      - "--entrypoints.ldap-udp.address=:1389/udp"
       - "--entrypoints.ldaps.address=:1636/tcp"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
@@ -38,7 +38,7 @@ services:
     ports:
       - "80:80"      # http
       - "443:443"    # https
-      #- "1389:1389"  # ldap
+      - "1389:1389"  # ldap
       - "1636:1636"  # ldaps
     volumes:
       - ./data/letsencrypt:/letsencrypt
@@ -115,7 +115,8 @@ services:
       - postgres
     environment:
       BITNAMI_DEBUG: "true"
-      #LDAP_PORT_NUMBER: "1389"
+      LDAP_LOG_LEVEL: "9"
+      LDAP_PORT_NUMBER: "1389"
       #LDAP_ROOT: "dc=example,dc=org"
       LDAP_ROOT: "dc=medienhaus,dc=dev"
       #LDAP_ADMIN_USERNAME: "admin"
@@ -158,17 +159,17 @@ services:
       #traefik.http.routers.openldap.tls.certresolver: "myresolver"
       #traefik.http.routers.openldap.rule: "Host(`openldap.develop.medienhaus.dev`)"
       traefik.enable: "true"
-      #traefik.tcp.routers.ldap-tcp.rule: "HostSNI(`*`)"
-      #traefik.tcp.routers.ldap-tcp.entrypoints: "ldap-tcp"
-      #traefik.udp.routers.ldap-udp.entrypoints: "ldap-udp"
+      traefik.tcp.routers.ldap-tcp.rule: "HostSNI(`*`)"
+      traefik.tcp.routers.ldap-tcp.entrypoints: "ldap-tcp"
+      traefik.udp.routers.ldap-udp.entrypoints: "ldap-udp"
       traefik.tcp.routers.ldaps.rule: "HostSNI(`*`)"
       traefik.tcp.routers.ldaps.entrypoints: "ldaps"
       traefik.tcp.routers.ldaps.tls: "true"
       traefik.tcp.routers.ldaps.tls.passthrough: "true"
       traefik.tcp.routers.ldaps.tls.certresolver: "myresolver"
-    #ports:
+    ports:
     #  - "1389:1389"
-    #  - "1636:1636"
+      - "1636:1636"
     volumes:
       - ./data/openldap:/bitnami/openldap
       - ./data/traefik-certs-dumper:/etc/letsencrypt/live:ro
