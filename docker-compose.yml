@@ -117,21 +117,16 @@ services:
       LDAP_PORT_NUMBER: "1389"
       #LDAP_ROOT: "dc=example,dc=org"
       LDAP_ROOT: "dc=medienhaus,dc=dev"
-      #LDAP_ADMIN_USERNAME: "admin"
-      LDAP_ADMIN_USERNAME: "medienhaus"
+      LDAP_ADMIN_USERNAME: "admin"
       #LDAP_ADMIN_PASSWORD: "adminpassword"
       LDAP_ADMIN_PASSWORD: "super_sudo"
       #LDAP_CONFIG_ADMIN_ENABLED: "no"
       #LDAP_CONFIG_ADMIN_USERNAME: "admin"
       #LDAP_CONFIG_ADMIN_PASSWORD: "configpassword"
-      #LDAP_USERS: "user01,user02"
       LDAP_USERS: "alice,bob,cyber,deus"
-      #LDAP_PASSWORDS: "bitnami1,bitnami2"
       LDAP_PASSWORDS: "foo,bar,baz,qux"
-      #LDAP_USER_DC: "users"
-      LDAP_USER_DC: "accounts"
-      #LDAP_GROUP: "readers"
-      LDAP_GROUP: "read-only"
+      LDAP_USER_DC: "users"
+      LDAP_GROUP: "accounts"
       #LDAP_ADD_SCHEMAS: "no"
       #LDAP_EXTRA_SCHEMAS: "cosine, inetorgperson, nis"
       #LDAP_SKIP_DEFAULT_TREE: "no"
@@ -140,7 +135,6 @@ services:
       #LDAP_ULIMIT_NOFILES: "1024"
       #LDAP_ALLOW_ANON_BINDING: "yes"
       #LDAP_LOGLEVEL: "256"
-      #LDAP_ENABLE_TLS: "no"
       LDAP_ENABLE_TLS: "yes"
       LDAP_LDAPS_PORT_NUMBER: "1636"
       LDAP_TLS_CERT_FILE: "/etc/letsencrypt/live/openldap.develop.medienhaus.dev/certificate.crt"
@@ -177,12 +171,78 @@ services:
       #  target: /bitnami/ca-certificates.crt
 
   # ------------------------------------------------------
-  # etherpad
+  # ldap-user-manager
   # ------------------------------------------------------
-  # /*
-  # etherpad does not offer an official docker-compose.yml
-  # which we could extend, hence the following composition
-  # */
+
+  ldap-user-manager:
+    image: wheelybird/ldap-user-manager:latest
+    container_name: ldap-user-manager
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - openldap
+    #env_file:
+    #  - ./config/ldap-user-manager--.env
+    environment:
+      LDAP_URI: "ldaps://openldap"
+      LDAP_BASE_DN: "dc=medienhaus,dc=dev"
+      LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
+      LDAP_ADMIN_BIND_PWD: "super_sudo"
+      LDAP_ADMINS_GROUP: "admins"
+      SERVER_HOSTNAME: "openldap.develop.medienhaus.dev"
+      ORGANISATION_NAME: "medienhaus/"
+      ORGANISATION_NAME: "ldap_user_mgmt"
+      LDAP_USER_OU: "users"
+      LDAP_GROUP_OU: "accounts"
+      LDAP_REQUIRE_STARTTLS: "true"
+      LDAP_IGNORE_CERT_ERRORS: "false"
+      LDAP_TLS_CACERT: "/etc/ssl/certs/ca-certificates.crt"
+      #LDAP_ACCOUNT_ATTRIBUTE: "uid"
+      #LDAP_GROUP_MEMBERSHIP_ATTRIBUTE: "memberUID OR uniqueMember"
+      #LDAP_ACCOUNT_ADDITIONAL_OBJECTCLASSES: ""
+      #LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: ""
+      #LDAP_GROUP_MEMBERSHIP_USES_UID: "true OR false"
+      #FORCE_RFC2307BIS: "false"
+      #DEFAULT_USER_GROUP: "everybody"
+      #DEFAULT_USER_SHELL: "/bin/bash"
+      EMAIL_DOMAIN: "medienhaus.dev"
+      ENFORCE_SAFE_SYSTEM_NAMES: "true"
+      #USERNAME_FORMAT: "{first_name}-{last_name}"
+      #USERNAME_REGEX: "^[a-z][a-zA-Z0-9._-]{3,32}$"
+      PASSWORD_HASH: "SHA512CRYPT"
+      ACCEPT_WEAK_PASSWORDS: "false"
+      SMTP_HOSTNAME: "mueller.uberspace.de"
+      SMTP_HOST_PORT: "587"
+      SMTP_USERNAME: "develop@medienhaus.dev"
+      SMTP_PASSWORD: "vYvYCdolbN69xO1F0yFWAimEFWdF1U7FpQmBs5cuvJKIQlyh6Vgu5hckIFDsxxp1"
+      SMTP_USE_TLS: "true"
+      EMAIL_FROM_ADDRESS: "dev+ldap-user-manager@medienhaus.dev"
+      EMAIL_FROM_NAME: "dev/ ldap_user_mgmt"
+      ACCOUNT_REQUESTS_ENABLED: "true"
+      ACCOUNT_REQUESTS_EMAIL: "dev+ldap-user-request@medienhaus.dev"
+      NO_HTTPS: "false"
+      #SESSION_TIMEOUT: "10 minutes"
+      LDAP_DEBUG: "true"
+      LDAP_VERBOSE_CONNECTION_LOGS: "true"
+      SESSION_DEBUG: "true"
+      SMTP_LOG_LEVEL: "0"
+    labels:
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.ldap-user-manager.entrypoints=websecure"
+      #- "traefik.http.routers.ldap-user-manager.tls.certresolver=myresolver"
+      #- "traefik.http.routers.ldap-user-manager.rule=Host(`ldap-user-manager.develop.medienhaus.dev`)"
+      traefik.enable: "true"
+      traefik.http.routers.ldap-user-manager.entrypoints: "websecure"
+      traefik.http.routers.ldap-user-manager.tls.certresolver: "myresolver"
+      traefik.http.routers.ldap-user-manager.rule: "Host(`ldap-user-manager.develop.medienhaus.dev`)"
+    ports:
+      #- "80:80"
+      #- "443:443"
+      - "8389"
+      - "8636"
+
+  # ------------------------------------------------------
+  # etherpad
   # ------------------------------------------------------
 
   etherpad:
@@ -225,7 +285,7 @@ services:
       - traefik
       - postgres
     #env_file:
-    #  - ./rallly/.env
+    #  - ./config/rallly--.env
     environment:
       #- "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly"
       DATABASE_URL: "postgres://rallly_user:super_sudo@postgres:5432/rallly"
