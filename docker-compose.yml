@@ -190,8 +190,8 @@ services:
   #  container_name: ldap-user-manager
   #  restart: unless-stopped
   #  depends_on:
-  #    - traefik
   #    - openldap
+  #    - traefik
   #  #env_file:
   #  #  - ./config/ldap-user-manager--.env
   #  environment:
@@ -206,9 +206,9 @@ services:
   #    #SERVER_PORT: "80 & 443"
   #    #SERVER_PORT: "8389 & 8636"
   #    NO_HTTPS: "false"
-  #    #SERVER_KEY_FILENAME: "server.key"
-  #    #SERVER_CERT_FILENAME: "server.crt"
-  #    #CA_CERT_FILENAME: "ca.crt"
+  #    SERVER_KEY_FILENAME: "/opt/openldap/etc/certs/privatekey.key"
+  #    SERVER_CERT_FILENAME: "/opt/openldap/etc/certs/certificate.crt"
+  #    CA_CERT_FILENAME: "/etc/ssl/certs/ca-certificates.crt"
   #    #SESSION_TIMEOUT: "10 minutes"
 
   #    ORGANISATION_NAME: "medienhaus/"
@@ -275,6 +275,9 @@ services:
   #    - "8636:443"
   #    #- "8389:8389"
   #    #- "8636:8636"
+  #  volumes:
+  #    #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
+  #    - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/openldap/etc/certs:ro
 
   # ------------------------------------------------------
   # etherpad
