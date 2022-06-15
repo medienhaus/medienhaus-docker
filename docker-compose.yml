@@ -46,14 +46,16 @@ services:
   # traefik-certs-dumper
   # ------------------------------------------------------
 
-  traefik-certs-dumper:
-    image: ldez/traefik-certs-dumper:latest
-    container_name: traefik-certs-dumper
-    restart: unless-stopped
-    entrypoint: /bin/sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --source /data/acme.json --watch --dest /dump --domain-subdir'
-    volumes:
-      - ./data/letsencrypt:/data:ro
-      - ./data/traefik-certs-dumper:/dump
+  #traefik-certs-dumper:
+  #  image: ldez/traefik-certs-dumper:latest
+  #  container_name: traefik-certs-dumper
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - traefik
+  #  entrypoint: /bin/sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --source /data/acme.json --watch --dest /dump --domain-subdir'
+  #  volumes:
+  #    - ./data/letsencrypt:/data:ro
+  #    - ./data/traefik-certs-dumper:/dump
 
   # ------------------------------------------------------
   # postgres
@@ -95,10 +97,18 @@ services:
     image: bitnami/openldap:latest
     container_name: openldap--fix-permissions
     restart: "no"
+    #depends_on:
+    #  - traefik-certs-dumper
     command: "chown -R 1001:1001 /bitnami"
+    #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs"
+    #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/isrgrootx1.pem"
+    #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/isrg-root-x1-cross-signed.pem"
+    #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/lets-encrypt-r3.pem"
     user: "root"
     volumes:
       - ./data/openldap:/bitnami
+      #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt
+      #- ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs
 
   # ------------------------------------------------------
   # openldap
@@ -109,8 +119,8 @@ services:
     container_name: openldap
     restart: unless-stopped
     depends_on:
+      - openldap--fix-permissions
       - traefik
-      - postgres
     environment:
       BITNAMI_DEBUG: "true"
       LDAP_LOG_LEVEL: "9"
@@ -137,10 +147,12 @@ services:
       #LDAP_LOGLEVEL: "256"
       LDAP_ENABLE_TLS: "yes"
       LDAP_LDAPS_PORT_NUMBER: "1636"
-      LDAP_TLS_CERT_FILE: "/etc/letsencrypt/live/openldap.develop.medienhaus.dev/certificate.crt"
-      LDAP_TLS_KEY_FILE: "/etc/letsencrypt/live/openldap.develop.medienhaus.dev/privatekey.key"
+      LDAP_TLS_CERT_FILE: "/opt/bitnami/openldap/etc/certs/certificate.crt"
+      LDAP_TLS_KEY_FILE: "/opt/bitnami/openldap/etc/certs/privatekey.key"
       LDAP_TLS_CA_FILE: "/etc/ssl/certs/ca-certificates.crt"
-      #LDAP_TLS_CA_FILE: "/bitnami/ca-certificates.crt"
+      #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/lets-encrypt-r3.pem"
+      #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/isrg-root-x1-cross-signed.pem"
+      #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/isrgrootx1.pem"
       #LDAP_TLS_DH_PARAMS_FILE: ""
     labels:
       #- "traefik.enable=true"
@@ -164,101 +176,105 @@ services:
       - "1389:1389"
       - "1636:1636"
     volumes:
+      #- openldap_data:/bitnami/openldap
       - ./data/openldap:/bitnami/openldap
-      - ./data/traefik-certs-dumper:/etc/letsencrypt/live:ro
-      #- type: bind
-      #  source: /etc/ssl/certs/ca-certificates.crt
-      #  target: /bitnami/ca-certificates.crt
+      #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
+      - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs:ro
 
   # ------------------------------------------------------
   # ldap-user-manager
   # ------------------------------------------------------
 
-  ldap-user-manager:
-    image: wheelybird/ldap-user-manager:latest
-    container_name: ldap-user-manager
-    restart: unless-stopped
-    depends_on:
-      - traefik
-      - openldap
-    #env_file:
-    #  - ./config/ldap-user-manager--.env
-    environment:
-      LDAP_URI: "ldaps://localhost"
-      LDAP_BASE_DN: "dc=medienhaus,dc=dev"
-      LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
-      LDAP_ADMIN_BIND_PWD: "super_sudo"
-      LDAP_ADMINS_GROUP: "admins"
+  #ldap-user-manager:
+  #  image: wheelybird/ldap-user-manager:latest
+  #  container_name: ldap-user-manager
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - traefik
+  #    - openldap
+  #  #env_file:
+  #  #  - ./config/ldap-user-manager--.env
+  #  environment:
+  #    LDAP_URI: "ldaps://localhost"
+  #    LDAP_BASE_DN: "dc=medienhaus,dc=dev"
+  #    LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
+  #    LDAP_ADMIN_BIND_PWD: "super_sudo"
+  #    LDAP_ADMINS_GROUP: "admins"
 
-      SERVER_HOSTNAME: "ldap-user-manager.develop.medienhaus.dev"
-      SERVER_PATH: "/"
-      #SERVER_PORT: "80 & 443"
-      NO_HTTPS: "false"
-      #SERVER_KEY_FILENAME: "server.key"
-      #SERVER_CERT_FILENAME: "server.crt"
-      #CA_CERT_FILENAME: "ca.crt"
-      #SESSION_TIMEOUT: "10 minutes"
+  #    SERVER_HOSTNAME: "ldap-user-manager.develop.medienhaus.dev"
+  #    SERVER_PATH: "/"
+  #    #SERVER_PORT: "80 & 443"
+  #    #SERVER_PORT: "8389 & 8636"
+  #    NO_HTTPS: "false"
+  #    #SERVER_KEY_FILENAME: "server.key"
+  #    #SERVER_CERT_FILENAME: "server.crt"
+  #    #CA_CERT_FILENAME: "ca.crt"
+  #    #SESSION_TIMEOUT: "10 minutes"
 
-      ORGANISATION_NAME: "medienhaus/"
-      SITE_NAME: "ldap_user_mgmt"
-      SHOW_POSIX_ATTRIBUTES: "false"
+  #    ORGANISATION_NAME: "medienhaus/"
+  #    SITE_NAME: "ldap_user_mgmt"
+  #    SHOW_POSIX_ATTRIBUTES: "false"
 
-      LDAP_USER_OU: "users"
-      LDAP_GROUP_OU: "accounts"
-      LDAP_REQUIRE_STARTTLS: "true"
-      LDAP_IGNORE_CERT_ERRORS: "false"
-      LDAP_TLS_CACERT: "/etc/ssl/certs/ca-certificates.crt"
+  #    LDAP_USER_OU: "users"
+  #    LDAP_GROUP_OU: "accounts"
+  #    LDAP_REQUIRE_STARTTLS: "true"
+  #    LDAP_IGNORE_CERT_ERRORS: "false"
+  #    LDAP_TLS_CACERT: "/etc/ssl/certs/ca-certificates.crt"
 
-      #LDAP_ACCOUNT_ATTRIBUTE: "uid"
-      #LDAP_GROUP_MEMBERSHIP_ATTRIBUTE: "memberUID OR uniqueMember"
-      #LDAP_ACCOUNT_ADDITIONAL_OBJECTCLASSES: ""
-      #LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: ""
-      #LDAP_GROUP_MEMBERSHIP_USES_UID: "true OR false"
-      #FORCE_RFC2307BIS: "false"
+  #    #LDAP_ACCOUNT_ATTRIBUTE: "uid"
+  #    #LDAP_GROUP_MEMBERSHIP_ATTRIBUTE: "memberUID OR uniqueMember"
+  #    #LDAP_ACCOUNT_ADDITIONAL_OBJECTCLASSES: ""
+  #    #LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: ""
+  #    #LDAP_GROUP_MEMBERSHIP_USES_UID: "true OR false"
+  #    #FORCE_RFC2307BIS: "false"
 
-      #DEFAULT_USER_GROUP: "everybody"
-      #DEFAULT_USER_SHELL: "/bin/bash"
-      EMAIL_DOMAIN: "medienhaus.dev"
-      ENFORCE_SAFE_SYSTEM_NAMES: "true"
-      #USERNAME_FORMAT: "{first_name}-{last_name}"
-      #USERNAME_REGEX: "^[a-z][a-zA-Z0-9._-]{3,32}$"
-      PASSWORD_HASH: "SHA512CRYPT"
-      ACCEPT_WEAK_PASSWORDS: "false"
-      REMOTE_HTTP_HEADERS_LOGIN: "false"
+  #    #DEFAULT_USER_GROUP: "everybody"
+  #    #DEFAULT_USER_SHELL: "/bin/bash"
+  #    EMAIL_DOMAIN: "medienhaus.dev"
+  #    ENFORCE_SAFE_SYSTEM_NAMES: "true"
+  #    #USERNAME_FORMAT: "{first_name}-{last_name}"
+  #    #USERNAME_REGEX: "^[a-z][a-zA-Z0-9._-]{3,32}$"
+  #    PASSWORD_HASH: "SHA512CRYPT"
+  #    ACCEPT_WEAK_PASSWORDS: "false"
+  #    REMOTE_HTTP_HEADERS_LOGIN: "false"
 
-      SMTP_HOSTNAME: "mueller.uberspace.de"
-      SMTP_HOST_PORT: "587"
-      SMTP_USERNAME: "develop@medienhaus.dev"
-      SMTP_PASSWORD: "vYvYCdolbN69xO1F0yFWAimEFWdF1U7FpQmBs5cuvJKIQlyh6Vgu5hckIFDsxxp1"
-      SMTP_USE_TLS: "false"
-      SMTP_USE_SSL: "true"
-      EMAIL_FROM_ADDRESS: "dev+ldap-user-manager@medienhaus.dev"
-      EMAIL_FROM_NAME: "dev/ ldap_user_mgmt"
-      #MAIL_SUBJECT: "Your medienhaus/ account has been created."
-      #NEW_ACCOUNT_EMAIL_SUBJECT: ""
-      #NEW_ACCOUNT_EMAIL_BODY: ""
-      #RESET_PASSWORD_EMAIL_SUBJECT: ""
-      #RESET_PASSWORD_EMAIL_BODY: ""
+  #    SMTP_HOSTNAME: "mueller.uberspace.de"
+  #    SMTP_HOST_PORT: "587"
+  #    SMTP_USERNAME: "develop@medienhaus.dev"
+  #    SMTP_PASSWORD: "vYvYCdolbN69xO1F0yFWAimEFWdF1U7FpQmBs5cuvJKIQlyh6Vgu5hckIFDsxxp1"
+  #    SMTP_USE_TLS: "false"
+  #    SMTP_USE_SSL: "true"
+  #    EMAIL_FROM_ADDRESS: "dev+ldap-user-manager@medienhaus.dev"
+  #    EMAIL_FROM_NAME: "dev/ ldap_user_mgmt"
+  #    #MAIL_SUBJECT: "Your medienhaus/ account has been created."
+  #    #NEW_ACCOUNT_EMAIL_SUBJECT: ""
+  #    #NEW_ACCOUNT_EMAIL_BODY: ""
+  #    #RESET_PASSWORD_EMAIL_SUBJECT: ""
+  #    #RESET_PASSWORD_EMAIL_BODY: ""
 
-      ACCOUNT_REQUESTS_ENABLED: "true"
-      ACCOUNT_REQUESTS_EMAIL: "dev+ldap-user-request@medienhaus.dev"
+  #    ACCOUNT_REQUESTS_ENABLED: "true"
+  #    ACCOUNT_REQUESTS_EMAIL: "dev+ldap-user-request@medienhaus.dev"
 
-      LDAP_DEBUG: "true"
-      LDAP_VERBOSE_CONNECTION_LOGS: "true"
-      SESSION_DEBUG: "true"
-      SMTP_LOG_LEVEL: "0"
-    labels:
-      #- "traefik.enable=true"
-      #- "traefik.http.routers.ldap-user-manager.entrypoints=websecure"
-      #- "traefik.http.routers.ldap-user-manager.tls.certresolver=myresolver"
-      #- "traefik.http.routers.ldap-user-manager.rule=Host(`ldap-user-manager.develop.medienhaus.dev`)"
-      traefik.enable: "true"
-      traefik.http.routers.ldap-user-manager.entrypoints: "websecure"
-      traefik.http.routers.ldap-user-manager.tls.certresolver: "myresolver"
-      traefik.http.routers.ldap-user-manager.rule: "Host(`ldap-user-manager.develop.medienhaus.dev`)"
-    ports:
-      - "8389:80"
-      - "8636:443"
+  #    LDAP_DEBUG: "true"
+  #    LDAP_VERBOSE_CONNECTION_LOGS: "true"
+  #    SESSION_DEBUG: "true"
+  #    SMTP_LOG_LEVEL: "0"
+  #  labels:
+  #    #- "traefik.enable=true"
+  #    #- "traefik.http.routers.ldap-user-manager.entrypoints=websecure"
+  #    #- "traefik.http.routers.ldap-user-manager.tls.certresolver=myresolver"
+  #    #- "traefik.http.routers.ldap-user-manager.rule=Host(`ldap-user-manager.develop.medienhaus.dev`)"
+  #    traefik.enable: "true"
+  #    traefik.http.routers.ldap-user-manager.entrypoints: "websecure"
+  #    traefik.http.routers.ldap-user-manager.tls.certresolver: "myresolver"
+  #    traefik.http.routers.ldap-user-manager.rule: "Host(`ldap-user-manager.develop.medienhaus.dev`)"
+  #  ports:
+  #    #- "80:80"
+  #    #- "443:443"
+  #    - "8389:80"
+  #    - "8636:443"
+  #    #- "8389:8389"
+  #    #- "8636:8636"
 
   # ------------------------------------------------------
   # etherpad
@@ -299,10 +315,10 @@ services:
         - "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly?pgbouncer=true"
     container_name: rallly
     restart: unless-stopped
-    command: /bin/sh -c "yarn prisma migrate deploy && yarn start"
     depends_on:
       - traefik
       - postgres
+    command: /bin/sh -c "yarn prisma migrate deploy && yarn start"
     #env_file:
     #  - ./config/rallly--.env
     environment:
