@@ -90,6 +90,19 @@ services:
   #    - ./data/redis:/data
 
   # ------------------------------------------------------
+  # openldap--create-certificates
+  # ------------------------------------------------------
+
+  ## TODO !!
+  #openldap--create-certificates:
+  #  image: goacme/lego:latest
+  #  container_name: openldap--create-certificates
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - traefik
+  #  command: "chown -R 1001:1001 /bitnami"
+
+  # ------------------------------------------------------
   # openldap--fix-permissions
   # ------------------------------------------------------
 
