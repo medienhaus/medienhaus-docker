@@ -217,97 +217,98 @@ services:
   # ldap-user-manager
   # ------------------------------------------------------
 
-  #ldap-user-manager:
-  #  image: wheelybird/ldap-user-manager:latest
-  #  container_name: ldap-user-manager
-  #  restart: unless-stopped
-  #  depends_on:
-  #    - openldap
-  #    - traefik
-  #  #env_file:
-  #  #  - ./config/ldap-user-manager--.env
-  #  environment:
-  #    LDAP_URI: "ldaps://localhost"
-  #    LDAP_BASE_DN: "dc=medienhaus,dc=dev"
-  #    LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
-  #    LDAP_ADMIN_BIND_PWD: "super_sudo"
-  #    LDAP_ADMINS_GROUP: "admins"
-  #    #
-  #    SERVER_HOSTNAME: "ldap-user-manager.develop.medienhaus.dev"
-  #    SERVER_PATH: "/"
-  #    #SERVER_PORT: "80 & 443"
-  #    #SERVER_PORT: "8389 & 8636"
-  #    NO_HTTPS: "false"
-  #    SERVER_KEY_FILENAME: "/opt/openldap/etc/certs/privatekey.key"
-  #    SERVER_CERT_FILENAME: "/opt/openldap/etc/certs/certificate.crt"
-  #    CA_CERT_FILENAME: "/etc/ssl/certs/ca-certificates.crt"
-  #    #SESSION_TIMEOUT: "10 minutes"
-  #    #
-  #    ORGANISATION_NAME: "medienhaus/"
-  #    SITE_NAME: "ldap_user_mgmt"
-  #    SHOW_POSIX_ATTRIBUTES: "false"
-  #    #
-  #    LDAP_USER_OU: "users"
-  #    LDAP_GROUP_OU: "accounts"
-  #    LDAP_REQUIRE_STARTTLS: "true"
-  #    LDAP_IGNORE_CERT_ERRORS: "false"
-  #    LDAP_TLS_CACERT: "/etc/ssl/certs/ca-certificates.crt"
-  #    #
-  #    #LDAP_ACCOUNT_ATTRIBUTE: "uid"
-  #    #LDAP_GROUP_MEMBERSHIP_ATTRIBUTE: "memberUID OR uniqueMember"
-  #    #LDAP_ACCOUNT_ADDITIONAL_OBJECTCLASSES: ""
-  #    #LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: ""
-  #    #LDAP_GROUP_MEMBERSHIP_USES_UID: "true OR false"
-  #    #FORCE_RFC2307BIS: "false"
-  #    #
-  #    #DEFAULT_USER_GROUP: "everybody"
-  #    #DEFAULT_USER_SHELL: "/bin/bash"
-  #    EMAIL_DOMAIN: "medienhaus.dev"
-  #    ENFORCE_SAFE_SYSTEM_NAMES: "true"
-  #    #USERNAME_FORMAT: "{first_name}-{last_name}"
-  #    #USERNAME_REGEX: "^[a-z][a-zA-Z0-9._-]{3,32}$"
-  #    PASSWORD_HASH: "SHA512CRYPT"
-  #    ACCEPT_WEAK_PASSWORDS: "false"
-  #    REMOTE_HTTP_HEADERS_LOGIN: "false"
-  #    #
-  #    SMTP_HOSTNAME: "mueller.uberspace.de"
-  #    SMTP_HOST_PORT: "587"
-  #    SMTP_USERNAME: "develop@medienhaus.dev"
-  #    SMTP_PASSWORD: "vYvYCdolbN69xO1F0yFWAimEFWdF1U7FpQmBs5cuvJKIQlyh6Vgu5hckIFDsxxp1"
-  #    SMTP_USE_TLS: "false"
-  #    SMTP_USE_SSL: "true"
-  #    EMAIL_FROM_ADDRESS: "dev+ldap-user-manager@medienhaus.dev"
-  #    EMAIL_FROM_NAME: "dev/ ldap_user_mgmt"
-  #    #MAIL_SUBJECT: "Your medienhaus/ account has been created."
-  #    #NEW_ACCOUNT_EMAIL_SUBJECT: ""
-  #    #NEW_ACCOUNT_EMAIL_BODY: ""
-  #    #RESET_PASSWORD_EMAIL_SUBJECT: ""
-  #    #RESET_PASSWORD_EMAIL_BODY: ""
-  #    #
-  #    ACCOUNT_REQUESTS_ENABLED: "true"
-  #    ACCOUNT_REQUESTS_EMAIL: "dev+ldap-user-request@medienhaus.dev"
-  #    #
-  #    LDAP_DEBUG: "true"
-  #    LDAP_VERBOSE_CONNECTION_LOGS: "true"
-  #    SESSION_DEBUG: "true"
-  #    SMTP_LOG_LEVEL: "0"
-  #  labels:
-  #    #- "traefik.enable=true"
-  #    #- "traefik.http.routers.ldap-user-manager.entrypoints=websecure"
-  #    #- "traefik.http.routers.ldap-user-manager.tls.certresolver=myresolver"
-  #    #- "traefik.http.routers.ldap-user-manager.rule=Host(`ldap-user-manager.develop.medienhaus.dev`)"
-  #    traefik.enable: "true"
-  #    traefik.http.routers.ldap-user-manager.entrypoints: "websecure"
-  #    traefik.http.routers.ldap-user-manager.tls.certresolver: "myresolver"
-  #    traefik.http.routers.ldap-user-manager.rule: "Host(`ldap-user-manager.develop.medienhaus.dev`)"
-  #  ports:
-  #    - "8389:80"
-  #    - "8636:443"
-  #    #- "8389:8389"
-  #    #- "8636:8636"
-  #  volumes:
-  #    #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
-  #    - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/openldap/etc/certs:ro
+  ldap-user-manager:
+    image: wheelybird/ldap-user-manager:latest
+    container_name: ldap-user-manager
+    restart: unless-stopped
+    depends_on:
+      - openldap
+      - traefik
+    #env_file:
+    #  - ./config/ldap-user-manager--.env
+    environment:
+      LDAP_URI: "ldaps://localhost"
+      LDAP_BASE_DN: "dc=medienhaus,dc=dev"
+      LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
+      LDAP_ADMIN_BIND_PWD: "super_sudo"
+      LDAP_ADMINS_GROUP: "admins"
+      #
+      SERVER_HOSTNAME: "ldap-user-manager.develop.medienhaus.dev"
+      SERVER_PATH: "/"
+      #SERVER_PORT: "80 & 443"
+      #SERVER_PORT: "8389 & 8636"
+      NO_HTTPS: "false"
+      SERVER_KEY_FILENAME: "privatekey.key"
+      SERVER_CERT_FILENAME: "certificate.crt"
+      CA_CERT_FILENAME: "/etc/ssl/certs/ca-certificates.crt"
+      #SESSION_TIMEOUT: "10 minutes"
+      #
+      ORGANISATION_NAME: "medienhaus/"
+      SITE_NAME: "ldap_user_mgmt"
+      SHOW_POSIX_ATTRIBUTES: "false"
+      #
+      LDAP_USER_OU: "users"
+      LDAP_GROUP_OU: "accounts"
+      LDAP_REQUIRE_STARTTLS: "true"
+      LDAP_IGNORE_CERT_ERRORS: "false"
+      LDAP_TLS_CACERT: "/etc/ssl/certs/ca-certificates.crt"
+      #
+      #LDAP_ACCOUNT_ATTRIBUTE: "uid"
+      #LDAP_GROUP_MEMBERSHIP_ATTRIBUTE: "memberUID or uniqueMember"
+      #LDAP_ACCOUNT_ADDITIONAL_OBJECTCLASSES: ""
+      #LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: ""
+      #LDAP_GROUP_MEMBERSHIP_USES_UID: "true OR false"
+      #FORCE_RFC2307BIS: "false"
+      #
+      #DEFAULT_USER_GROUP: "everybody"
+      #DEFAULT_USER_SHELL: "/bin/bash"
+      EMAIL_DOMAIN: "medienhaus.dev"
+      ENFORCE_SAFE_SYSTEM_NAMES: "true"
+      #USERNAME_FORMAT: "{first_name}-{last_name}"
+      #USERNAME_REGEX: "^[a-z][a-zA-Z0-9._-]{3,32}$"
+      PASSWORD_HASH: "SHA512CRYPT"
+      ACCEPT_WEAK_PASSWORDS: "false"
+      REMOTE_HTTP_HEADERS_LOGIN: "false"
+      #
+      SMTP_HOSTNAME: "mueller.uberspace.de"
+      SMTP_HOST_PORT: "587"
+      SMTP_USERNAME: "develop@medienhaus.dev"
+      SMTP_PASSWORD: "vYvYCdolbN69xO1F0yFWAimEFWdF1U7FpQmBs5cuvJKIQlyh6Vgu5hckIFDsxxp1"
+      SMTP_USE_TLS: "false"
+      SMTP_USE_SSL: "true"
+      EMAIL_FROM_ADDRESS: "dev+ldap-user-manager@medienhaus.dev"
+      EMAIL_FROM_NAME: "dev/ ldap_user_mgmt"
+      #MAIL_SUBJECT: "Your medienhaus/ account has been created."
+      #NEW_ACCOUNT_EMAIL_SUBJECT: ""
+      #NEW_ACCOUNT_EMAIL_BODY: ""
+      #RESET_PASSWORD_EMAIL_SUBJECT: ""
+      #RESET_PASSWORD_EMAIL_BODY: ""
+      #
+      ACCOUNT_REQUESTS_ENABLED: "true"
+      ACCOUNT_REQUESTS_EMAIL: "dev+ldap-user-request@medienhaus.dev"
+      #
+      LDAP_DEBUG: "true"
+      LDAP_VERBOSE_CONNECTION_LOGS: "true"
+      SESSION_DEBUG: "true"
+      SMTP_LOG_LEVEL: "0"
+    labels:
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.ldap-user-manager.entrypoints=websecure"
+      #- "traefik.http.routers.ldap-user-manager.tls.certresolver=myresolver"
+      #- "traefik.http.routers.ldap-user-manager.rule=Host(`ldap-user-manager.develop.medienhaus.dev`)"
+      traefik.enable: "true"
+      traefik.http.routers.ldap-user-manager.entrypoints: "websecure"
+      traefik.http.routers.ldap-user-manager.tls.certresolver: "myresolver"
+      traefik.http.routers.ldap-user-manager.rule: "Host(`ldap-user-manager.develop.medienhaus.dev`)"
+    #ports:
+    #  - "8389:80"
+    #  - "8636:443"
+    #  #- "8389:8389"
+    #  #- "8636:8636"
+    volumes:
+      #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
+      - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/ssl
+      - ./data/ldap-user-manager:/etc/ldap
 
   # ------------------------------------------------------
   # etherpad
