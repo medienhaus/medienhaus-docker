@@ -1,16 +1,23 @@
 [submodule "etherpad-lite"]
 	path = etherpad-lite
 	url = https://github.com/ether/etherpad-lite.git
+	branch = develop
 [submodule "spacedeck-open"]
 	path = spacedeck-open
-	url = https://github.com/arillo/spacedeck-open.git
-	branch = feature/merge-mnt
+	url = https://github.com/spacedeck/spacedeck-open.git
+	branch = mnt
+#[submodule "spacedeck-open"]
+#	path = spacedeck-open
+#	url = https://github.com/arillo/spacedeck-open.git
+#	branch = feature/merge-mnt
 [submodule "peertube"]
 	path = peertube
 	url = https://github.com/Chocobozzz/PeerTube.git
+	branch = develop
 [submodule "rallly"]
 	path = rallly
 	url = https://github.com/lukevella/rallly.git
+	branch = main
 [submodule "medienhaus-spaces-multi-auth"]
 	path = medienhaus-spaces-multi-auth
 	url = https://github.com/medienhaus/medienhaus-spaces-multi-auth.git
