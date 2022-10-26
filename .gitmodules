@@ -11,3 +11,7 @@
 [submodule "rallly"]
 	path = rallly
 	url = https://github.com/lukevella/rallly.git
+[submodule "medienhaus-spaces-multi-auth"]
+	path = medienhaus-spaces-multi-auth
+	url = https://github.com/medienhaus/medienhaus-spaces-multi-auth.git
+	branch = chat-element

@@ -11,31 +11,26 @@ services:
     container_name: traefik
     restart: unless-stopped
     command:
-      #log.level: "DEBUG"
-      #api.dashboard: true
-      #api.debug: true
-      #api.insecure: true
-      providers.docker: true
-      providers.docker.exposedbydefault: false
-      entrypoints.web.address: ":80"
-      entrypoints.web.http.redirections.entrypoint.to: "websecure"
-      entrypoints.web.http.redirections.entrypoint.scheme: "https"
-      entrypoints.websecure.address: ":443"
-      #entrypoints.ldap-tcp.address: ":1389/tcp"
-      #entrypoints.ldap-udp.address: ":1389/udp"
-      #entrypoints.ldaps.address: ":1636/tcp"
-      certificatesresolvers.myresolver.acme.tlschallenge: true
-      #certificatesresolvers.myresolver.acme.caserver: "https://acme-staging-v02.api.letsencrypt.org/directory"
-      certificatesresolvers.myresolver.acme.email: "dev+letsencrypt@medienhaus.dev"
-      certificatesresolvers.myresolver.acme.storage: "/letsencrypt/acme.json"
-      #middlewares.www-redirect.redirectregex.regex: "^https?://www\\.(.+)"
-      #middlewares.www-redirect.redirectregex.replacement: "https://${1}"
-      #middlewares.www-redirect.redirectregex.permanent: true
-      #
-      ## use www-redirect:
-      #traefik.http.routers.<router_name>.middlewares: "www-redirect@file"
-      ## and maybe needed:
-      #traefik.http.routers.<router_name>.rule: "Host(`example.com`) || Host(`www.example.com`)"
+      #- "--log.level=DEBUG"
+      #- "--api.dashboard=true"
+      #- "--api.debug=true"
+      #- "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.ldap-tcp.address=:1389/tcp"
+      - "--entrypoints.ldap-udp.address=:1389/udp"
+      - "--entrypoints.ldaps.address=:1636/tcp"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=dev+letsencrypt@medienhaus.dev"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      #- "--middlewares.www-redirect.redirectregex.regex=^https?://www\\.(.+)"
+      #- "--middlewares.www-redirect.redirectregex.replacement=https://${1}"
+      #- "--middlewares.www-redirect.redirectregex.permanent=true"
     #labels:
     #  traefik.enable: "true"
     #  traefik.http.routers.api.entrypoints: "websecure"
@@ -44,6 +39,8 @@ services:
     #  traefik.http.routers.api.service: "api@internal"
     #  #traefik.http.routers.api.middlewares: "auth"
     #  #traefik.http.middlewares.auth.basicauth.users: "medienhaus:$apr1$nnkZijJH$SY3UClGcBGKWE.LR3Tyxh1"
+    #  #traefik.http.routers.<router_name>.middlewares: "www-redirect@file"
+    #  #traefik.http.routers.<router_name>.rule: "Host(`example.com`) || Host(`www.example.com`)"
     ports:
       - "80:80"
       - "443:443"
@@ -437,6 +434,31 @@ services:
       - ./config/spacedeck.json:/app/config/default.json
       - ./storage/spacedeck:/app/storage
       - ./data/spacedeck:/app/database
+
+  # ------------------------------------------------------
+  # medienhaus-spaces
+  # ------------------------------------------------------
+
+  medienhaus-spaces:
+    build: ./medienhaus-spaces-multi-auth
+    container_name: medienhaus-spaces
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - nginx-medienhaus-spaces
+    command: dev
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.medienhaus-spaces.entrypoints: "websecure"
+      traefik.http.routers.medienhaus-spaces.tls.certresolver: "myresolver"
+      traefik.http.routers.medienhaus-spaces.rule: "Host(`spaces.develop.medienhaus.dev`)"
+    #ports:
+    #  - "9666:9666"
+    volumes:
+      - ./config/medienhaus-spaces.config.js:/usr/src/app/next.config.js
+      - ./medienhaus-spaces/multi-auth:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
 
 # ------------------------------------------------------
 # networks
