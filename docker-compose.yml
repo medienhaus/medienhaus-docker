@@ -11,30 +11,31 @@ services:
     container_name: traefik
     restart: unless-stopped
     command:
-      #- "--log.level=DEBUG"
-      #- "--api.dashboard=true"
-      #- "--api.debug=true"
-      #- "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.ldap-tcp.address=:1389/tcp"
-      - "--entrypoints.ldap-udp.address=:1389/udp"
-      - "--entrypoints.ldaps.address=:1636/tcp"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.myresolver.acme.email=dev+letsencrypt@medienhaus.dev"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      #- "--middlewares.www-redirect.redirectregex.regex=^https?://www\\.(.+)"
-      #- "--middlewares.www-redirect.redirectregex.replacement=https://${1}"
-      #- "--middlewares.www-redirect.redirectregex.permanent=true"
-      ### use www-redirect:
-      ### traefik.http.routers.<router_name>.middlewares: "www-redirect@file"
-      ### and maybe needed:
-      ### traefik.http.routers.<router_name>.rule=Host(`example.com`) || Host(`www.example.com`)"
+      #log.level: "DEBUG"
+      #api.dashboard: true
+      #api.debug: true
+      #api.insecure: true
+      providers.docker: true
+      providers.docker.exposedbydefault: false
+      entrypoints.web.address: ":80"
+      entrypoints.web.http.redirections.entrypoint.to: "websecure"
+      entrypoints.web.http.redirections.entrypoint.scheme: "https"
+      entrypoints.websecure.address: ":443"
+      #entrypoints.ldap-tcp.address: ":1389/tcp"
+      #entrypoints.ldap-udp.address: ":1389/udp"
+      #entrypoints.ldaps.address: ":1636/tcp"
+      certificatesresolvers.myresolver.acme.tlschallenge: true
+      #certificatesresolvers.myresolver.acme.caserver: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      certificatesresolvers.myresolver.acme.email: "dev+letsencrypt@medienhaus.dev"
+      certificatesresolvers.myresolver.acme.storage: "/letsencrypt/acme.json"
+      #middlewares.www-redirect.redirectregex.regex: "^https?://www\\.(.+)"
+      #middlewares.www-redirect.redirectregex.replacement: "https://${1}"
+      #middlewares.www-redirect.redirectregex.permanent: true
+      #
+      ## use www-redirect:
+      #traefik.http.routers.<router_name>.middlewares: "www-redirect@file"
+      ## and maybe needed:
+      #traefik.http.routers.<router_name>.rule: "Host(`example.com`) || Host(`www.example.com`)"
     #labels:
     #  traefik.enable: "true"
     #  traefik.http.routers.api.entrypoints: "websecure"
@@ -69,22 +70,18 @@ services:
   # postgres
   # ------------------------------------------------------
 
-  postgres:
-    image: postgres:latest
-    container_name: postgres
-    restart: unless-stopped
-    environment:
-      #- "POSTGRES_USER=postgres"
-      #- "POSTGRES_PASSWORD=super_sudo"
-      #- "POSTGRES_DB=postgres"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "super_sudo"
-      POSTGRES_DB: "postgres"
-    #ports:
-    #  - "5432:5432"
-    volumes:
-      #- ./postgres/data:/var/lib/postgresql/data
-      - ./data/postgres:/var/lib/postgresql/data:rw
+  #postgres:
+  #  image: postgres:latest
+  #  container_name: postgres
+  #  restart: unless-stopped
+  #  environment:
+  #    POSTGRES_DB: "postgres"
+  #    POSTGRES_USER: "postgres"
+  #    POSTGRES_PASSWORD: "super_sudo"
+  #  #ports:
+  #  #  - "5432:5432"
+  #  volumes:
+  #    - ./data/postgres:/var/lib/postgresql/data:rw
 
   # ------------------------------------------------------
   # redis
@@ -124,201 +121,211 @@ services:
   # openldap--fix-permissions
   # ------------------------------------------------------
 
-  openldap--fix-permissions:
-    image: bitnami/openldap:latest
-    container_name: openldap--fix-permissions
-    restart: "no"
-    #depends_on:
-    #  - traefik-certs-dumper
-    command: "chown -R 1001:1001 /bitnami"
-    #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs"
-    #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/isrgrootx1.pem"
-    #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/isrg-root-x1-cross-signed.pem"
-    #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/lets-encrypt-r3.pem"
-    user: "root"
-    volumes:
-      - ./data/openldap:/bitnami
-      #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt
-      #- ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs
+  #openldap--fix-permissions:
+  #  image: bitnami/openldap:latest
+  #  container_name: openldap--fix-permissions
+  #  restart: "no"
+  #  #depends_on:
+  #  #  - traefik-certs-dumper
+  #  command: "chown -R 1001:1001 /bitnami"
+  #  #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs"
+  #  #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/isrgrootx1.pem"
+  #  #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/isrg-root-x1-cross-signed.pem"
+  #  #command: "chown -R 1001:1001 /bitnami /opt/bitnami/openldap/etc/certs /opt/bitnami/openldap/etc/letsencrypt/lets-encrypt-r3.pem"
+  #  user: "root"
+  #  volumes:
+  #    - ./data/openldap:/bitnami
+  #    #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt
+  #    #- ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs
 
   # ------------------------------------------------------
   # openldap
   # ------------------------------------------------------
 
-  openldap:
-    image: bitnami/openldap:latest
-    container_name: openldap
-    restart: unless-stopped
-    depends_on:
-      #- openldap--create-certificates
-      - openldap--fix-permissions
-      - traefik
-    environment:
-      BITNAMI_DEBUG: "true"
-      LDAP_LOG_LEVEL: "9"
-      LDAP_PORT_NUMBER: "1389"
-      #LDAP_ROOT: "dc=example,dc=org"
-      LDAP_ROOT: "dc=medienhaus,dc=dev"
-      LDAP_ADMIN_USERNAME: "admin"
-      #LDAP_ADMIN_PASSWORD: "adminpassword"
-      LDAP_ADMIN_PASSWORD: "super_sudo"
-      #LDAP_CONFIG_ADMIN_ENABLED: "no"
-      #LDAP_CONFIG_ADMIN_USERNAME: "admin"
-      #LDAP_CONFIG_ADMIN_PASSWORD: "configpassword"
-      LDAP_USERS: "alice,bob,cyber,deus"
-      LDAP_PASSWORDS: "foo,bar,baz,qux"
-      LDAP_USER_DC: "users"
-      LDAP_GROUP: "accounts"
-      #LDAP_ADD_SCHEMAS: "no"
-      #LDAP_EXTRA_SCHEMAS: "cosine, inetorgperson, nis"
-      #LDAP_SKIP_DEFAULT_TREE: "no"
-      #LDAP_CUSTOM_LDIF_DIR: "/ldifs"
-      #LDAP_CUSTOM_SCHEMA_FILE: "/schema/custom.ldif"
-      #LDAP_ULIMIT_NOFILES: "1024"
-      #LDAP_ALLOW_ANON_BINDING: "yes"
-      #LDAP_LOGLEVEL: "256"
-      LDAP_ENABLE_TLS: "yes"
-      LDAP_LDAPS_PORT_NUMBER: "1636"
-      LDAP_TLS_CERT_FILE: "/opt/bitnami/openldap/etc/certs/certificate.crt"
-      LDAP_TLS_KEY_FILE: "/opt/bitnami/openldap/etc/certs/privatekey.key"
-      LDAP_TLS_CA_FILE: "/etc/ssl/certs/ca-certificates.crt"
-      #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/lets-encrypt-r3.pem"
-      #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/isrg-root-x1-cross-signed.pem"
-      #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/isrgrootx1.pem"
-      #LDAP_TLS_DH_PARAMS_FILE: ""
-    labels:
-      #- "traefik.enable=true"
-      #- "traefik.http.routers.openldap.entrypoints=ldapsecure"
-      #- "traefik.http.routers.openldap.tls.certresolver=myresolver"
-      #- "traefik.http.routers.openldap.rule=Host(`openldap.develop.medienhaus.dev`)"
-      #traefik.enable: "true"
-      #traefik.http.routers.openldap.entrypoints: "ldapsecure"
-      #traefik.http.routers.openldap.tls.certresolver: "myresolver"
-      #traefik.http.routers.openldap.rule: "Host(`openldap.develop.medienhaus.dev`)"
-      traefik.enable: "true"
-      traefik.tcp.routers.ldap-tcp.rule: "HostSNI(`*`)"
-      traefik.tcp.routers.ldap-tcp.entrypoints: "ldap-tcp"
-      traefik.udp.routers.ldap-udp.entrypoints: "ldap-udp"
-      traefik.tcp.routers.ldaps.rule: "HostSNI(`*`)"
-      traefik.tcp.routers.ldaps.entrypoints: "ldaps"
-      traefik.tcp.routers.ldaps.tls: "true"
-      traefik.tcp.routers.ldaps.tls.passthrough: "true"
-      traefik.tcp.routers.ldaps.tls.certresolver: "myresolver"
-    ports:
-      - "1389:1389"
-      - "1636:1636"
-    volumes:
-      #- openldap_data:/bitnami/openldap
-      - ./data/openldap:/bitnami/openldap
-      #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
-      - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs:ro
+  #openldap:
+  #  image: bitnami/openldap:latest
+  #  container_name: openldap
+  #  restart: unless-stopped
+  #  depends_on:
+  #    #- openldap--create-certificates
+  #    - openldap--fix-permissions
+  #    - traefik
+  #  environment:
+  #    BITNAMI_DEBUG: "true"
+  #    LDAP_LOG_LEVEL: "9"
+  #    LDAP_PORT_NUMBER: "1389"
+  #    #LDAP_ROOT: "dc=example,dc=org"
+  #    LDAP_ROOT: "dc=medienhaus,dc=dev"
+  #    LDAP_ADMIN_USERNAME: "admin"
+  #    #LDAP_ADMIN_PASSWORD: "adminpassword"
+  #    LDAP_ADMIN_PASSWORD: "super_sudo"
+  #    #LDAP_CONFIG_ADMIN_ENABLED: "no"
+  #    #LDAP_CONFIG_ADMIN_USERNAME: "admin"
+  #    #LDAP_CONFIG_ADMIN_PASSWORD: "configpassword"
+  #    LDAP_USERS: "alice,bob,cyber,deus"
+  #    LDAP_PASSWORDS: "foo,bar,baz,qux"
+  #    LDAP_USER_DC: "users"
+  #    LDAP_GROUP: "accounts"
+  #    #LDAP_ADD_SCHEMAS: "no"
+  #    #LDAP_EXTRA_SCHEMAS: "cosine, inetorgperson, nis"
+  #    #LDAP_SKIP_DEFAULT_TREE: "no"
+  #    #LDAP_CUSTOM_LDIF_DIR: "/ldifs"
+  #    #LDAP_CUSTOM_SCHEMA_FILE: "/schema/custom.ldif"
+  #    #LDAP_ULIMIT_NOFILES: "1024"
+  #    #LDAP_ALLOW_ANON_BINDING: "yes"
+  #    #LDAP_LOGLEVEL: "256"
+  #    LDAP_ENABLE_TLS: "yes"
+  #    LDAP_LDAPS_PORT_NUMBER: "1636"
+  #    LDAP_TLS_CERT_FILE: "/opt/bitnami/openldap/etc/certs/certificate.crt"
+  #    LDAP_TLS_KEY_FILE: "/opt/bitnami/openldap/etc/certs/privatekey.key"
+  #    LDAP_TLS_CA_FILE: "/etc/ssl/certs/ca-certificates.crt"
+  #    #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/lets-encrypt-r3.pem"
+  #    #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/isrg-root-x1-cross-signed.pem"
+  #    #LDAP_TLS_CA_FILE: "/opt/bitnami/openldap/etc/letsencrypt/isrgrootx1.pem"
+  #    #LDAP_TLS_DH_PARAMS_FILE: ""
+  #  labels:
+  #    #traefik.enable: "true"
+  #    #traefik.http.routers.openldap.entrypoints: "ldapsecure"
+  #    #traefik.http.routers.openldap.tls.certresolver: "myresolver"
+  #    #traefik.http.routers.openldap.rule: "Host(`openldap.develop.medienhaus.dev`)"
+  #    traefik.enable: "true"
+  #    traefik.tcp.routers.ldap-tcp.rule: "HostSNI(`*`)"
+  #    traefik.tcp.routers.ldap-tcp.entrypoints: "ldap-tcp"
+  #    traefik.udp.routers.ldap-udp.entrypoints: "ldap-udp"
+  #    traefik.tcp.routers.ldaps.rule: "HostSNI(`*`)"
+  #    traefik.tcp.routers.ldaps.entrypoints: "ldaps"
+  #    traefik.tcp.routers.ldaps.tls: "true"
+  #    traefik.tcp.routers.ldaps.tls.passthrough: "true"
+  #    traefik.tcp.routers.ldaps.tls.certresolver: "myresolver"
+  #  ports:
+  #    - "1389:1389"
+  #    - "1636:1636"
+  #  volumes:
+  #    #- openldap_data:/bitnami/openldap
+  #    - ./data/openldap:/bitnami/openldap
+  #    #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
+  #    - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs:ro
 
   # ------------------------------------------------------
   # ldap-user-manager
   # ------------------------------------------------------
 
-  ldap-user-manager:
-    image: wheelybird/ldap-user-manager:latest
-    container_name: ldap-user-manager
-    restart: unless-stopped
-    depends_on:
-      - openldap
-      - traefik
-    #env_file:
-    #  - ./config/ldap-user-manager--.env
-    environment:
-      #LDAP_URI: "ldaps://localhost:1636"
-      #LDAP_URI: "ldaps://openldap.develop.medienhaus.dev:1636"
-      LDAP_URI: "ldap://openldap.develop.medienhaus.dev:1389"
-      LDAP_BASE_DN: "dc=medienhaus,dc=dev"
-      LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
-      LDAP_ADMIN_BIND_PWD: "super_sudo"
-      LDAP_ADMINS_GROUP: "admins"
-      #SERVER_HOSTNAME: "ldap-user-manager.develop.medienhaus.dev"
-      SERVER_HOSTNAME: "openldap.develop.medienhaus.dev"
-      #SERVER_PATH: "/"
-      #SERVER_PORT: "80 & 443"
-      #SERVER_PORT: "8389 & 8636"
-      #NO_HTTPS: "false"
-      SERVER_KEY_FILENAME: "privatekey.key"
-      SERVER_CERT_FILENAME: "certificate.crt"
-      #CA_CERT_FILENAME: "ca.crt"
-      CA_CERT_FILENAME: ".ca.crt"
-      #CA_CERT_FILENAME: "/etc/ssl/certs/ca-certificates.crt"
-      #SESSION_TIMEOUT: "10 minutes"
-      ORGANISATION_NAME: "medienhaus/"
-      SITE_NAME: "ldap_user_manager"
-      SHOW_POSIX_ATTRIBUTES: "false"
-      LDAP_USER_OU: "users"
-      LDAP_GROUP_OU: "groups"
-      #LDAP_REQUIRE_STARTTLS: "true"
-      LDAP_REQUIRE_STARTTLS: "false"
-      LDAP_IGNORE_CERT_ERRORS: "false"
-      #LDAP_TLS_CACERT: ""
-      #LDAP_TLS_CACERT: "$(</etc/ssl/certs/ca-certificates.crt)"
-      #LDAP_TLS_CACERT_FILE: ""
-      #LDAP_TLS_CACERT_FILE: "/etc/ssl/certs/ca-certificates.crt"
-      LDAP_ACCOUNT_ATTRIBUTE: "uid"
-      #LDAP_ACCOUNT_ATTRIBUTE: "cn"
-      #LDAP_GROUP_MEMBERSHIP_ATTRIBUTE: "memberUID or uniqueMember"
-      #LDAP_ACCOUNT_ADDITIONAL_OBJECTCLASSES: ""
-      #LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: ""
-      LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: "cn"
-      #LDAP_GROUP_MEMBERSHIP_USES_UID: "true OR false"
-      #FORCE_RFC2307BIS: "false"
-      #DEFAULT_USER_GROUP: "everybody"
-      #DEFAULT_USER_SHELL: "/bin/bash"
-      EMAIL_DOMAIN: "medienhaus.dev"
-      ENFORCE_SAFE_SYSTEM_NAMES: "true"
-      #USERNAME_FORMAT: "{first_name}-{last_name}"
-      #USERNAME_REGEX: "^[a-z][a-zA-Z0-9._-]{3,32}$"
-      PASSWORD_HASH: "SHA512CRYPT"
-      ACCEPT_WEAK_PASSWORDS: "false"
-      REMOTE_HTTP_HEADERS_LOGIN: "false"
-      SMTP_HOSTNAME: "mueller.uberspace.de"
-      SMTP_HOST_PORT: "587"
-      SMTP_USERNAME: "develop@medienhaus.dev"
-      SMTP_PASSWORD: "vYvYCdolbN69xO1F0yFWAimEFWdF1U7FpQmBs5cuvJKIQlyh6Vgu5hckIFDsxxp1"
-      SMTP_USE_TLS: "true"
-      SMTP_USE_SSL: "false"
-      EMAIL_FROM_ADDRESS: "dev+ldap-user-manager@medienhaus.dev"
-      EMAIL_FROM_NAME: "dev/ ldap_user_manager"
-      #MAIL_SUBJECT: "Your medienhaus/ account has been created."
-      #NEW_ACCOUNT_EMAIL_SUBJECT: ""
-      #NEW_ACCOUNT_EMAIL_BODY: ""
-      #RESET_PASSWORD_EMAIL_SUBJECT: ""
-      #RESET_PASSWORD_EMAIL_BODY: ""
-      ACCOUNT_REQUESTS_ENABLED: "true"
-      ACCOUNT_REQUESTS_EMAIL: "dev+ldap-user-request@medienhaus.dev"
-      LDAP_DEBUG: "false"
-      LDAP_VERBOSE_CONNECTION_LOGS: "false"
-      SESSION_DEBUG: "false"
-      SMTP_LOG_LEVEL: "0"
-    labels:
-      #- "traefik.enable=true"
-      #- "traefik.http.routers.ldap-user-manager.entrypoints=websecure"
-      #- "traefik.http.routers.ldap-user-manager.tls.certresolver=myresolver"
-      #- "traefik.http.routers.ldap-user-manager.rule=Host(`ldap-user-manager.develop.medienhaus.dev`)"
-      traefik.enable: "true"
-      traefik.http.routers.ldap-user-manager.entrypoints: "websecure"
-      traefik.http.routers.ldap-user-manager.tls.certresolver: "myresolver"
-      #traefik.http.routers.ldap-user-manager.rule: "Host(`ldap-user-manager.develop.medienhaus.dev`)"
-      traefik.http.routers.ldap-user-manager.rule: "Host(`openldap.develop.medienhaus.dev`)"
-    ports:
-      - "8389:80"
-      - "8636:443"
-      #- "8389:8389"
-      #- "8636:8636"
-    volumes:
-      #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
-      - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/ssl
-      - ./data/ldap-user-manager:/etc/ldap
+  #ldap-user-manager:
+  #  image: wheelybird/ldap-user-manager:latest
+  #  container_name: ldap-user-manager
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - openldap
+  #    - traefik
+  #  #env_file:
+  #  #  - ./config/ldap-user-manager--.env
+  #  environment:
+  #    #LDAP_URI: "ldaps://localhost:1636"
+  #    #LDAP_URI: "ldaps://openldap.develop.medienhaus.dev:1636"
+  #    LDAP_URI: "ldap://openldap.develop.medienhaus.dev:1389"
+  #    LDAP_BASE_DN: "dc=medienhaus,dc=dev"
+  #    LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
+  #    LDAP_ADMIN_BIND_PWD: "super_sudo"
+  #    LDAP_ADMINS_GROUP: "admins"
+  #    #SERVER_HOSTNAME: "ldap-user-manager.develop.medienhaus.dev"
+  #    SERVER_HOSTNAME: "openldap.develop.medienhaus.dev"
+  #    #SERVER_PATH: "/"
+  #    #SERVER_PORT: "80 & 443"
+  #    #SERVER_PORT: "8389 & 8636"
+  #    #NO_HTTPS: "false"
+  #    SERVER_KEY_FILENAME: "privatekey.key"
+  #    SERVER_CERT_FILENAME: "certificate.crt"
+  #    #CA_CERT_FILENAME: "ca.crt"
+  #    CA_CERT_FILENAME: ".ca.crt"
+  #    #CA_CERT_FILENAME: "/etc/ssl/certs/ca-certificates.crt"
+  #    #SESSION_TIMEOUT: "10 minutes"
+  #    ORGANISATION_NAME: "medienhaus/"
+  #    SITE_NAME: "ldap_user_manager"
+  #    SHOW_POSIX_ATTRIBUTES: "false"
+  #    LDAP_USER_OU: "users"
+  #    LDAP_GROUP_OU: "groups"
+  #    #LDAP_REQUIRE_STARTTLS: "true"
+  #    LDAP_REQUIRE_STARTTLS: "false"
+  #    LDAP_IGNORE_CERT_ERRORS: "false"
+  #    #LDAP_TLS_CACERT: ""
+  #    #LDAP_TLS_CACERT: "$(</etc/ssl/certs/ca-certificates.crt)"
+  #    #LDAP_TLS_CACERT_FILE: ""
+  #    #LDAP_TLS_CACERT_FILE: "/etc/ssl/certs/ca-certificates.crt"
+  #    LDAP_ACCOUNT_ATTRIBUTE: "uid"
+  #    #LDAP_ACCOUNT_ATTRIBUTE: "cn"
+  #    #LDAP_GROUP_MEMBERSHIP_ATTRIBUTE: "memberUID or uniqueMember"
+  #    #LDAP_ACCOUNT_ADDITIONAL_OBJECTCLASSES: ""
+  #    #LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: ""
+  #    LDAP_ACCOUNT_ADDITIONAL_ATTRIBUTES: "cn"
+  #    #LDAP_GROUP_MEMBERSHIP_USES_UID: "true OR false"
+  #    #FORCE_RFC2307BIS: "false"
+  #    #DEFAULT_USER_GROUP: "everybody"
+  #    #DEFAULT_USER_SHELL: "/bin/bash"
+  #    EMAIL_DOMAIN: "medienhaus.dev"
+  #    ENFORCE_SAFE_SYSTEM_NAMES: "true"
+  #    #USERNAME_FORMAT: "{first_name}-{last_name}"
+  #    #USERNAME_REGEX: "^[a-z][a-zA-Z0-9._-]{3,32}$"
+  #    PASSWORD_HASH: "SHA512CRYPT"
+  #    ACCEPT_WEAK_PASSWORDS: "false"
+  #    REMOTE_HTTP_HEADERS_LOGIN: "false"
+  #    SMTP_HOSTNAME: "mueller.uberspace.de"
+  #    SMTP_HOST_PORT: "587"
+  #    SMTP_USERNAME: "develop@medienhaus.dev"
+  #    SMTP_PASSWORD: "vYvYCdolbN69xO1F0yFWAimEFWdF1U7FpQmBs5cuvJKIQlyh6Vgu5hckIFDsxxp1"
+  #    SMTP_USE_TLS: "true"
+  #    SMTP_USE_SSL: "false"
+  #    EMAIL_FROM_ADDRESS: "dev+ldap-user-manager@medienhaus.dev"
+  #    EMAIL_FROM_NAME: "dev/ ldap_user_manager"
+  #    #MAIL_SUBJECT: "Your medienhaus/ account has been created."
+  #    #NEW_ACCOUNT_EMAIL_SUBJECT: ""
+  #    #NEW_ACCOUNT_EMAIL_BODY: ""
+  #    #RESET_PASSWORD_EMAIL_SUBJECT: ""
+  #    #RESET_PASSWORD_EMAIL_BODY: ""
+  #    ACCOUNT_REQUESTS_ENABLED: "true"
+  #    ACCOUNT_REQUESTS_EMAIL: "dev+ldap-user-request@medienhaus.dev"
+  #    LDAP_DEBUG: "false"
+  #    LDAP_VERBOSE_CONNECTION_LOGS: "false"
+  #    SESSION_DEBUG: "false"
+  #    SMTP_LOG_LEVEL: "0"
+  #  labels:
+  #    #- "traefik.enable=true"
+  #    #- "traefik.http.routers.ldap-user-manager.entrypoints=websecure"
+  #    #- "traefik.http.routers.ldap-user-manager.tls.certresolver=myresolver"
+  #    #- "traefik.http.routers.ldap-user-manager.rule=Host(`ldap-user-manager.develop.medienhaus.dev`)"
+  #    traefik.enable: "true"
+  #    traefik.http.routers.ldap-user-manager.entrypoints: "websecure"
+  #    traefik.http.routers.ldap-user-manager.tls.certresolver: "myresolver"
+  #    #traefik.http.routers.ldap-user-manager.rule: "Host(`ldap-user-manager.develop.medienhaus.dev`)"
+  #    traefik.http.routers.ldap-user-manager.rule: "Host(`openldap.develop.medienhaus.dev`)"
+  #  ports:
+  #    - "8389:80"
+  #    - "8636:443"
+  #    #- "8389:8389"
+  #    #- "8636:8636"
+  #  volumes:
+  #    #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
+  #    - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/ssl
+  #    - ./data/ldap-user-manager:/etc/ldap
 
   # ------------------------------------------------------
   # etherpad
   # ------------------------------------------------------
 
+  postgres-etherpad:
+    image: postgres:latest
+    container_name: postgres-etherpad
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "etherpad"
+      POSTGRES_USER: "etherpad"
+      POSTGRES_PASSWORD: "super_sudo"
+    #ports:
+    #  - "5432:5432"
+    volumes:
+      - ./data/etherpad:/var/lib/postgresql/data:rw
+
   etherpad:
+    #image: etherpad:latest
     build:
       context: ./etherpad-lite
       args:
@@ -328,55 +335,89 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik
-      - postgres
+      - postgres-etherpad
+    environment:
+      TITLE: "medienhaus/write"
+      FAVICON: "/src/static/skins/medienhaus/favicon.ico"
+      SKIN_NAME: "medienhaus"
+      IP: "127.0.0.1"
+      PORT: "9001"
+      DB_TYPE: "postgres"
+      DB_HOST: "postgres-etherpad"
+      DB_PORT: "5432"
+      DB_NAME: "etherpad"
+      DB_USER: "etherpad"
+      DB_PASS: "super_sudo"
+      DEFAULT_PAD_TEXT: ""
+      PAD_OPTIONS_NO_COLORS: true
+      PAD_OPTIONS_SHOW_CONTROLS: true
+      PAD_OPTIONS_SHOW_CHAT: false
+      PAD_OPTIONS_SHOW_LINE_NUMBERS: true
+      PAD_OPTIONS_USE_MONOSPACE_FONT: true
+      PAD_OPTIONS_USER_NAME: false
+      PAD_OPTIONS_USER_COLOR: false
+      PAD_OPTIONS_RTL: false
+      PAD_OPTIONS_ALWAYS_SHOW_CHAT: false
+      PAD_OPTIONS_CHAT_AND_USERS: false
+      PAD_OPTIONS_LANG: "en-us"
+      ADMIN_PASSWORD: "be25d534df3571b56bd47a83d55b5c4b3b4a536d"
+      SOCKETIO_MAX_HTTP_BUFFER_SIZE: "10000"
     labels:
-      #- "traefik.enable=true"
-      #- "traefik.http.routers.etherpad.entrypoints=websecure"
-      #- "traefik.http.routers.etherpad.tls.certresolver=myresolver"
-      #- "traefik.http.routers.etherpad.rule=Host(`etherpad.develop.medienhaus.dev`)"
       traefik.enable: "true"
       traefik.http.routers.etherpad.entrypoints: "websecure"
       traefik.http.routers.etherpad.tls.certresolver: "myresolver"
       traefik.http.routers.etherpad.rule: "Host(`etherpad.develop.medienhaus.dev`)"
     #ports:
     #  - "9001:9001"
+    volumes:
+      - ./config/etherpad.json:/opt/etherpad-lite/settings.json
+      - ./etherpad-skin-medienhaus:/opt/etherpad-lite/src/static/skins/medienhaus
 
   # ------------------------------------------------------
   # rallly
   # ------------------------------------------------------
 
-  rallly:
-    #build: ./rallly
-    build:
-      context: ./rallly
-      args:
-        - "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly?pgbouncer=true"
-    container_name: rallly
-    restart: unless-stopped
-    depends_on:
-      - traefik
-      - postgres
-    command: /bin/sh -c "yarn prisma migrate deploy && yarn start"
-    #env_file:
-    #  - ./config/rallly--.env
-    environment:
-      #- "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly"
-      DATABASE_URL: "postgres://rallly_user:super_sudo@postgres:5432/rallly"
-    labels:
-      #- "traefik.enable=true"
-      #- "traefik.http.routers.rallly.entrypoints=websecure"
-      #- "traefik.http.routers.rallly.tls.certresolver=myresolver"
-      #- "traefik.http.routers.rallly.rule=Host(`rallly.develop.medienhaus.dev`)"
-      traefik.enable: "true"
-      traefik.http.routers.rallly.entrypoints: "websecure"
-      traefik.http.routers.rallly.tls.certresolver: "myresolver"
-      traefik.http.routers.rallly.rule: "Host(`rallly.develop.medienhaus.dev`)"
-    #ports:
-    #  - "3000:3000"
+  #rallly:
+  #  #build: ./rallly
+  #  build:
+  #    context: ./rallly
+  #    args:
+  #      - "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly?pgbouncer=true"
+  #  container_name: rallly
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - traefik
+  #    - postgres
+  #  command: /bin/sh -c "yarn prisma migrate deploy && yarn start"
+  #  #env_file:
+  #  #  - ./config/rallly--.env
+  #  environment:
+  #    - "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly"
+  #    #DATABASE_URL: "postgres://rallly_user:super_sudo@postgres:5432/rallly"
+  #  labels:
+  #    traefik.enable: "true"
+  #    traefik.http.routers.rallly.entrypoints: "websecure"
+  #    traefik.http.routers.rallly.tls.certresolver: "myresolver"
+  #    traefik.http.routers.rallly.rule: "Host(`rallly.develop.medienhaus.dev`)"
+  #  #ports:
+  #  #  - "3000:3000"
 
   # ------------------------------------------------------
   # spacedeck
   # ------------------------------------------------------
+
+  postgres-spacedeck:
+    image: postgres:latest
+    container_name: postgres-spacedeck
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "spacedeck"
+      POSTGRES_USER: "spacedeck"
+      POSTGRES_PASSWORD: "super_sudo"
+    #ports:
+    #  - "5432:5432"
+    volumes:
+      - ./data/spacedeck:/var/lib/postgresql/data:rw
 
   spacedeck:
     build: ./spacedeck-open
@@ -384,12 +425,8 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik
-      - postgres
+      - postgres-spacedeck
     labels:
-      #- "traefik.enable=true"
-      #- "traefik.http.routers.spacedeck.entrypoints=websecure"
-      #- "traefik.http.routers.spacedeck.tls.certresolver=myresolver"
-      #- "traefik.http.routers.spacedeck.rule=Host(`spacedeck.develop.medienhaus.dev`)"
       traefik.enable: "true"
       traefik.http.routers.spacedeck.entrypoints: "websecure"
       traefik.http.routers.spacedeck.tls.certresolver: "myresolver"
@@ -397,9 +434,9 @@ services:
     #ports:
     #  - "9666:9666"
     volumes:
-      - ./spacedeck-open/config:/app/config
-      - ./spacedeck-open/storage:/app/storage
-      - ./spacedeck-open/database:/app/database
+      - ./config/spacedeck.json:/app/config/default.json
+      - ./storage/spacedeck:/app/storage
+      - ./data/spacedeck:/app/database
 
 # ------------------------------------------------------
 # networks
