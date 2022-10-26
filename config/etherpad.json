@@ -2,16 +2,15 @@
   "title": "medienhaus/write",
   "favicon": "src/static/skins/medienhaus/favicon.ico",
   "skinName": "medienhaus",
-  "ip": "127.0.0.1",
+  "ip": "0.0.0.0",
   "port": 9001,
   "dbType" : "postgres",
   "dbSettings" : {
-    "host": "194.95.202.69",
+    "host": "postgres-etherpad",
     "port": "5432",
     "database": "etherpad",
-    "user": "etherpad_user",
-    "password": "CizHRjfcyfuRS35sRJv3KEc0gfY9AwLN5zG4zHXCFnk78nCJEncMLdGYibDnu5g4",
-    "charset": "utf8"
+    "user": "etherpad",
+    "password": "super_sudo"
   },
   "defaultPadText" : "",
   "padOptions": {

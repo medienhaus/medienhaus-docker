@@ -18,12 +18,12 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.ldap-tcp.address=:1389/tcp"
-      - "--entrypoints.ldap-udp.address=:1389/udp"
-      - "--entrypoints.ldaps.address=:1636/tcp"
+      #- "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      #- "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      #- "--entrypoints.websecure.address=:443"
+      #- "--entrypoints.ldap-tcp.address=:1389/tcp"
+      #- "--entrypoints.ldap-udp.address=:1389/udp"
+      #- "--entrypoints.ldaps.address=:1636/tcp"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.myresolver.acme.email=dev+letsencrypt@medienhaus.dev"
@@ -43,25 +43,10 @@ services:
     #  #traefik.http.routers.<router_name>.rule: "Host(`example.com`) || Host(`www.example.com`)"
     ports:
       - "80:80"
-      - "443:443"
+      #- "443:443"
     volumes:
       - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
-
-  # ------------------------------------------------------
-  # traefik-certs-dumper
-  # ------------------------------------------------------
-
-  #traefik-certs-dumper:
-  #  image: ldez/traefik-certs-dumper:latest
-  #  container_name: traefik-certs-dumper
-  #  restart: unless-stopped
-  #  depends_on:
-  #    - traefik
-  #  entrypoint: /bin/sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --source /data/acme.json --watch --dest /dump --domain-subdir'
-  #  volumes:
-  #    - ./data/letsencrypt:/data:ro
-  #    - ./data/traefik-certs-dumper:/dump
 
   # ------------------------------------------------------
   # postgres
@@ -92,8 +77,20 @@ services:
   #    - ./data/redis:/data
 
   # ------------------------------------------------------
-  # openldap--create-certificates
+  # openldap
   # ------------------------------------------------------
+
+  ## TODO !!
+  #traefik-certs-dumper:
+  #  image: ldez/traefik-certs-dumper:latest
+  #  container_name: traefik-certs-dumper
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - traefik
+  #  entrypoint: /bin/sh -c 'apk add jq; while ! [ -e /data/acme.json ] || ! [ `jq ".[] | .Certificates | length" /data/acme.json` != 0 ]; do sleep 1; done && traefik-certs-dumper file --version v2 --source /data/acme.json --watch --dest /dump --domain-subdir'
+  #  volumes:
+  #    - ./data/letsencrypt:/data:ro
+  #    - ./data/traefik-certs-dumper:/dump
 
   ## TODO !!
   #openldap--create-certificates:
@@ -114,10 +111,7 @@ services:
   #  volumes:
   #    - ./data/certificates/openldap:/etc/lego
 
-  # ------------------------------------------------------
-  # openldap--fix-permissions
-  # ------------------------------------------------------
-
+  ## TODO !!
   #openldap--fix-permissions:
   #  image: bitnami/openldap:latest
   #  container_name: openldap--fix-permissions
@@ -135,10 +129,7 @@ services:
   #    #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt
   #    #- ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs
 
-  # ------------------------------------------------------
-  # openldap
-  # ------------------------------------------------------
-
+  ## TODO !!
   #openldap:
   #  image: bitnami/openldap:latest
   #  container_name: openldap
@@ -203,10 +194,7 @@ services:
   #    #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
   #    - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs:ro
 
-  # ------------------------------------------------------
-  # ldap-user-manager
-  # ------------------------------------------------------
-
+  ## TODO !!
   #ldap-user-manager:
   #  image: wheelybird/ldap-user-manager:latest
   #  container_name: ldap-user-manager
@@ -337,7 +325,7 @@ services:
       TITLE: "medienhaus/write"
       FAVICON: "/src/static/skins/medienhaus/favicon.ico"
       SKIN_NAME: "medienhaus"
-      IP: "127.0.0.1"
+      IP: "0.0.0.0"
       PORT: "9001"
       DB_TYPE: "postgres"
       DB_HOST: "postgres-etherpad"
@@ -361,41 +349,64 @@ services:
       SOCKETIO_MAX_HTTP_BUFFER_SIZE: "10000"
     labels:
       traefik.enable: "true"
-      traefik.http.routers.etherpad.entrypoints: "websecure"
-      traefik.http.routers.etherpad.tls.certresolver: "myresolver"
-      traefik.http.routers.etherpad.rule: "Host(`etherpad.develop.medienhaus.dev`)"
+      # development
+      traefik.http.routers.etherpad.entrypoints: "web"
+      traefik.http.routers.etherpad.rule: "Host(`write.localhost`)"
+      # production
+      #traefik.http.routers.etherpad.entrypoints: "websecure"
+      #traefik.http.routers.etherpad.tls.certresolver: "myresolver"
+      #traefik.http.routers.etherpad.rule: "Host(`etherpad.develop.medienhaus.dev`)"
     #ports:
     #  - "9001:9001"
     volumes:
-      - ./config/etherpad.json:/opt/etherpad-lite/settings.json
+      #- ./config/etherpad.json:/opt/etherpad-lite/settings.json
       - ./etherpad-skin-medienhaus:/opt/etherpad-lite/src/static/skins/medienhaus
 
   # ------------------------------------------------------
   # rallly
   # ------------------------------------------------------
 
+  ## TODO !!
+  #postgres-rallly:
+  #  image: postgres:latest
+  #  container_name: postgres-rallly
+  #  restart: unless-stopped
+  #  environment:
+  #    POSTGRES_DB: "rallly"
+  #    POSTGRES_USER: "rallly"
+  #    POSTGRES_PASSWORD: "super_sudo"
+  #  #ports:
+  #  #  - "5432:5432"
+  #  volumes:
+  #    - ./data/rallly:/var/lib/postgresql/data:rw
+
+  ## TODO !!
   #rallly:
-  #  #build: ./rallly
   #  build:
   #    context: ./rallly
   #    args:
-  #      - "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly?pgbouncer=true"
+  #      #- "DATABASE_URL=postgres://rallly:super_sudo@postgres-rallly:5432/rallly?pgbouncer=true"
+  #      DATABASE_URL: "postgres://rallly:super_sudo@postgres-rallly:5432/rallly?pgbouncer=true"
   #  container_name: rallly
   #  restart: unless-stopped
   #  depends_on:
   #    - traefik
-  #    - postgres
+  #    - postgres-rallly
   #  command: /bin/sh -c "yarn prisma migrate deploy && yarn start"
   #  #env_file:
   #  #  - ./config/rallly--.env
   #  environment:
-  #    - "DATABASE_URL=postgres://rallly_user:super_sudo@postgres:5432/rallly"
-  #    #DATABASE_URL: "postgres://rallly_user:super_sudo@postgres:5432/rallly"
+  #    #- "DATABASE_URL=postgres://rallly:super_sudo@postgres-rallly:5432/rallly"
+  #    DATABASE_URL: "postgres://rallly:super_sudo@postgres-rallly:5432/rallly"
   #  labels:
   #    traefik.enable: "true"
-  #    traefik.http.routers.rallly.entrypoints: "websecure"
-  #    traefik.http.routers.rallly.tls.certresolver: "myresolver"
-  #    traefik.http.routers.rallly.rule: "Host(`rallly.develop.medienhaus.dev`)"
+  #    # development
+  #    traefik.http.routers.rallly.entrypoints: "web"
+  #    traefik.http.routers.rallly.rule: "Host(`poll.localhost`)"
+  #    # production
+  #    #traefik.http.routers.rallly.entrypoints: "websecure"
+  #    #traefik.http.routers.rallly.tls.certresolver: "myresolver"
+  #    #traefik.http.routers.rallly.rule: "Host(`poll.develop.medienhaus.dev`)"
   #  #ports:
   #  #  - "3000:3000"
 
@@ -425,9 +436,13 @@ services:
       - postgres-spacedeck
     labels:
       traefik.enable: "true"
-      traefik.http.routers.spacedeck.entrypoints: "websecure"
-      traefik.http.routers.spacedeck.tls.certresolver: "myresolver"
-      traefik.http.routers.spacedeck.rule: "Host(`spacedeck.develop.medienhaus.dev`)"
+      # development
+      traefik.http.routers.spacedeck.entrypoints: "web"
+      traefik.http.routers.spacedeck.rule: "Host(`sketch.localhost`)"
+      # production
+      #traefik.http.routers.spacedeck.entrypoints: "websecure"
+      #traefik.http.routers.spacedeck.tls.certresolver: "myresolver"
+      #traefik.http.routers.spacedeck.rule: "Host(`spacedeck.develop.medienhaus.dev`)"
     #ports:
     #  - "9666:9666"
     volumes:
@@ -436,19 +451,84 @@ services:
       - ./data/spacedeck:/app/database
 
   # ------------------------------------------------------
+  # matrix-synapse # production only because domain name ?
+  # ------------------------------------------------------
+
+  #postgres-matrix-synapse:
+  #  image: postgres:latest
+  #  container_name: postgres-matrix-synapse
+  #  restart: unless-stopped
+  #  environment:
+  #    POSTGRES_DB: "synapse"
+  #    POSTGRES_USER: "synapse"
+  #    POSTGRES_PASSWORD: "super_sudo"
+  #  #ports:
+  #  #  - "5432:5432"
+  #  volumes:
+  #    - ./data/matrix-synapse:/var/lib/postgresql/data:rw
+
+  #nginx-matrix-synapse:
+  #  image: nginx:latest
+  #  container_name: nginx-matrix-synapse
+  #  restart: unless-stopped
+  #  labels:
+  #    traefik.enable: "true"
+  #    # development
+  #    traefik.http.routers.nginx-matrix-synapse.entrypoints: "web"
+  #    traefik.http.routers.nginx-matrix-synapse.rule: "Host(`matrix.localhost`)"
+  #    # production
+  #    #traefik.http.routers.nginx-matrix-synapse.entrypoints: "websecure"
+  #    #traefik.http.routers.nginx-matrix-synapse.tls.certresolver: "myresolver"
+  #    #traefik.http.routers.nginx-matrix-synapse.rule: "Host(`matrix.moci.space`)"
+  #  #ports:
+  #  #  - "80:80"
+  #  #  - "443:443"
+  #  #  - "8008:8008"
+  #  #  - "8443:8443"
+  #  volumes:
+  #    - ./config/nginx-matrix-synapse.conf:/etc/nginx/conf.d/default.conf:ro
+
+  #matrix-synapse:
+  #  image: matrixdotorg/synapse:latest
+  #  container_name: matrix-synapse
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - nginx-matrix-synapse
+  #    - postgres-matrix-synapse
+  #  environment:
+  #    - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
+  #  volumes:
+  #    - ./config/matrix-synapse.yaml:/data/homeserver.yaml
+  #    - ./data/synapse/data
+
+  # ------------------------------------------------------
   # medienhaus-spaces
   # ------------------------------------------------------
 
+  element-medienhaus-spaces:
+    image: vectorim/element-web:latest
+    container_name: element-medienhaus-spaces
+    labels:
+      traefik.enable: "true"
+      # development
+      traefik.http.routers.element-medienhaus-spaces.entrypoints: "web"
+      traefik.http.routers.element-medienhaus-spaces.rule: "Host(`localhost`) && PathPrefix(`/element/`)"
+      traefik.http.routers.element-medienhaus-spaces.middlewares: "element-medienhaus-spaces@docker"
+      traefik.http.middlewares.element-medienhaus-spaces.stripprefix.prefixes: "/element"
+      # production
+      #traefik.http.routers.element-medienhaus-spaces.entrypoints: "websecure"
+      #traefik.http.routers.element-medienhaus-spaces.tls.certresolver: "myresolver"
+      #traefik.http.routers.element-medienhaus-spaces.rule: "Host(`spaces.develop.medienhaus.dev`)"
+    volumes:
+      - ./config/element.json:/app/config.json
+
+  ## TODO !! in case we want to serve the built application via nginx
   #nginx-medienhaus-spaces:
   #  image: nginx:latest
   #  container_name: nginx-medienhaus-spaces
   #  restart: unless-stopped
   #  labels:
-  #    - "traefik.enable=true"
-  #    #- "traefik.http.routers.nginx-medienhaus-spaces.entrypoints=web"
-  #    - "traefik.http.routers.nginx-medienhaus-spaces.entrypoints=websecure"
-  #    - "traefik.http.routers.nginx-medienhaus-spaces.tls.certresolver=myresolver"
-  #    - "traefik.http.routers.nginx-medienhaus-spaces.rule=Host(`spaces.monitor.medienhaus.dev`)"
+  #    - ...
   #  #ports:
   #  #  - "80:80"
   #  #  - "443:443"
@@ -461,18 +541,23 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik
+      - element-medienhaus-spaces
       #- nginx-medienhaus-spaces
     command: dev
     labels:
       traefik.enable: "true"
-      traefik.http.routers.medienhaus-spaces.entrypoints: "websecure"
-      traefik.http.routers.medienhaus-spaces.tls.certresolver: "myresolver"
-      traefik.http.routers.medienhaus-spaces.rule: "Host(`spaces.develop.medienhaus.dev`)"
+      # development
+      traefik.http.routers.medienhaus-spaces.entrypoints: "web"
+      traefik.http.routers.medienhaus-spaces.rule: "Host(`localhost`)"
+      # production
+      #traefik.http.routers.medienhaus-spaces.entrypoints: "websecure"
+      #traefik.http.routers.medienhaus-spaces.tls.certresolver: "myresolver"
+      #traefik.http.routers.medienhaus-spaces.rule: "Host(`spaces.develop.medienhaus.dev`)"
     #ports:
     #  - "3000:3000"
     volumes:
       - ./config/medienhaus-spaces.config.js:/usr/src/app/next.config.js
-      - ./medienhaus-spaces/multi-auth:/usr/src/app
+      - ./medienhaus-spaces-multi-auth:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/.next
 
