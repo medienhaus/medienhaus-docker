@@ -1,6 +1,6 @@
 {
   "title": "medienhaus/write",
-  "favicon": "src/static/skins/medienhaus/favicon.ico",
+  "favicon": "/src/static/skins/medienhaus/img/favicon.svg",
   "skinName": "medienhaus",
   "ip": "0.0.0.0",
   "port": 9001,

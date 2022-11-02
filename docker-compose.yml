@@ -21,8 +21,8 @@ services:
       #- "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       #- "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       #- "--entrypoints.websecure.address=:443"
-      #- "--entrypoints.ldap-tcp.address=:1389/tcp"
-      #- "--entrypoints.ldap-udp.address=:1389/udp"
+      - "--entrypoints.ldap-tcp.address=:1389/tcp"
+      - "--entrypoints.ldap-udp.address=:1389/udp"
       #- "--entrypoints.ldaps.address=:1636/tcp"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
@@ -194,6 +194,66 @@ services:
   #    #- ./data/letsencrypt:/opt/bitnami/openldap/etc/letsencrypt:ro
   #    - ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/opt/bitnami/openldap/etc/certs:ro
 
+  openldap:
+    image: osixia/openldap:latest
+    container_name: openldap
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    environment:
+      LDAP_ORGANISATION: "medienhaus/"
+      LDAP_DOMAIN: "medienhaus.dev"
+      #LDAP_BASE_DN: "dc=medienhaus,dc=dev"
+      #LDAP_ADMIN_PASSWORD: "admin"
+      #LDAP_CONFIG_PASSWORD: "config"
+      #LDAP_READONLY_USER: false
+      #LDAP_READONLY_USER_USERNAME: "readonly"
+      #LDAP_READONLY_USER_PASSWORD: "readonly"
+      #LDAP_RFC2307BIS_SCHEMA: false
+      #LDAP_BACKEND: "mdb"
+      #LDAP_TLS: true
+      LDAP_TLS: false
+      #LDAP_TLS_CRT_FILENAME: "ldap.crt"
+      #LDAP_TLS_KEY_FILENAME: "ldap.key"
+      #LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
+      #LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
+      #LDAP_TLS_ENFORCE: false
+      #LDAP_TLS_CIPHER_SUITE: "SECURE256:+SECURE128:-VERS-TLS-ALL:+VERS-TLS1.2:-RSA:-DHE-DSS:-CAMELLIA-128-CBC:-CAMELLIA-256-CBC"
+      #LDAP_TLS_VERIFY_CLIENT: "demand"
+      #LDAP_REPLICATION: false
+      #LDAP_REPLICATION_CONFIG_SYNCPROV: "binddn=\"cn=admin,cn=config\" bindmethod=simple credentials=$LDAP_CONFIG_PASSWORD searchbase=\"cn=config\" type=refreshAndPersist retry=\"60 +\" timeout=1 starttls=critical"
+      #LDAP_REPLICATION_DB_SYNCPROV: "binddn=\"cn=admin,$LDAP_BASE_DN\" bindmethod=simple credentials=$LDAP_ADMIN_PASSWORD searchbase=\"$LDAP_BASE_DN\" type=refreshAndPersist interval=00:00:00:10 retry=\"60 +\" timeout=1 starttls=critical"
+      #LDAP_REPLICATION_HOSTS:
+      #  - ldap://ldap.example.org
+      #  - ldap://ldap2.example.org
+      #KEEP_EXISTING_CONFIG: false
+      #LDAP_REMOVE_CONFIG_AFTER_SETUP: true
+      #LDAP_SSL_HELPER_PREFIX: true
+      HOSTNAME: "openldap.localhost"
+      #DISABLE_CHOWN: false
+      #LDAP_OPENLDAP_UID: # runtime docker user uid to run container as
+      #LDAP_OPENLDAP_GID: # runtime docker user gid to run container as
+    labels:
+      #traefik.enable: "true"
+      #traefik.http.routers.openldap.entrypoints: "ldapsecure"
+      #traefik.http.routers.openldap.tls.certresolver: "myresolver"
+      #traefik.http.routers.openldap.rule: "Host(`openldap.localhost`)"
+      traefik.enable: "true"
+      traefik.tcp.routers.ldap-tcp.rule: "HostSNI(`*`)"
+      traefik.tcp.routers.ldap-tcp.entrypoints: "ldap-tcp"
+      traefik.udp.routers.ldap-udp.entrypoints: "ldap-udp"
+      #traefik.tcp.routers.ldaps.rule: "HostSNI(`*`)"
+      #traefik.tcp.routers.ldaps.entrypoints: "ldaps"
+      #traefik.tcp.routers.ldaps.tls: "true"
+      #traefik.tcp.routers.ldaps.tls.passthrough: "true"
+      #traefik.tcp.routers.ldaps.tls.certresolver: "myresolver"
+    ports:
+      - "1389:389"
+    #  - "1636:636"
+    volumes:
+      - ./config/openldap:/etc/ldap/slapd.d
+      - ./data/openldap:/var/lib/ldap
+
   ## TODO !!
   #ldap-user-manager:
   #  image: wheelybird/ldap-user-manager:latest
@@ -321,32 +381,32 @@ services:
     depends_on:
       - traefik
       - postgres-etherpad
-    environment:
-      TITLE: "medienhaus/write"
-      FAVICON: "/src/static/skins/medienhaus/favicon.ico"
-      SKIN_NAME: "medienhaus"
-      IP: "0.0.0.0"
-      PORT: "9001"
-      DB_TYPE: "postgres"
-      DB_HOST: "postgres-etherpad"
-      DB_PORT: "5432"
-      DB_NAME: "etherpad"
-      DB_USER: "etherpad"
-      DB_PASS: "super_sudo"
-      DEFAULT_PAD_TEXT: ""
-      PAD_OPTIONS_NO_COLORS: "true"
-      PAD_OPTIONS_SHOW_CONTROLS: "true"
-      PAD_OPTIONS_SHOW_CHAT: "false"
-      PAD_OPTIONS_SHOW_LINE_NUMBERS: "true"
-      PAD_OPTIONS_USE_MONOSPACE_FONT: "true"
-      PAD_OPTIONS_USER_NAME: "false"
-      PAD_OPTIONS_USER_COLOR: "false"
-      PAD_OPTIONS_RTL: "false"
-      PAD_OPTIONS_ALWAYS_SHOW_CHAT: "false"
-      PAD_OPTIONS_CHAT_AND_USERS: "false"
-      PAD_OPTIONS_LANG: "en-us"
-      ADMIN_PASSWORD: "be25d534df3571b56bd47a83d55b5c4b3b4a536d"
-      SOCKETIO_MAX_HTTP_BUFFER_SIZE: "10000"
+    #environment:
+    #  TITLE: "medienhaus/write"
+    #  FAVICON: "/src/static/skins/medienhaus/img/favicon.svg"
+    #  SKIN_NAME: "medienhaus"
+    #  IP: "0.0.0.0"
+    #  PORT: "9001"
+    #  DB_TYPE: "postgres"
+    #  DB_HOST: "postgres-etherpad"
+    #  DB_PORT: "5432"
+    #  DB_NAME: "etherpad"
+    #  DB_USER: "etherpad"
+    #  DB_PASS: "super_sudo"
+    #  DEFAULT_PAD_TEXT: ""
+    #  PAD_OPTIONS_NO_COLORS: "true"
+    #  PAD_OPTIONS_SHOW_CONTROLS: "true"
+    #  PAD_OPTIONS_SHOW_CHAT: "false"
+    #  PAD_OPTIONS_SHOW_LINE_NUMBERS: "true"
+    #  PAD_OPTIONS_USE_MONOSPACE_FONT: "true"
+    #  PAD_OPTIONS_USER_NAME: "false"
+    #  PAD_OPTIONS_USER_COLOR: "false"
+    #  PAD_OPTIONS_RTL: "false"
+    #  PAD_OPTIONS_ALWAYS_SHOW_CHAT: "false"
+    #  PAD_OPTIONS_CHAT_AND_USERS: "false"
+    #  PAD_OPTIONS_LANG: "en-us"
+    #  ADMIN_PASSWORD: "be25d534df3571b56bd47a83d55b5c4b3b4a536d"
+    #  SOCKETIO_MAX_HTTP_BUFFER_SIZE: "10000"
     labels:
       traefik.enable: "true"
       # development
@@ -359,7 +419,7 @@ services:
     #ports:
     #  - "9001:9001"
     volumes:
-      #- ./config/etherpad.json:/opt/etherpad-lite/settings.json
+      - ./config/etherpad.json:/opt/etherpad-lite/settings.json
       - ./etherpad-skin-medienhaus:/opt/etherpad-lite/src/static/skins/medienhaus
 
   # ------------------------------------------------------
