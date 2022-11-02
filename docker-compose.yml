@@ -229,7 +229,7 @@ services:
       #KEEP_EXISTING_CONFIG: "false"
       #LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
       #LDAP_SSL_HELPER_PREFIX: "true"
-      HOSTNAME: "openldap.localhost"
+      #HOSTNAME: "openldap.localhost"
       #DISABLE_CHOWN: "false"
       #LDAP_OPENLDAP_UID: # runtime docker user uid to run container as
       #LDAP_OPENLDAP_GID: # runtime docker user gid to run container as
