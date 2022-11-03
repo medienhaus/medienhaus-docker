@@ -14,15 +14,15 @@
 #	path = spacedeck-open
 #	url = https://github.com/arillo/spacedeck-open.git
 #	branch = feature/merge-mnt
-[submodule "peertube"]
-	path = peertube
-	url = https://github.com/Chocobozzz/PeerTube.git
-	branch = develop
-[submodule "rallly"]
-	path = rallly
-	url = https://github.com/lukevella/rallly.git
-	branch = main
+#[submodule "peertube"]
+#	path = peertube
+#	url = https://github.com/Chocobozzz/PeerTube.git
+#	branch = develop
+#[submodule "rallly"]
+#	path = rallly
+#	url = https://github.com/lukevella/rallly.git
+#	branch = main
 [submodule "medienhaus-spaces-multi-auth"]
 	path = medienhaus-spaces-multi-auth
-	url = https://github.com/medienhaus/medienhaus-spaces-multi-auth.git
+	url = git@github.com--medienhaus-spaces-multi-auth:medienhaus/medienhaus-spaces-multi-auth.git
 	branch = chat-element
