@@ -231,7 +231,7 @@ services:
       #KEEP_EXISTING_CONFIG: "false"
       #LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
       #LDAP_SSL_HELPER_PREFIX: "true"
-      #HOSTNAME: # defaults to whatever docker creates
+      #HOSTNAME: # defaults to whatever docker creates; won't start if set, see github issues
       #DISABLE_CHOWN: "false"
       #LDAP_OPENLDAP_UID: # runtime docker user uid to run container as
       #LDAP_OPENLDAP_GID: # runtime docker user gid to run container as
@@ -245,24 +245,25 @@ services:
       #traefik.tcp.routers.ldaps.tls: "true"
       #traefik.tcp.routers.ldaps.tls.passthrough: "true"
       #traefik.tcp.routers.ldaps.tls.certresolver: "myresolver"
-    #ports:
-    #  - "1389:389"
+    ports:
+      - "1389:389"
     #  - "1636:636"
     volumes:
       - ./data/openldap/ldap:/var/lib/ldap
       - ./data/openldap/slapd:/etc/ldap/slapd.d
+      #- ./data/traefik-certs-dumper/openldap.develop.medienhaus.dev:/container/service/slapd/assets/certs
 
   ldap-user-manager:
     image: wheelybird/ldap-user-manager:latest
     container_name: ldap-user-manager
     restart: unless-stopped
     depends_on:
-      - openldap
       - traefik
+      - openldap
     #env_file:
     #  - ./config/ldap-user-manager--.env
     environment:
-      LDAP_URI: "ldap://openldap:389"
+      LDAP_URI: "ldap://openldap:1389"
       #LDAP_URI: "ldaps://openldap:1636"
       #LDAP_URI: "ldap://openldap.develop.medienhaus.dev:1389"
       #LDAP_URI: "ldaps://openldap.develop.medienhaus.dev:1636"
@@ -271,6 +272,7 @@ services:
       LDAP_ADMIN_BIND_PWD: "super_sudo"
       LDAP_ADMINS_GROUP: "admins"
       SERVER_HOSTNAME: "openldap.localhost"
+      #SERVER_HOSTNAME: "openldap.develop.medienhaus.dev"
       #SERVER_PATH: "/"
       #SERVER_PORT: "80 & 443"
       #SERVER_PORT: "8389 & 8636"
@@ -568,6 +570,7 @@ services:
   element-medienhaus-spaces:
     image: vectorim/element-web:latest
     container_name: element-medienhaus-spaces
+    restart: unless-stopped
     depends_on:
       - traefik
       - medienhaus-spaces

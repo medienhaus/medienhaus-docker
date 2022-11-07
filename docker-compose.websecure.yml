@@ -200,7 +200,6 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik
-      #- traefik-certs-dumper
     environment:
       LDAP_ORGANISATION: "medienhaus/"
       LDAP_DOMAIN: "medienhaus.dev"
@@ -216,12 +215,9 @@ services:
       #LDAP_BACKEND: "mdb"
       #LDAP_TLS: "true"
       LDAP_TLS: "false"
-      #LDAP_TLS_CRT_FILENAME: "ldap.crt"
       #LDAP_TLS_CRT_FILENAME: "certificate.crt"
-      #LDAP_TLS_KEY_FILENAME: "ldap.key"
       #LDAP_TLS_KEY_FILENAME: "privatekey.key"
       #LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
-      #LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
       #LDAP_TLS_CA_CRT_FILENAME: "../../../:ssl-tools/assets/default-ca/default-ca.pem"
       #LDAP_TLS_ENFORCE: "false"
       #LDAP_TLS_CIPHER_SUITE: "SECURE256:+SECURE128:-VERS-TLS-ALL:+VERS-TLS1.2:-RSA:-DHE-DSS:-CAMELLIA-128-CBC:-CAMELLIA-256-CBC"
@@ -232,7 +228,6 @@ services:
       #LDAP_REPLICATION_HOSTS:
       #  - ldap://ldap.example.org
       #  - ldap://ldap2.example.org
-      #KEEP_EXISTING_CONFIG: "false"
       KEEP_EXISTING_CONFIG: "true"
       #LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
       #LDAP_SSL_HELPER_PREFIX: "true"
@@ -276,6 +271,7 @@ services:
       LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
       LDAP_ADMIN_BIND_PWD: "super_sudo"
       LDAP_ADMINS_GROUP: "admins"
+      #SERVER_HOSTNAME: "openldap.localhost"
       SERVER_HOSTNAME: "openldap.develop.medienhaus.dev"
       #SERVER_PATH: "/"
       #SERVER_PORT: "80 & 443"
@@ -285,7 +281,6 @@ services:
       #
       #SERVER_KEY_FILENAME: "privatekey.key"
       #SERVER_CERT_FILENAME: "certificate.crt"
-      #CA_CERT_FILENAME: ".ca.crt"
       #CA_CERT_FILENAME: "/etc/ssl/certs/ca-certificates.crt"
       #
       #SESSION_TIMEOUT: "10 minutes"
@@ -336,11 +331,10 @@ services:
       ##RESET_PASSWORD_EMAIL_BODY: ""
       #ACCOUNT_REQUESTS_ENABLED: "true"
       #ACCOUNT_REQUESTS_EMAIL: "dev+ldap-user-request@medienhaus.dev"
-      #
-      LDAP_DEBUG: "false"
-      LDAP_VERBOSE_CONNECTION_LOGS: "false"
-      SESSION_DEBUG: "false"
-      SMTP_LOG_LEVEL: "0"
+      #LDAP_DEBUG: "false"
+      #LDAP_VERBOSE_CONNECTION_LOGS: "false"
+      #SESSION_DEBUG: "false"
+      #SMTP_LOG_LEVEL: "0"
     labels:
       traefik.enable: "true"
       # development
