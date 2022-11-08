@@ -37,13 +37,28 @@ database:
     cp_min: 5
     cp_max: 10
 
+password_providers:
+  - module: "ldap_auth_provider.LdapAuthProvider"
+    config:
+      enabled: true
+      mode: "search"
+      uri: "ldap://openldap:389"
+      start_tls: false
+      base: "dc=medienhaus,dc=dev"
+      attributes:
+        uid: "uid"
+        mail: "mail"
+        name: "cn"
+      bind_dn: "cn=admin,dc=medienhaus,dc=dev"
+      bind_password: "super_sudo"
+
 #log_config: "/data/matrix.localhost.log.config"
 
 media_store_path: "/data/media_store"
 
-enable_registration: true
+enable_registration: false
 
-enable_registration_without_verification: true
+#enable_registration_without_verification: true
 
 registration_shared_secret: "AU5l67odPUe52aazjcQ^7ilL#bKiV.A_DKAEn*fe:d^I#WBKrt"
 

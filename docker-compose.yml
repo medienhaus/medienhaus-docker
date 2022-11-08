@@ -263,8 +263,8 @@ services:
     #env_file:
     #  - ./config/ldap-user-manager--.env
     environment:
-      LDAP_URI: "ldap://openldap:1389"
-      #LDAP_URI: "ldaps://openldap:1636"
+      LDAP_URI: "ldap://openldap:389"
+      #LDAP_URI: "ldaps://openldap:636"
       #LDAP_URI: "ldap://openldap.develop.medienhaus.dev:1389"
       #LDAP_URI: "ldaps://openldap.develop.medienhaus.dev:1636"
       LDAP_BASE_DN: "dc=medienhaus,dc=dev"
