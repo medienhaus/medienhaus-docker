@@ -513,80 +513,101 @@ services:
       - ./data/spacedeck:/app/database
 
   # ------------------------------------------------------
-  # matrix-synapse # production only because domain name ?
+  # matrix-synapse
   # ------------------------------------------------------
 
-  #postgres-matrix-synapse:
-  #  image: postgres:latest
-  #  container_name: postgres-matrix-synapse
-  #  restart: unless-stopped
-  #  environment:
-  #    POSTGRES_DB: "synapse"
-  #    POSTGRES_USER: "synapse"
-  #    POSTGRES_PASSWORD: "super_sudo"
-  #  #ports:
-  #  #  - "5432:5432"
-  #  volumes:
-  #    - ./data/matrix-synapse:/var/lib/postgresql/data:rw
+  postgres-matrix-synapse:
+    image: postgres:latest
+    container_name: postgres-matrix-synapse
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "synapse"
+      POSTGRES_USER: "synapse"
+      POSTGRES_PASSWORD: "super_sudo"
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    #ports:
+    #  - "5432:5432"
+    volumes:
+      - ./data/matrix-synapse:/var/lib/postgresql/data:rw
 
-  #nginx-matrix-synapse:
-  #  image: nginx:latest
-  #  container_name: nginx-matrix-synapse
-  #  restart: unless-stopped
-  #  labels:
-  #    traefik.enable: "true"
-  #    # development
-  #    traefik.http.routers.nginx-matrix-synapse.entrypoints: "web"
-  #    traefik.http.routers.nginx-matrix-synapse.rule: "Host(`matrix.localhost`)"
-  #    # production
-  #    #traefik.http.routers.nginx-matrix-synapse.entrypoints: "websecure"
-  #    #traefik.http.routers.nginx-matrix-synapse.tls.certresolver: "myresolver"
-  #    #traefik.http.routers.nginx-matrix-synapse.rule: "Host(`matrix.moci.space`)"
-  #  #ports:
-  #  #  - "80:80"
-  #  #  - "443:443"
-  #  #  - "8008:8008"
-  #  #  - "8443:8443"
-  #  volumes:
-  #    - ./config/nginx-matrix-synapse.conf:/etc/nginx/conf.d/default.conf:ro
+  nginx-matrix-synapse:
+    image: nginx:latest
+    container_name: nginx-matrix-synapse
+    restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      # development
+      traefik.http.routers.nginx-matrix-synapse.entrypoints: "web"
+      traefik.http.routers.nginx-matrix-synapse.rule: "Host(`matrix.localhost`)"
+      # production
+      #traefik.http.routers.nginx-matrix-synapse.entrypoints: "websecure"
+      #traefik.http.routers.nginx-matrix-synapse.tls.certresolver: "myresolver"
+      #traefik.http.routers.nginx-matrix-synapse.rule: "Host(`matrix.develop.medienhaus.dev`)"
+    ports:
+    #  - "80:80"
+    #  - "443:443"
+    #  - "8008:8008"
+    #  - "8443:8443"
+      - "8008:80"
+    volumes:
+      - ./config/nginx.matrix-synapse.conf:/etc/nginx/conf.d/default.conf:ro
 
-  #matrix-synapse:
-  #  image: matrixdotorg/synapse:latest
-  #  container_name: matrix-synapse
-  #  restart: unless-stopped
-  #  depends_on:
-  #    - nginx-matrix-synapse
-  #    - postgres-matrix-synapse
-  #  environment:
-  #    - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
-  #  volumes:
-  #    - ./config/matrix-synapse.yaml:/data/homeserver.yaml
-  #    - ./data/synapse/data
+  matrix-synapse:
+    image: matrixdotorg/synapse:latest
+    container_name: matrix-synapse
+    restart: unless-stopped
+    depends_on:
+      - postgres-matrix-synapse
+      - nginx-matrix-synapse
+    environment:
+      SYNAPSE_CONFIG_PATH: "/etc/matrix-synapse/homeserver.yaml"
+      #SYNAPSE_SERVER_NAME: "matrix.localhost"
+      #SYNAPSE_REPORT_STATS: "no"
+    #labels:
+    #  traefik.enable: "true"
+    #  # development
+    #  traefik.http.routers.matrix-synapse.entrypoints: "web"
+    #  traefik.http.routers.matrix-synapse.rule: "Host(`matrix.localhost`)"
+    #  # production
+    #  #traefik.http.routers.matrix-synapse.entrypoints: "websecure"
+    #  #traefik.http.routers.matrix-synapse.tls.certresolver: "myresolver"
+    #  #traefik.http.routers.matrix-synapse.rule: "Host(`matrix.develop.medienhaus.dev`)"
+    #ports:
+    #  - "8008:8008"
+    #  - "8448:8448"
+    volumes:
+      - ./data/synapse:/data:rw
+      # develop
+      - ./config/matrix-synapse.localhost-without-federation.yaml:/etc/matrix-synapse/homeserver.yaml:ro
+      # production
+      #- ./config/matrix-synapse.yaml:/etc/matrix-synapse/homeserver.yaml:ro
+
+  # ------------------------------------------------------
+  # element
+  # ------------------------------------------------------
+
+  element:
+    image: vectorim/element-web:latest
+    container_name: element
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - matrix-synapse
+    labels:
+      traefik.enable: "true"
+      # development
+      traefik.http.routers.element.entrypoints: "web"
+      traefik.http.routers.element.rule: "Host(`element.localhost`)"
+      # production
+      #traefik.http.routers.element.entrypoints: "websecure"
+      #traefik.http.routers.element.tls.certresolver: "myresolver"
+      #traefik.http.routers.element.rule: "Host(`element.develop.medienhaus.dev`)"
+    volumes:
+      - ./config/element.json:/app/config.json
 
   # ------------------------------------------------------
   # medienhaus-spaces
   # ------------------------------------------------------
-
-  element-medienhaus-spaces:
-    image: vectorim/element-web:latest
-    container_name: element-medienhaus-spaces
-    restart: unless-stopped
-    depends_on:
-      - traefik
-      - medienhaus-spaces
-    labels:
-      traefik.enable: "true"
-      # development
-      traefik.http.routers.element-medienhaus-spaces.entrypoints: "web"
-      traefik.http.routers.element-medienhaus-spaces.rule: "Host(`localhost`) && PathPrefix(`/element/`)"
-      # production
-      #traefik.http.routers.element-medienhaus-spaces.entrypoints: "websecure"
-      #traefik.http.routers.element-medienhaus-spaces.tls.certresolver: "myresolver"
-      #traefik.http.routers.element-medienhaus-spaces.rule: "Host(`spaces.develop.medienhaus.dev`) && PathPrefix(`/element/`)"
-      traefik.http.routers.element-medienhaus-spaces.middlewares: "element-medienhaus-spaces@docker"
-      traefik.http.middlewares.element-medienhaus-spaces.stripprefix.prefixes: "/element"
-    volumes:
-      - ./config/element.json:/app/config.json
 
   ## TODO !! in case we want to serve the built application via nginx
   #nginx-medienhaus-spaces:
@@ -607,7 +628,6 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik
-      #- element-medienhaus-spaces
       #- nginx-medienhaus-spaces
     command: dev
     labels:
@@ -626,6 +646,27 @@ services:
       - ./medienhaus-spaces-multi-auth:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/.next
+
+  element-medienhaus-spaces:
+    image: vectorim/element-web:latest
+    container_name: element-medienhaus-spaces
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - medienhaus-spaces
+    labels:
+      traefik.enable: "true"
+      # development
+      traefik.http.routers.element-medienhaus-spaces.entrypoints: "web"
+      traefik.http.routers.element-medienhaus-spaces.rule: "Host(`localhost`) && PathPrefix(`/element/`)"
+      # production
+      #traefik.http.routers.element-medienhaus-spaces.entrypoints: "websecure"
+      #traefik.http.routers.element-medienhaus-spaces.tls.certresolver: "myresolver"
+      #traefik.http.routers.element-medienhaus-spaces.rule: "Host(`spaces.develop.medienhaus.dev`) && PathPrefix(`/element/`)"
+      traefik.http.routers.element-medienhaus-spaces.middlewares: "element-medienhaus-spaces@docker"
+      traefik.http.middlewares.element-medienhaus-spaces.stripprefix.prefixes: "/element"
+    volumes:
+      - ./config/element-medienhaus-spaces.json:/app/config.json
 
 # ------------------------------------------------------
 # networks
