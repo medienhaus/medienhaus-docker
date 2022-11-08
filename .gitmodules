@@ -6,14 +6,14 @@
 	path = etherpad-skin-medienhaus
 	url = https://github.com/medienhaus/etherpad-skin-medienhaus.git
 	branch = main
-[submodule "spacedeck-open"]
-	path = spacedeck-open
-	url = https://github.com/spacedeck/spacedeck-open.git
-	branch = mnt
 #[submodule "spacedeck-open"]
 #	path = spacedeck-open
-#	url = https://github.com/arillo/spacedeck-open.git
-#	branch = feature/merge-mnt
+#	url = https://github.com/spacedeck/spacedeck-open.git
+#	branch = mnt
+[submodule "spacedeck-open"]
+	path = spacedeck-open
+	url = https://github.com/arillo/spacedeck-open.git
+	branch = feature/merge-mnt
 #[submodule "peertube"]
 #	path = peertube
 #	url = https://github.com/Chocobozzz/PeerTube.git
