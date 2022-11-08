@@ -508,7 +508,10 @@ services:
     #ports:
     #  - "9666:9666"
     volumes:
-      - ./config/spacedeck.json:/app/config/default.json
+      # development
+      - ./config/spacedeck.localhost.json:/app/config/default.json
+      # production
+      #- ./config/spacedeck.json:/app/config/default.json
       - ./storage/spacedeck:/app/storage
       - ./data/spacedeck:/app/database
 
