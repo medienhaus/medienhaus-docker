@@ -25,6 +25,7 @@ This repository contains our Docker composition for a containerized runtime envi
 
 ## URLs / Links
 
+| --- | --- |
 | medienhaus-spaces | http://localhost/ |
 | etherpad-lite | http://write.localhost/ |
 | spacedeck-open | http://sketch.localhost/ |
