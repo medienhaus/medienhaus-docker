@@ -1,20 +1,20 @@
 {
   "team_name": "medienhaus_dev/sketch",
-  "contact_email": "dev+spacedeck@medienhaus.dev",
+  "contact_email": "",
 
   "host": "::",
   "port": 9666,
   "endpoint": "http://localhost:9666",
 
-  "invite_code": "invite_code_1234",
-  "session_key": "session_key_1234",
+  "invite_code": "change_me",
+  "session_key": "change_me",
 
-  "export_api_secret": "export_api_secret_1234",
+  "export_api_secret": "change_me",
 
   "storage_dialect": "postgres",
   "storage_host": "postgres-spacedeck",
   "storage_username": "spacedeck",
-  "storage_password": "super_sudo",
+  "storage_password": "change_me",
   "storage_database": "spacedeck",
 
   "storage_local_path": "./storage",
@@ -29,9 +29,9 @@
   "redis_host": "localhost",
 
   "auth_type": "ldap",
-  "auth_ldap_server": "ldaps://openldap.develop.medienhaus.dev:1636",
+  "auth_ldap_server": "ldap://openldap:389",
   "auth_ldap_bind_dn": "cn=admin,dc=medienhaus,dc=dev",
-  "auth_ldap_bind_credentials": "super_sudo",
+  "auth_ldap_bind_credentials": "change_me",
   "auth_ldap_search_base": "ou=users,dc=medienhaus,dc=dev",
   "auth_ldap_search_filter": "(|(mail={{mail}})(uid={{username}}))",
   "auth_ldap_search_attributes": ["uid", "mail", "cn"],
@@ -40,12 +40,12 @@
   "auth_ldap_attribute_name": "cn",
 
   "mail_provider": "smtp",
-  "mail_smtp_host": "mueller.uberspace.de",
+  "mail_smtp_host": "",
   "mail_smtp_port": 587,
   "mail_smtp_secure": true,
   "mail_smtp_require_tls": true,
-  "mail_smtp_user": "develop@medienhaus.dev",
-  "mail_smtp_pass": "vYvYCdolbN69xO1F0yFWAimEFWdF1U7FpQmBs5cuvJKIQlyh6Vgu5hckIFDsxxp1",
+  "mail_smtp_user": "",
+  "mail_smtp_pass": "",
 
   "spacedeck": {}
 }

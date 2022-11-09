@@ -1,0 +1,67 @@
+# Configuration file for Synapse.
+#
+# This is a YAML file: see [1] for a quick introduction. Note in particular
+# that *indentation is important*: all the elements of a list or dictionary
+# should have the same indentation.
+#
+# [1] https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+#
+# For more information on how to configure Synapse, including a complete accounting of
+# each option, go to docs/usage/configuration/config_documentation.md or
+# https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html
+
+server_name: "matrix.localhost"
+
+pid_file: "/data/homeserver.pid"
+
+listeners:
+  - port: 8008
+    tls: false
+    type: "http"
+    x_forwarded: true
+    resources:
+      #- names: [client, federation]
+      - names: [client]
+        compress: false
+
+database:
+  name: "psycopg2"
+  args:
+    host: "postgres-matrix-synapse"
+    database: "synapse"
+    user: "synapse"
+    password: "change_me"
+    cp_min: 5
+    cp_max: 10
+
+password_providers:
+  - module: "ldap_auth_provider.LdapAuthProvider"
+    config:
+      enabled: true
+      mode: "search"
+      uri: "ldap://openldap:389"
+      start_tls: false
+      base: "dc=medienhaus,dc=dev"
+      attributes:
+        uid: "uid"
+        mail: "mail"
+        name: "cn"
+      bind_dn: "cn=admin,dc=medienhaus,dc=dev"
+      bind_password: "change_me"
+
+media_store_path: "/data/media_store"
+
+enable_registration: false
+
+registration_shared_secret: "change_me"
+
+report_stats: false
+
+macaroon_secret_key: "change_me"
+
+form_secret: "change_me"
+
+signing_key_path: "/data/matrix.localhost.signing.key"
+
+trusted_key_servers:
+  - server_name: "matrix.org"

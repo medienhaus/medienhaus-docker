@@ -10,7 +10,7 @@
     "port": "5432",
     "database": "etherpad",
     "user": "etherpad",
-    "password": "super_sudo"
+    "password": "change_me"
   },
   "defaultPadText" : "",
   "padOptions": {
@@ -28,7 +28,7 @@
   },
   "users": {
     "admin": {
-      "password": "be25d534df3571b56bd47a83d55b5c4b3b4a536d",
+      "password": "change_me",
       "is_admin": true
     }
   },

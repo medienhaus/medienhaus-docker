@@ -6,23 +6,11 @@
 	path = etherpad-skin-medienhaus
 	url = https://github.com/medienhaus/etherpad-skin-medienhaus.git
 	branch = main
-#[submodule "spacedeck-open"]
-#	path = spacedeck-open
-#	url = https://github.com/spacedeck/spacedeck-open.git
-#	branch = mnt
 [submodule "spacedeck-open"]
 	path = spacedeck-open
 	url = https://github.com/arillo/spacedeck-open.git
 	branch = feature/merge-mnt
-#[submodule "peertube"]
-#	path = peertube
-#	url = https://github.com/Chocobozzz/PeerTube.git
-#	branch = develop
-#[submodule "rallly"]
-#	path = rallly
-#	url = https://github.com/lukevella/rallly.git
-#	branch = main
-[submodule "medienhaus-spaces-multi-auth"]
-	path = medienhaus-spaces-multi-auth
-	url = https://github.com/medienhaus/medienhaus-spaces-multi-auth.git
+[submodule "medienhaus-spaces"]
+	path = medienhaus-spaces
+	url = https://github.com/medienhaus/medienhaus-spaces.git
 	branch = chat-element
