@@ -14,5 +14,5 @@ This repository contains our Docker composition for a containerized runtime envi
 
 ## Instructions
 
-1. `git submodule update --init`
+1. `git submodule update --init --remote`
 2. `docker-compose up -d`
