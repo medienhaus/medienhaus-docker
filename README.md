@@ -23,10 +23,12 @@ This repository contains our Docker composition for a containerized runtime envi
 3.4 create user account (all fields required)
 4. happy hacking
 
-| application / service | url / link |
-| --- | --- |
+## URLs / Links
+
 | medienhaus-spaces | http://localhost/ |
 | etherpad-lite | http://write.localhost/ |
 | spacedeck-open | http://sketch.localhost/ |
+| --- | --- |
+| matrix / synapse | http://matrix.localhost:8008/ |
 | element-web | http://element.localhost/ |
 | traefik dashboard | http://localhost:8080/ |
