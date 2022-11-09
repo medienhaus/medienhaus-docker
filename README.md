@@ -10,10 +10,9 @@ Customizable, modular, free and open-source environment for decentralized, distr
 
 # medienhaus-docker
 
-This repository contains our Docker composition for a containerized runtime environment of … TODO
-
-**Note:** Tested and working in Ubuntu 22.04 LTS virtual machine.
+This repository contains our Docker composition for a containerized runtime environment of the [medienhaus-spaces](https://github.com/medienhaus/medienhaus-spaces) stack.
 
 ## Instructions
 
-TODO
+1. `git submodule update --init`
+2. `docker-compose up -d`
