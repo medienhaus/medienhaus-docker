@@ -25,8 +25,9 @@ services:
     #  traefik.http.routers.api.entrypoints: "web"
     #  traefik.http.routers.api.rule: "Host(`traefik.localhost`)"
     #  traefik.http.routers.api.service: "api@internal"
-    #ports:
-    #  - "80:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
     volumes:
       - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
