@@ -12,5 +12,5 @@
 	branch = feature/merge-mnt
 [submodule "medienhaus-spaces"]
 	path = medienhaus-spaces
-	url = https://github.com/medienhaus/medienhaus-spaces.git
+	url = https://github.com/medienhaus/medienhaus-spaces
 	branch = chat-element
