@@ -21,7 +21,7 @@ This repository contains our Docker composition for a containerized runtime envi
    - password: `change_me`
    - run ldap setup (follow instructions)
    - create user account (all fields required)
-4. happy hacking
+4. happy hacking!
 
 ## URLs / Links
 
