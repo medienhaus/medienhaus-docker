@@ -16,7 +16,7 @@ This repository contains our Docker composition for a containerized runtime envi
 
 1. `git submodule update --init --remote`
 2. `docker-compose up -d --build --no-deps`
-3. open http://openldap.localhost/setup/
+3. initialize `openldap` via: http://openldap.localhost/setup/
    - username: `admin`
    - password: `change_me`
    - run ldap setup (follow instructions)
