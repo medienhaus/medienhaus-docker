@@ -15,4 +15,18 @@ This repository contains our Docker composition for a containerized runtime envi
 ## Instructions
 
 1. `git submodule update --init --remote`
-2. `docker-compose up -d`
+2. `docker-compose up -d --build --no-deps`
+3. open http://openldap.localhost/setup/
+3.1 username: `admin`
+3.2 password: `change_me`
+3.3 run ldap setup (follow instructions)
+3.4 create user account (all fields required)
+4. happy hacking
+
+| application / service | url / link |
+| --- | --- |
+| medienhaus-spaces | http://localhost/ |
+| etherpad-lite | http://write.localhost/ |
+| spacedeck-open | http://sketch.localhost/ |
+| element-web | http://element.localhost/ |
+| traefik dashboard | http://localhost:8080/ |
