@@ -10,7 +10,7 @@ Customizable, modular, free and open-source environment for decentralized, distr
 
 # medienhaus-docker
 
-This repository contains our Docker composition for a containerized runtime environment of the [medienhaus-spaces](https://github.com/medienhaus/medienhaus-spaces/) stack including [synapse](https://github.com/matrix-org/synapse/), [element-web](https://github.com/vector-im/element-web/), [etherpad-lite](https://github.com/ether/etherpad-lite/), [spacedeck-open](https://github.com/arillo/spacedeck-open/), [openldap](https://github.com/osixia/docker-openldap/), and [ldap-user-manager](https://github.com/wheelybird/ldap-user-manager/).
+This repository contains our Docker composition for a containerized runtime environment [medienhaus-spaces](https://github.com/medienhaus/medienhaus-spaces/) including [synapse](https://github.com/matrix-org/synapse/), [element-web](https://github.com/vector-im/element-web/), [etherpad-lite](https://github.com/ether/etherpad-lite/), [spacedeck-open](https://github.com/arillo/spacedeck-open/), [openldap](https://github.com/osixia/docker-openldap/), and [ldap-user-manager](https://github.com/wheelybird/ldap-user-manager/).
 
 ## Instructions
 
