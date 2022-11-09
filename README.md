@@ -19,6 +19,10 @@ This repository contains our Docker composition for a containerized runtime envi
 3. initialize `openldap` via: http://openldap.localhost/setup/
    - password: `change_me`
    - run ldap setup (follow instructions)
+   - create admin account (all fields required)
+4. set up `openldap` via: http://openldap.localhost/log_in/
+   - username: # set in step 3
+   - password: # set in step 3
    - create user account (all fields required)
 4. happy hacking!
 
@@ -29,6 +33,6 @@ This repository contains our Docker composition for a containerized runtime envi
 | `medienhaus-spaces` | http://localhost/ |
 | `etherpad-lite` | http://write.localhost/ |
 | `spacedeck-open` | http://sketch.localhost/ |
-| `matrix / `synapse` | http://matrix.localhost:8008/ |
+| matrix / `synapse` | http://matrix.localhost:8008/ |
 | `element-web` | http://element.localhost/ |
 | `traefik` dashboard | http://localhost:8080/ |
