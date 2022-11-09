@@ -27,9 +27,9 @@ This repository contains our Docker composition for a containerized runtime envi
 
 | Application / Service | URL / Link |
 | --- | --- |
-| medienhaus-spaces | http://localhost/ |
-| etherpad-lite | http://write.localhost/ |
-| spacedeck-open | http://sketch.localhost/ |
-| matrix / synapse | http://matrix.localhost:8008/ |
-| element-web | http://element.localhost/ |
-| traefik dashboard | http://localhost:8080/ |
+| `medienhaus-spaces` | http://localhost/ |
+| `etherpad-lite` | http://write.localhost/ |
+| `spacedeck-open` | http://sketch.localhost/ |
+| `matrix / `synapse` | http://matrix.localhost:8008/ |
+| `element-web` | http://element.localhost/ |
+| `traefik` dashboard | http://localhost:8080/ |
