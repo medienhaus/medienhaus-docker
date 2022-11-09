@@ -33,6 +33,6 @@ This repository contains our Docker composition for a containerized runtime envi
 | `medienhaus-spaces` | http://localhost/ |
 | `etherpad-lite` | http://write.localhost/ |
 | `spacedeck-open` | http://sketch.localhost/ |
-| matrix / `synapse` | http://matrix.localhost:8008/ |
+| `synapse` | http://matrix.localhost:8008/ |
 | `element-web` | http://element.localhost/ |
-| `traefik` dashboard | http://localhost:8080/ |
+| `traefik` | http://localhost:8080/ |
