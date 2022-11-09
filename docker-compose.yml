@@ -97,7 +97,7 @@ services:
       #LDAP_URI: "ldaps://openldap:636"
       LDAP_BASE_DN: "dc=medienhaus,dc=dev"
       LDAP_ADMIN_BIND_DN: "cn=admin,dc=medienhaus,dc=dev"
-      LDAP_ADMIN_BIND_PWD: "admin"
+      LDAP_ADMIN_BIND_PWD: "change_me"
       LDAP_ADMINS_GROUP: "admins"
       SERVER_HOSTNAME: "openldap.localhost"
       #SERVER_PATH: "/"
