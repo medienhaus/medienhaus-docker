@@ -280,7 +280,7 @@ services:
     #ports:
     #  - "5432:5432"
     volumes:
-      - ./data/matrix-synapse:/var/lib/postgresql/data:rw
+      - ./data/matrix-synapse/data:/var/lib/postgresql/data:rw
 
   nginx-matrix-synapse:
     image: nginx:latest
@@ -311,7 +311,7 @@ services:
     #ports:
     #  - "8008:8008"
     volumes:
-      - ./data/synapse:/data:rw
+      - ./data/matrix-synapse/synapse:/data:rw
       - ./config/matrix-synapse.yaml:/etc/matrix-synapse/homeserver.yaml:ro
 
   # ------------------------------------------------------
