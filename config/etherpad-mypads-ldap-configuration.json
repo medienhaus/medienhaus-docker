@@ -1,0 +1,22 @@
+{
+  "url": "ldap://openldap:389",
+  "bindDN": "cn=admin,dc=medienhaus,dc=dev",
+  "bindCredentials": "change_me",
+  "searchBase": "ou=users,dc=medienhaus,dc=dev",
+  "searchFilter": "(|(mail={{mail}})(uid={{username}}))",
+  "searchAttributes": [
+    "uid",
+    "mail",
+    "cn"
+  ],
+  "tlsOptions": {
+    "rejectUnauthorized": true
+  },
+  "properties": {
+    "login": "uid",
+    "email": "mail",
+    "firstname": "givenName",
+    "lastname": "sn"
+  },
+  "defaultLang": "en"
+}

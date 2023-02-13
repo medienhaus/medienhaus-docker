@@ -13,4 +13,4 @@
 [submodule "medienhaus-spaces"]
 	path = medienhaus-spaces
 	url = https://github.com/medienhaus/medienhaus-spaces
-	branch = chat-element
+	branch = explore-d3js

@@ -26,6 +26,10 @@
     "chatAndUsers": false,
     "lang": "en-us"
   },
+  "trustProxy": "true",
+  "cookie": {
+    "sameSite": "None"
+  },
   "users": {
     "admin": {
       "password": "change_me",

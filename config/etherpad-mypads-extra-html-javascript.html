@@ -1,0 +1,69 @@
+<script>
+  const searchInterval = window.setInterval(() => {
+    if (document.querySelector('main') !== null) {
+      window.clearInterval(searchInterval);
+
+      if (document.querySelector('#password-form') !== null) {
+        removeAllUnnecessaryObjects()
+
+        restyleCss()
+
+        document.querySelector('#password-form .ok').remove()
+
+        const btn = document.createElement('button')
+        btn.innerHTML = "GO"
+
+        btn.addEventListener('click', function (event) {
+          event.preventDefault();
+          checkPasswordInput();
+        })
+
+        document.querySelector('#password-form').appendChild(btn)
+      }
+    }
+  }, 100);
+
+  function checkPasswordInput() {
+    const padname = window.location.search.split('/').pop()
+    const pwd = document.querySelector('#password-form input[type="password"]')
+    const pwdB64 = btoa(encodeURIComponent(pwd.value))
+
+    fetch(window.location.protocol + '//' + window.location.host + '/mypads/api/pad/' + padname + '?=&password=' + pwdB64).then(response => {
+      if (response.status === 200) {
+        window.location.href = window.location.protocol + '//' + window.location.host + '/p/' + padname + '?&mypadspassword=' + pwdB64
+      }
+    })
+  }
+
+  function removeAllUnnecessaryObjects() {
+    document.querySelector('header').remove()
+    document.querySelector('footer').remove()
+    document.querySelector('aside').remove()
+
+    const form = document.querySelector('#password-form')
+
+    form.querySelector('label').remove()
+    form.querySelector('input').placeholder = '••••••••••••••••••••••••'
+  }
+
+  function restyleCss() {
+    const head = document.querySelector('HEAD')
+
+    const styles = head.querySelectorAll('link[rel="stylesheet"]')
+    styles.forEach(style => style.remove())
+
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.type = 'text/css'
+    link.href = 'https://0.rfws.de/share/style.css'
+
+    head.appendChild(link);
+
+    const link2 = document.createElement('link')
+    link2.rel = 'stylesheet'
+    link2.type = 'text/css'
+    link2.href = 'https://write.udk-berlin.de/static/skins/medienhaus/index.css?v=86f494ea'
+
+    head.appendChild(link2);
+  }
+</script>
