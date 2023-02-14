@@ -2,7 +2,7 @@ const WebpackConfig = require('./webpack.config.js');
 
 module.exports = {
     publicRuntimeConfig: {
-        name: 'medienhaus/spaces',
+        name: 'udk/spaces',
         authProviders: {
             matrix: {
                 // baseUrl: 'https://matrix.spaces.develop.medienhaus.dev',
