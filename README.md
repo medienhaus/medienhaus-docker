@@ -15,35 +15,49 @@ This repository contains our Docker composition for a containerized runtime envi
 ## Instructions
 
 1. fetch contents of submodules
+   <br>
    ```
    git submodule update --init --remote`
    ```
+
 2. create and edit `docker-compose.yml` file
+   <br>
    ```
    cp docker-compose.example.yml docker-compose.yml
    ```
    ```
    ${VISUAL:-${EDITOR:-vim}} docker-compose.yml
    ```
+
 3. create and edit `config/medienhaus-spaces.config.yml` file
+   <br>
    ```
    cp config/medienhaus-spaces.config.example.js config/medienhaus-spaces.config.js
    ```
    ```
    ${VISUAL:-${EDITOR:-vim}} config/medienhaus-spaces.config.js
    ```
+
 4. start docker composition
+   <br>
    ```
    docker-compose up -d --build --no-deps
    ```
+
 5. initialize `openldap` directory via: http://openldap.localhost/setup/
+   <br>
    - password: `change_me` *(configured via `.env`)*
    - run ldap setup (follow instructions)
    - create admin account *(all fields required)*
+   <br>
+
 6. set up `openldap` account(s) via: http://openldap.localhost/log_in/
+   <br>
    - username: *# set in step 3*
    - password: *# set in step 3*
    - create user account *(all fields required)*
+   <br>
+
 7. happy hacking!
 
 ## URLs / Links
