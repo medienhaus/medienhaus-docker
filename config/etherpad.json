@@ -10,7 +10,7 @@
     "port": "5432",
     "database": "etherpad",
     "user": "etherpad",
-    "password": "change_me"
+    "password": "${ETHERPAD_POSTGRES_PASSWORD}"
   },
   "defaultPadText" : "",
   "padOptions": {
@@ -32,7 +32,7 @@
   },
   "users": {
     "admin": {
-      "password": "change_me",
+      "password": "${ETHERPAD_ADMIN_PASSWORD}",
       "is_admin": true
     }
   },

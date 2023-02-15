@@ -6,15 +6,15 @@
   "port": 9666,
   "endpoint": "http://localhost:9666",
 
-  "invite_code": "change_me",
-  "session_key": "change_me",
+  "invite_code": "${SPACEDECK_INVITE_CODE}",
+  "session_key": "${SPACEDECK_SESSION_KEY}",
 
-  "export_api_secret": "change_me",
+  "export_api_secret": "${SPACEDECK_EXPORT_API_SECRET}",
 
   "storage_dialect": "postgres",
   "storage_host": "postgres-spacedeck",
   "storage_username": "spacedeck",
-  "storage_password": "change_me",
+  "storage_password": "${SPACEDECK_POSTGRES_PASSWORD}",
   "storage_database": "spacedeck",
 
   "storage_local_path": "./storage",
@@ -31,7 +31,7 @@
   "auth_type": "ldap",
   "auth_ldap_server": "ldap://openldap:389",
   "auth_ldap_bind_dn": "cn=admin,dc=medienhaus,dc=dev",
-  "auth_ldap_bind_credentials": "change_me",
+  "auth_ldap_bind_credentials": "${LDAP_BIND_PASSWORD}",
   "auth_ldap_search_base": "ou=users,dc=medienhaus,dc=dev",
   "auth_ldap_search_filter": "(|(mail={{mail}})(uid={{username}}))",
   "auth_ldap_search_attributes": ["uid", "mail", "cn"],

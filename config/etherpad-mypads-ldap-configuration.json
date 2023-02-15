@@ -1,7 +1,7 @@
 {
   "url": "ldap://openldap:389",
   "bindDN": "cn=admin,dc=medienhaus,dc=dev",
-  "bindCredentials": "change_me",
+  "bindCredentials": "${LDAP_BIND_PASSWORD}",
   "searchBase": "ou=users,dc=medienhaus,dc=dev",
   "searchFilter": "(|(mail={{mail}})(uid={{username}}))",
   "searchAttributes": [
