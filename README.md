@@ -25,7 +25,7 @@ This repository contains our Docker composition for a containerized runtime envi
 4. start docker composition
    - `docker-compose up -d --build --no-deps`
 5. initialize `openldap` directory via: http://openldap.localhost/setup/
-   - password: `change_me` (configured via `.env`)
+   - password: `change_me` *(configured via `.env`)*
    - run ldap setup (follow instructions)
    - create admin account *(all fields required)*
 6. set up `openldap` account(s) via: http://openldap.localhost/log_in/
