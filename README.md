@@ -16,16 +16,18 @@ This repository contains our Docker composition for a containerized runtime envi
 
 1. fetch contents of submodules
    - `git submodule update --init --remote`
-2. create `docker-compose.yml` file
+2. create and edit `docker-compose.yml` file
    - `cp docker-compose.example.yml docker-compose.yml`
-3. edit `docker-compose.yml` file
    - `${VISUAL:-${EDITOR:-vim}} docker-compose.yml`
-4. start `docker-compose.yml` composition
+3. create and edit `config/medienhaus-spaces.config.yml` file
+   - `cp config/medienhaus-spaces.config.example.js config/medienhaus-spaces.config.js`
+   - `${VISUAL:-${EDITOR:-vim}} config/medienhaus-spaces.config.js`
+4. start docker composition
    - `docker-compose up -d --build --no-deps`
 5. initialize `openldap` directory via: http://openldap.localhost/setup/
-   - password: `change_me`
+   - password: `change_me` (configured via `.env`)
    - run ldap setup (follow instructions)
-   - create admin account (all fields required)
+   - create admin account *(all fields required)*
 6. set up `openldap` account(s) via: http://openldap.localhost/log_in/
    - username: *# set in step 3*
    - password: *# set in step 3*
@@ -37,8 +39,8 @@ This repository contains our Docker composition for a containerized runtime envi
 | Application / Service | URL / Link |
 | --- | --- |
 | `medienhaus-spaces` | http://localhost/ |
+| `matrix-synapse` | http://matrix.localhost:8008/ |
+| `element-web` | http://element.localhost/ |
 | `etherpad-lite` | http://write.localhost/ |
 | `spacedeck-open` | http://sketch.localhost/ |
-| `synapse` | http://matrix.localhost:8008/ |
-| `element-web` | http://element.localhost/ |
 | `traefik` | http://localhost:8080/ |
