@@ -20,7 +20,16 @@ This repository contains our Docker composition for a containerized runtime envi
    git submodule update --init --remote
    ```
 
-2. create and edit `docker-compose.yml` file
+2. create and edit `.env` file
+   <br>
+   ```
+   cp .env.example .env
+   ```
+   ```
+   ${VISUAL:-${EDITOR:-vim}} .env
+   ```
+
+3. create and edit `docker-compose.yml` file
    <br>
    ```
    cp docker-compose.example.yml docker-compose.yml
@@ -29,7 +38,7 @@ This repository contains our Docker composition for a containerized runtime envi
    ${VISUAL:-${EDITOR:-vim}} docker-compose.yml
    ```
 
-3. create and edit `config/medienhaus-spaces.config.yml` file
+4. create and edit `config/medienhaus-spaces.config.yml` file
    <br>
    ```
    cp config/medienhaus-spaces.config.example.js config/medienhaus-spaces.config.js
@@ -38,23 +47,21 @@ This repository contains our Docker composition for a containerized runtime envi
    ${VISUAL:-${EDITOR:-vim}} config/medienhaus-spaces.config.js
    ```
 
-4. start docker composition
+5. start docker composition
    <br>
    ```
    docker-compose up -d --build --no-deps
    ```
 
-5. initialize `openldap` directory via: http://openldap.localhost/setup/
+6. initialize `openldap` directory via: http://openldap.localhost/setup/
    - password: `change_me` *(configured via `.env`)*
    - run ldap setup (follow instructions)
    - create admin account *(all fields required)*
 
-6. set up `openldap` account(s) via: http://openldap.localhost/log_in/
+7. set up `openldap` account(s) via: http://openldap.localhost/log_in/
    - username: *# set in step 3*
    - password: *# set in step 3*
    - create user account *(all fields required)*
-
-7. happy hacking!
 
 ## URLs / Links
 
