@@ -59,11 +59,18 @@ This repository contains our Docker composition for a containerized runtime envi
    - create admin account *(all fields required)*
 
 7. set up `openldap` account(s) via: http://openldap.localhost/log_in/
-   - username: *# set in step 3*
-   - password: *# set in step 3*
+   - username: *# set in previous step*
+   - password: *# set in previous step*
    - create user account *(all fields required)*
 
-## URLs / Links
+8. initialize `medienhaus-spaces` root context via: http://localhost/login/
+   - username: *# set in previous step*
+   - password: *# set in previous step*
+   - create root context *(follow instructions)*
+
+9. configure/un-comment root context in `.env` file *(at the very bottom)*
+
+## URLs / Links for default localhost setup
 
 | Application / Service | URL / Link |
 | --- | --- |
