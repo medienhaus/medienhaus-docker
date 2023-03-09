@@ -69,6 +69,10 @@ This repository contains our Docker composition for a containerized runtime envi
    - create root context *(follow instructions)*
 
 9. configure/un-comment root context in `.env` file *(at the very bottom)*
+   <br>
+   ```
+   ${VISUAL:-${EDITOR:-vim}} .env
+   ```
 
 ## URLs / Links for default localhost setup
 
