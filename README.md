@@ -17,7 +17,7 @@ This repository contains our Docker composition for a containerized runtime envi
 1. fetch contents of submodules
    <br>
    ```
-   git submodule update --init --remote`
+   git submodule update --init --remote
    ```
 
 2. create and edit `docker-compose.yml` file
