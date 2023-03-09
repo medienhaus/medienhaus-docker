@@ -55,7 +55,7 @@ This repository contains our Docker composition for a containerized runtime envi
 
 6. initialize `openldap` directory via: http://openldap.localhost/setup/
    - password: `change_me` *(configured via `.env`)*
-   - run ldap setup (follow instructions)
+   - run ldap setup *(follow instructions)*
    - create admin account *(all fields required)*
 
 7. set up `openldap` account(s) via: http://openldap.localhost/log_in/
