@@ -71,11 +71,11 @@ This repository contains our Docker composition for a containerized runtime envi
    ${VISUAL:-${EDITOR:-vim}} .env
    ```
 
-10. update `config/medienhaus-spaces.config.js` via root context in `.env`
-   <br>
-   ```
-   docker-compose -f docker-post-compose.yml up
-   ```
+10. substitute root context variable in `config/*` files via definition in `.env`
+    <br>
+    ```
+    docker-compose -f docker-post-compose.yml up
+    ```
 
 ## URLs / Links for default localhost setup
 
