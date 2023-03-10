@@ -47,28 +47,44 @@ This repository contains our Docker composition for a containerized runtime envi
    ${VISUAL:-${EDITOR:-vim}} config/medienhaus-spaces.config.js
    ```
 
-5. start docker composition
+5. generate `config/medienhaus-spaces.config.yml` file from template
+   <br>
+   ```
+   docker run --env-file .env --mount type=bind,src="$(pwd)/config",dst="/config" --rm busybox \
+     sh -c ' \
+       sed \
+         -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g"
+         -e "s/\${MATRIX_POSTGRES_PASSWORD}/${MATRIX_POSTGRES_PASSWORD}/g" \
+         -e "s/\${LDAP_BIND_PASSWORD}/${LDAP_BIND_PASSWORD}/g" \
+         -e "s/\${MATRIX_REGISTRATION_SECRET}/${MATRIX_REGISTRATION_SECRET}/g" \
+         -e "s/\${MATRIX_MACAROON_SECRET_KEY}/${MATRIX_MACAROON_SECRET_KEY}/g"\
+         -e "s/\${MATRIX_FORM_SECRET}/${MATRIX_FORM_SECRET}/g" \
+       /config/matrix-synapse.yaml.template > /config/matrix-synapse.yaml \
+     '
+   ```
+
+6. start docker composition
    <br>
    ```
    docker-compose up -d --build --no-deps
    ```
 
-6. initialize `openldap` directory via: http://openldap.localhost/setup/
+7. initialize `openldap` directory via: http://openldap.localhost/setup/
    - password: `change_me` *(configured via `.env`)*
    - run ldap setup *(follow instructions)*
    - create admin account *(all fields required)*
 
-7. set up `openldap` account(s) via: http://openldap.localhost/log_in/
+8. set up `openldap` account(s) via: http://openldap.localhost/log_in/
    - username: *# set in previous step*
    - password: *# set in previous step*
    - create user account *(all fields required)*
 
-8. initialize `medienhaus-spaces` root context via: http://localhost/login/
+9. initialize `medienhaus-spaces` root context via: http://localhost/login/
    - username: *# set in previous step*
    - password: *# set in previous step*
    - create root context *(follow instructions)*
 
-9. configure/un-comment root context in `.env` file *(at the very bottom)*
+10. configure/un-comment root context in `.env` file *(at the very bottom)*
    <br>
    ```
    ${VISUAL:-${EDITOR:-vim}} .env
