@@ -17,7 +17,7 @@ pid_file: "/data/homeserver.pid"
 listeners:
   - port: 8008
     tls: false
-    type: "http"
+    type: http
     x_forwarded: true
     resources:
       #- names: [client, federation]
@@ -49,6 +49,8 @@ password_providers:
       bind_dn: "cn=admin,dc=medienhaus,dc=dev"
       bind_password: "${LDAP_BIND_PASSWORD}"
 
+log_config: "/data/matrix-synapse.log.config"
+
 media_store_path: "/data/media_store"
 
 enable_registration: false
@@ -61,7 +63,7 @@ macaroon_secret_key: "${MATRIX_MACAROON_SECRET_KEY}"
 
 form_secret: "${MATRIX_FORM_SECRET}"
 
-signing_key_path: "/data/matrix.signing.key"
+signing_key_path: "/data/matrix-synapse.signing.key"
 
 trusted_key_servers:
   - server_name: "matrix.org"
