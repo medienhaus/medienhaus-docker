@@ -29,7 +29,7 @@ This repository contains our Docker composition for a containerized runtime envi
    ${VISUAL:-${EDITOR:-vim}} .env
    ```
 
-3. create and edit `docker-compose.yml` file
+3. create, edit, and understand `docker-compose.yml` file
    <br>
    ```
    cp docker-compose.example.yml docker-compose.yml
@@ -38,56 +38,43 @@ This repository contains our Docker composition for a containerized runtime envi
    ${VISUAL:-${EDITOR:-vim}} docker-compose.yml
    ```
 
-4. create and edit `config/medienhaus-spaces.config.yml` file
+4. substitute variables in `config/*` files via definitions in `.env`
    <br>
    ```
-   cp config/medienhaus-spaces.config.example.js config/medienhaus-spaces.config.js
-   ```
-   ```
-   ${VISUAL:-${EDITOR:-vim}} config/medienhaus-spaces.config.js
+   docker-compose -f docker-pre-compose.yml up
    ```
 
-5. generate `config/medienhaus-spaces.config.yml` file from template
-   <br>
-   ```
-   docker run --env-file .env --mount type=bind,src="$(pwd)/config",dst="/config" --rm busybox \
-     sh -c ' \
-       sed \
-         -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-         -e "s/\${MATRIX_POSTGRES_PASSWORD}/${MATRIX_POSTGRES_PASSWORD}/g" \
-         -e "s/\${LDAP_BIND_PASSWORD}/${LDAP_BIND_PASSWORD}/g" \
-         -e "s/\${MATRIX_REGISTRATION_SECRET}/${MATRIX_REGISTRATION_SECRET}/g" \
-         -e "s/\${MATRIX_MACAROON_SECRET_KEY}/${MATRIX_MACAROON_SECRET_KEY}/g"\
-         -e "s/\${MATRIX_FORM_SECRET}/${MATRIX_FORM_SECRET}/g" \
-       /config/matrix-synapse.yaml.template > /config/matrix-synapse.yaml \
-     '
-   ```
-
-6. start docker composition
+5. start docker composition
    <br>
    ```
    docker-compose up -d --build --no-deps
    ```
 
-7. initialize `openldap` directory via: http://openldap.localhost/setup/
+6. initialize `openldap` directory via: http://openldap.localhost/setup/
    - password: `change_me` *(configured via `.env`)*
    - run ldap setup *(follow instructions)*
    - create admin account *(all fields required)*
 
-8. set up `openldap` account(s) via: http://openldap.localhost/log_in/
+7. set up `openldap` account(s) via: http://openldap.localhost/log_in/
    - username: *# set in previous step*
    - password: *# set in previous step*
    - create user account *(all fields required)*
 
-9. initialize `medienhaus-spaces` root context via: http://localhost/login/
+8. initialize `medienhaus-spaces` root context via: http://localhost/login/
    - username: *# set in previous step*
    - password: *# set in previous step*
    - create root context *(follow instructions)*
 
-10. configure/un-comment root context in `.env` file *(at the very bottom)*
+9. configure/un-comment root context in `.env` file *(at the very bottom)*
    <br>
    ```
    ${VISUAL:-${EDITOR:-vim}} .env
+   ```
+
+10. substitute root context variable in `config/*` files via definition in `.env`
+   <br>
+   ```
+   docker-compose -f docker-post-compose.yml up
    ```
 
 ## URLs / Links for default localhost setup
