@@ -53,7 +53,7 @@ This repository contains our Docker composition for a containerized runtime envi
    docker run --env-file .env --mount type=bind,src="$(pwd)/config",dst="/config" --rm busybox \
      sh -c ' \
        sed \
-         -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g"
+         -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
          -e "s/\${MATRIX_POSTGRES_PASSWORD}/${MATRIX_POSTGRES_PASSWORD}/g" \
          -e "s/\${LDAP_BIND_PASSWORD}/${LDAP_BIND_PASSWORD}/g" \
          -e "s/\${MATRIX_REGISTRATION_SECRET}/${MATRIX_REGISTRATION_SECRET}/g" \
