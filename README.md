@@ -47,7 +47,7 @@ This repository contains our Docker composition for a containerized runtime envi
 5. start docker composition
    <br>
    ```
-   docker-compose up -d --build --no-deps
+   docker-compose up -d --build --no-deps --remove-orphans
    ```
 
 6. initialize `openldap` directory via: http://openldap.localhost/setup/
