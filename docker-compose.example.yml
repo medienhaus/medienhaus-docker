@@ -428,8 +428,8 @@ services:
     volumes:
       - ./config/medienhaus-spaces.config.js:/usr/src/app/next.config.js:ro
       - ./medienhaus-spaces:/usr/src/app:rw
-      - /usr/src/app/node_modules:rw
-      - /usr/src/app/.next:rw
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
 
   element-medienhaus-spaces:
     image: vectorim/element-web:latest
@@ -450,12 +450,12 @@ services:
       - ./config/element-medienhaus-spaces.json:/app/config.json:ro
 
 # ------------------------------------------------------
-# networks
+# networks (example)
 # ------------------------------------------------------
 
-networks:
-  default:
-    driver: bridge
+#networks:
+#  default:
+#    driver: bridge
 
 # ------------------------------------------------------
 # volumes (example)
