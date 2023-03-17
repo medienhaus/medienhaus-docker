@@ -12,7 +12,7 @@
 
 server_name: "${MATRIX_SERVERNAME}"
 
-public_baseurl: "${MATRIX_BASEURL}"
+public_baseurl: "${HTTP_SCHEMA}://${MATRIX_BASEURL}/"
 
 pid_file: "/data/homeserver.pid"
 
