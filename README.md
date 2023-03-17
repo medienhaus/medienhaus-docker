@@ -41,13 +41,13 @@ This repository contains our Docker composition for a containerized runtime envi
 4. substitute variables in `config/*` files via definitions in `.env`
    <br>
    ```
-   docker-compose -f docker-pre-compose.yml up
+   docker compose -f docker-pre-compose.yml up
    ```
 
 5. start docker composition
    <br>
    ```
-   docker-compose up -d --build --no-deps --remove-orphans
+   docker compose up -d --build --no-deps --remove-orphans
    ```
 
 6. initialize `openldap` directory via: http://openldap.localhost/setup/
@@ -74,7 +74,7 @@ This repository contains our Docker composition for a containerized runtime envi
 10. substitute root context variable in `config/*` files via definition in `.env`
     <br>
     ```
-    docker-compose -f docker-post-compose.yml up
+    docker compose -f docker-post-compose.yml up
     ```
 
 ## URLs / Links for default localhost setup
