@@ -5,12 +5,12 @@ module.exports = {
         name: '${SPACES_APP_PREFIX}/spaces',
         authProviders: {
             matrix: {
-                baseUrl: '${HTTP_SCHEMA}://matrix.${SPACES_HOSTNAME}',
+                baseUrl: '${HTTP_SCHEMA}://${MATRIX_BASEURL}',
                 // api: '${HTTP_SCHEMA}://api.${SPACES_HOSTNAME}',
                 allowCustomHomeserver: true,
             },
             // matrixContentStorage: {
-            //     baseUrl: '${HTTP_SCHEMA}://matrix.${SPACES_HOSTNAME}',
+            //     baseUrl: '${HTTP_SCHEMA}://${MATRIX_BASEURL}',
             // },
             write: {
                 baseUrl: '${HTTP_SCHEMA}://write.${SPACES_HOSTNAME}/p',

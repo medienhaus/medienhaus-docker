@@ -10,7 +10,9 @@
 # each option, go to docs/usage/configuration/config_documentation.md or
 # https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html
 
-server_name: "matrix.${SPACES_HOSTNAME}"
+server_name: "${MATRIX_SERVERNAME}"
+
+public_baseurl: "${MATRIX_BASEURL}"
 
 pid_file: "/data/homeserver.pid"
 

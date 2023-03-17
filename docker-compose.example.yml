@@ -353,7 +353,7 @@ services:
       traefik.http.routers.nginx-matrix-synapse.entrypoints: "web"
       #traefik.http.routers.nginx-matrix-synapse.entrypoints: "websecure"
       #traefik.http.routers.nginx-matrix-synapse.tls.certresolver: "myresolver"
-      traefik.http.routers.nginx-matrix-synapse.rule: "Host(`matrix.${SPACES_HOSTNAME}`)"
+      traefik.http.routers.nginx-matrix-synapse.rule: "Host(`${MATRIX_BASEURL}`)"
     ports:
       - "8008:80"
       #- "8448:443"
