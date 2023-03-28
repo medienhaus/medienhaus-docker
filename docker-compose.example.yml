@@ -210,8 +210,8 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.nginx-etherpad.entrypoints: "web"
-      #traefik.http.routers.etherpad.entrypoints: "websecure"
-      #traefik.http.routers.etherpad.tls.certresolver: "myresolver"
+      #traefik.http.routers.nginx-etherpad.entrypoints: "websecure"
+      #traefik.http.routers.nginx-etherpad.tls.certresolver: "myresolver"
       traefik.http.routers.nginx-etherpad.rule: "Host(`write.${SPACES_HOSTNAME}`)"
     #ports:
     #  - "9001:80"
@@ -296,8 +296,8 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.nginx-spacedeck.entrypoints: "web"
-      #traefik.http.routers.spacedeck.entrypoints: "websecure"
-      #traefik.http.routers.spacedeck.tls.certresolver: "myresolver"
+      #traefik.http.routers.nginx-spacedeck.entrypoints: "websecure"
+      #traefik.http.routers.nginx-spacedeck.tls.certresolver: "myresolver"
       traefik.http.routers.nginx-spacedeck.rule: "Host(`sketch.${SPACES_HOSTNAME}`)"
     #ports:
     #  - "9666:80"
@@ -376,8 +376,8 @@ services:
     #labels:
     #  traefik.enable: "true"
     #  traefik.http.routers.matrix-synapse.entrypoints: "web"
-    #  #traefik.http.routers.nginx-matrix-synapse.entrypoints: "websecure"
-    #  #traefik.http.routers.nginx-matrix-synapse.tls.certresolver: "myresolver"
+    #  #traefik.http.routers.matrix-synapse.entrypoints: "websecure"
+    #  #traefik.http.routers.matrix-synapse.tls.certresolver: "myresolver"
     #  traefik.http.routers.matrix-synapse.rule: "Host(`matrix.${SPACES_HOSTNAME}`)"
     #ports:
     #  - "8008:8008"
