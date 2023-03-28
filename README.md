@@ -77,12 +77,14 @@ This repository contains our Docker composition for a containerized runtime envi
     docker compose -f docker-post-compose.yml up
     ```
 
-11. configure `mypads` via: http://write.localhost/mypads/?/admin
+11. initialize `mypads` via: http://write.localhost/mypads/?/admin
     - username: `admin` *(configured via `config/etherpad.json`)*
     - password: `change_me` *(configured via `.env`)*
-      1. copy/paste “Extra HTML for &lt;head&gt;” via `config/etherpad-mypads-extra-html-javascript.html`
-      2. open “Authentication method” dropdown menu and select `LDAP` as authentication method
-      3. copy/paste “LDAP settings” via `config/etherpad-mypads-ldap-configuration.json`
+
+12. configure `mypads` via: http://write.localhost/mypads/?/admin
+    - copy/paste “Extra HTML for &lt;head&gt;” via `config/etherpad-mypads-extra-html-javascript.html`
+    - open “Authentication method” dropdown menu and select `LDAP` as authentication method
+    - copy/paste “LDAP settings” via `config/etherpad-mypads-ldap-configuration.json`
 
 ## URLs / Links for default localhost setup
 
