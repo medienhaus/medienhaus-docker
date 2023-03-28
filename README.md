@@ -86,6 +86,8 @@ This repository contains our Docker composition for a containerized runtime envi
     - open “Authentication method” dropdown menu and select `LDAP` as authentication method
     - copy/paste “LDAP settings” via `config/etherpad-mypads-ldap-configuration.json`
 
+<br>
+
 ## URLs / Links for default localhost setup
 
 | Application / Service | URL / Link |
