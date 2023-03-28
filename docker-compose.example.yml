@@ -212,7 +212,7 @@ services:
       traefik.http.routers.nginx-etherpad.entrypoints: "web"
       #traefik.http.routers.etherpad.entrypoints: "websecure"
       #traefik.http.routers.etherpad.tls.certresolver: "myresolver"
-      traefik.http.routers.nginx-etherpad.rule: "Host(`write.${SPACES_HOSTNAME})"
+      traefik.http.routers.nginx-etherpad.rule: "Host(`write.${SPACES_HOSTNAME}`)"
     #ports:
     #  - "9001:80"
     volumes:
