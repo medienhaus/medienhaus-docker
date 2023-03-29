@@ -82,9 +82,9 @@ This repository contains our Docker composition for a containerized runtime envi
     - password: `change_me` *(configured via `.env`)*
 
 12. configure `mypads` via: http://write.localhost/mypads/?/admin
-    - copy and paste `config/etherpad-mypads-extra-html-javascript.html` into “Extra HTML for &lt;head&gt;”
+    - copy/paste `config/etherpad-mypads-extra-html-javascript.html` into “Extra HTML for &lt;head&gt;”
     - click the “Authentication method” dropdown menu and select `LDAP` as authentication method
-    - copy and paste `config/etherpad-mypads-ldap-configuration.json` into “LDAP settings”
+    - copy/paste `config/etherpad-mypads-ldap-configuration.json` into “LDAP settings”
 
 <br>
 
