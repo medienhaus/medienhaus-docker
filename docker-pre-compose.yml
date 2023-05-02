@@ -120,6 +120,7 @@ services:
       - .env
     command: >
       sed -i
+          -e "s/\$${HTTP_SCHEMA}/${HTTP_SCHEMA}/g"
           -e "s/\$${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g"
           -e "s/\$${MATRIX_BASEURL}/${MATRIX_BASEURL}/g"
           -e "s/\$${MATRIX_POSTGRES_PASSWORD}/${MATRIX_POSTGRES_PASSWORD}/g"
