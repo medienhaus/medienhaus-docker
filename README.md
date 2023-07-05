@@ -70,9 +70,9 @@ This repository contains our Docker composition for a containerized runtime envi
     - copy content from  `config/etherpad-mypads-ldap-configuration.json` and paste into “LDAP settings” input/textarea field
 
 10. now open `medienhaus-spaces` and log in via: http://localhost/login/
-   - username: *# set in previous step*
-   - password: *# set in previous step*
-   - *explore and have fun*
+    - username: *# set in previous step*
+    - password: *# set in previous step*
+    - *explore and have fun*
 
 <br>
 
