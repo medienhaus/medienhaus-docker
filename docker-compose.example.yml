@@ -380,7 +380,7 @@ services:
     #  traefik.http.routers.matrix-synapse.entrypoints: "web"
     #  #traefik.http.routers.matrix-synapse.entrypoints: "websecure"
     #  #traefik.http.routers.matrix-synapse.tls.certresolver: "myresolver"
-    #  traefik.http.routers.matrix-synapse.rule: "Host(`matrix.${SPACES_HOSTNAME}`)"
+    #  traefik.http.routers.matrix-synapse.rule: "Host(`${MATRIX_BASEURL}`)"
     #ports:
     #  - "8008:8008"
     #  #- "8448:8448"
