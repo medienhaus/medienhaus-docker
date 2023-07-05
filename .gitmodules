@@ -8,9 +8,9 @@
 	branch = main
 [submodule "spacedeck-open"]
 	path = spacedeck-open
-	url = https://github.com/arillo/spacedeck-open.git
-	branch = feature/merge-mnt
+	url = https://github.com/medienhaus/spacedeck-open.git
+	branch = mnt
 [submodule "medienhaus-spaces"]
 	path = medienhaus-spaces
-	url = https://github.com/medienhaus/medienhaus-spaces
+	url = https://github.com/medienhaus/medienhaus-spaces.git
 	branch = develop
