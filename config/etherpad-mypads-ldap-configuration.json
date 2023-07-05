@@ -1,20 +1,20 @@
 {
-  "url": "ldap://openldap:389",
-  "bindDN": "cn=admin,dc=medienhaus,dc=dev",
+  "url": "${LDAP_SCHEME}://${LDAP_HOST}:${LDAP_PORT}",
+  "bindDN": "${LDAP_BIND_DN}",
   "bindCredentials": "${LDAP_BIND_PASSWORD}",
-  "searchBase": "ou=users,dc=medienhaus,dc=dev",
-  "searchFilter": "(|(mail={{mail}})(uid={{username}}))",
+  "searchBase": "${LDAP_BASE}",
+  "searchFilter": "(|(${LDAP_ATTRIBUTE_MAIL}={{mail}})(${LDAP_ATTRIBUTE_UID}={{username}}))",
   "searchAttributes": [
-    "uid",
-    "mail",
-    "cn"
+    "${LDAP_ATTRIBUTE_UID}",
+    "${LDAP_ATTRIBUTE_MAIL}",
+    "${LDAP_ATTRIBUTE_NAME}"
   ],
   "tlsOptions": {
     "rejectUnauthorized": true
   },
   "properties": {
-    "login": "uid",
-    "email": "mail",
+    "login": "${LDAP_ATTRIBUTE_UID}",
+    "email": "${LDAP_ATTRIBUTE_MAIL}",
     "firstname": "givenName",
     "lastname": "sn"
   },

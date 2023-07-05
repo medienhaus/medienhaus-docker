@@ -41,14 +41,14 @@ password_providers:
     config:
       enabled: true
       mode: "search"
-      uri: "ldap://openldap:389"
-      start_tls: false
-      base: "dc=medienhaus,dc=dev"
+      uri: "${LDAP_SCHEME}://${LDAP_HOST}:${LDAP_PORT}"
+      start_tls: ${LDAP_STARTTLS}
+      base: "${LDAP_BASE}"
       attributes:
-        uid: "uid"
-        mail: "mail"
-        name: "cn"
-      bind_dn: "cn=admin,dc=medienhaus,dc=dev"
+        uid: "${LDAP_ATTRIBUTE_UID}"
+        mail: "${LDAP_ATTRIBUTE_MAIL}"
+        name: "${LDAP_ATTRIBUTE_NAME}"
+      bind_dn: "${LDAP_BIND_DN}"
       bind_password: "${LDAP_BIND_PASSWORD}"
 
 log_config: "/data/matrix-synapse.log.config"
