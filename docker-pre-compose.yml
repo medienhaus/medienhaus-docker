@@ -123,6 +123,7 @@ services:
       - .env
     command: >
       sed -i
+          -e "s/\$${HTTP_SCHEMA}/${HTTP_SCHEMA}/g"
           -e "s/\$${MATRIX_BASEURL}/${MATRIX_BASEURL}/g"
           /tmp/nginx-matrix-synapse.conf
     volumes:
