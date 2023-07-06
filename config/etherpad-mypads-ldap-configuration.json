@@ -1,5 +1,5 @@
 {
-  "url": "${LDAP_SCHEME}://${LDAP_HOST}:${LDAP_PORT}",
+  "url": "${LDAP_SCHEMA}://${LDAP_HOST}:${LDAP_PORT}",
   "bindDN": "${LDAP_BIND_DN}",
   "bindCredentials": "${LDAP_BIND_PASSWORD}",
   "searchBase": "${LDAP_BASE}",

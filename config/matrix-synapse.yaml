@@ -41,7 +41,7 @@ password_providers:
     config:
       enabled: true
       mode: "search"
-      uri: "${LDAP_SCHEME}://${LDAP_HOST}:${LDAP_PORT}"
+      uri: "${LDAP_SCHEMA}://${LDAP_HOST}:${LDAP_PORT}"
       start_tls: ${LDAP_STARTTLS}
       base: "${LDAP_BASE}"
       attributes:

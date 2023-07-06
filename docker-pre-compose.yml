@@ -55,7 +55,7 @@ services:
       - .env
     command: >
       sed -i
-          -e "s/\$${LDAP_SCHEME}/${LDAP_SCHEME}/g"
+          -e "s/\$${LDAP_SCHEMA}/${LDAP_SCHEMA}/g"
           -e "s/\$${LDAP_HOST}/${LDAP_HOST}/g"
           -e "s/\$${LDAP_PORT}/${LDAP_PORT}/g"
           -e "s/\$${LDAP_BASE}/${LDAP_BASE}/g"
@@ -98,7 +98,7 @@ services:
           -e "s/\$${SPACEDECK_SESSION_KEY}/${SPACEDECK_SESSION_KEY}/g"
           -e "s/\$${SPACEDECK_EXPORT_API_SECRET}/${SPACEDECK_EXPORT_API_SECRET}/g"
           -e "s/\$${SPACEDECK_POSTGRES_PASSWORD}/${SPACEDECK_POSTGRES_PASSWORD}/g"
-          -e "s/\$${LDAP_SCHEME}/${LDAP_SCHEME}/g"
+          -e "s/\$${LDAP_SCHEMA}/${LDAP_SCHEMA}/g"
           -e "s/\$${LDAP_HOST}/${LDAP_HOST}/g"
           -e "s/\$${LDAP_PORT}/${LDAP_PORT}/g"
           -e "s/\$${LDAP_BASE}/${LDAP_BASE}/g"
@@ -140,7 +140,7 @@ services:
           -e "s/\$${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g"
           -e "s/\$${MATRIX_BASEURL}/${MATRIX_BASEURL}/g"
           -e "s/\$${MATRIX_POSTGRES_PASSWORD}/${MATRIX_POSTGRES_PASSWORD}/g"
-          -e "s/\$${LDAP_SCHEME}/${LDAP_SCHEME}/g"
+          -e "s/\$${LDAP_SCHEMA}/${LDAP_SCHEMA}/g"
           -e "s/\$${LDAP_HOST}/${LDAP_HOST}/g"
           -e "s/\$${LDAP_PORT}/${LDAP_PORT}/g"
           -e "s/\$${LDAP_STARTTLS}/${LDAP_STARTTLS}/g"
