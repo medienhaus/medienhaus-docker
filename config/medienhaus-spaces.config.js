@@ -8,7 +8,8 @@ module.exports = {
                 baseUrl: '${HTTP_SCHEMA}://${MATRIX_BASEURL}',
                 allowCustomHomeserver: true,
             },
-            write: {
+            etherpad: {
+                path: '/write',
                 baseUrl: '${HTTP_SCHEMA}://write.${SPACES_HOSTNAME}/p',
                 api: '${HTTP_SCHEMA}://write.${SPACES_HOSTNAME}/mypads/api'
             },
@@ -22,6 +23,18 @@ module.exports = {
         chat: {
             pathToElement: '${HTTP_SCHEMA}://${SPACES_HOSTNAME}/element',
         },
+    },
+    async rewrites() {
+        return [
+            {
+                source: this.publicRuntimeConfig.authProviders.etherpad.path,
+                destination: '/etherpad',
+            },
+            {
+                source: this.publicRuntimeConfig.authProviders.etherpad.path + '/:roomId',
+                destination: '/etherpad/:roomId',
+            },
+        ];
     },
     eslint: {
         ignoreDuringBuilds: true,
