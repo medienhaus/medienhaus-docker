@@ -1,7 +1,7 @@
 [submodule "etherpad-lite"]
 	path = etherpad-lite
 	url = https://github.com/ether/etherpad-lite.git
-	branch = develop
+	branch = master
 [submodule "etherpad-skin-medienhaus"]
 	path = etherpad-skin-medienhaus
 	url = https://github.com/medienhaus/etherpad-skin-medienhaus.git
