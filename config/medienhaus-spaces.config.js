@@ -10,11 +10,11 @@ module.exports = {
             },
             etherpad: {
                 path: '/write',
-                baseUrl: '${HTTP_SCHEMA}://write.${SPACES_HOSTNAME}/p',
-                api: '${HTTP_SCHEMA}://write.${SPACES_HOSTNAME}/mypads/api'
+                baseUrl: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/p',
+                api: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/mypads/api'
             },
             sketch: {
-                baseUrl: '${HTTP_SCHEMA}://sketch.${SPACES_HOSTNAME}',
+                baseUrl: '${HTTP_SCHEMA}://spacedeck.${SPACES_HOSTNAME}',
             },
         },
         account: {

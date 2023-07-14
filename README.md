@@ -60,11 +60,11 @@ This repository contains our Docker composition for a containerized runtime envi
    - password: *# set in previous step*
    - create user account *(all fields required)*
 
-8. initialize `mypads` via: http://write.localhost/mypads/?/admin
+8. initialize `mypads` via: http://etherpad.localhost/mypads/?/admin
     - username: `admin` *(configured via `config/etherpad.json`)*
     - password: `change_me` *(configured via `.env`)*
 
-9. configure `mypads` via: http://write.localhost/mypads/?/admin
+9. configure `mypads` via: http://etherpad.localhost/mypads/?/admin
     - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
     - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
     - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
@@ -85,7 +85,7 @@ This repository contains our Docker composition for a containerized runtime envi
 | `medienhaus-spaces` | http://localhost/ |
 | `matrix-synapse` | http://matrix.localhost:8008/ |
 | `element-web` | http://element.localhost/ |
-| `etherpad-lite` | http://write.localhost/ |
-| `spacedeck-open` | http://sketch.localhost/ |
+| `etherpad-lite` | http://etherpad.localhost/ |
+| `spacedeck-open` | http://spacedeck.localhost/ |
 | `ldap-user-manager` | http://openldap.localhost/ |
 | `traefik` | http://localhost:8080/ |
