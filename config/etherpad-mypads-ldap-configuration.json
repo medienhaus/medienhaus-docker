@@ -2,12 +2,11 @@
   "url": "${LDAP_SCHEMA}://${LDAP_HOST}:${LDAP_PORT}",
   "bindDN": "${LDAP_BIND_DN}",
   "bindCredentials": "${LDAP_BIND_PASSWORD}",
-  "searchBase": "${LDAP_BASE}",
+  "searchBase": "${LDAP_SEARCH_BASE}",
   "searchFilter": "(|(${LDAP_ATTRIBUTE_MAIL}={{mail}})(${LDAP_ATTRIBUTE_UID}={{username}}))",
   "searchAttributes": [
     "${LDAP_ATTRIBUTE_UID}",
-    "${LDAP_ATTRIBUTE_MAIL}",
-    "${LDAP_ATTRIBUTE_NAME}"
+    "${LDAP_ATTRIBUTE_MAIL}"
   ],
   "tlsOptions": {
     "rejectUnauthorized": true
@@ -15,8 +14,8 @@
   "properties": {
     "login": "${LDAP_ATTRIBUTE_UID}",
     "email": "${LDAP_ATTRIBUTE_MAIL}",
-    "firstname": "givenName",
-    "lastname": "sn"
+    "firstname": "${LDAP_ATTRIBUTE_FIRSTNAME}",
+    "lastname": "${LDAP_ATTRIBUTE_LASTNAME}"
   },
   "defaultLang": "en"
 }

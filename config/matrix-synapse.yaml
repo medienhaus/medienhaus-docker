@@ -43,7 +43,7 @@ password_providers:
       mode: "search"
       uri: "${LDAP_SCHEMA}://${LDAP_HOST}:${LDAP_PORT}"
       start_tls: ${LDAP_STARTTLS}
-      base: "${LDAP_BASE}"
+      base: "${LDAP_SEARCH_BASE}"
       attributes:
         uid: "${LDAP_ATTRIBUTE_UID}"
         mail: "${LDAP_ATTRIBUTE_MAIL}"

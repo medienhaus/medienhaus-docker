@@ -10,7 +10,7 @@ Customizable, modular, free and open-source environment for decentralized, distr
 
 # medienhaus-docker
 
-This repository contains our Docker composition for a containerized runtime environment of [medienhaus-spaces](https://github.com/medienhaus/medienhaus-spaces/) including [synapse](https://github.com/matrix-org/synapse/), [element-web](https://github.com/vector-im/element-web/), [etherpad-lite](https://github.com/ether/etherpad-lite/), [spacedeck-open](https://github.com/medienhaus/spacedeck-open/), [openldap](https://github.com/osixia/docker-openldap/), and [ldap-user-manager](https://github.com/wheelybird/ldap-user-manager/).
+This repository contains our Docker composition for a containerized runtime environment of [medienhaus-spaces](https://github.com/medienhaus/medienhaus-spaces/) including [matrix-synapse](https://github.com/matrix-org/synapse/), [element-web](https://github.com/vector-im/element-web/), [etherpad-lite](https://github.com/ether/etherpad-lite/), [spacedeck-open](https://github.com/medienhaus/spacedeck-open/), and [lldap](https://github.com/lldap/lldap).
 
 ## Instructions
 
@@ -50,31 +50,26 @@ This repository contains our Docker composition for a containerized runtime envi
    docker compose up -d --build --no-deps --remove-orphans
    ```
 
-6. initialize `openldap` directory via: http://openldap.localhost/setup/
+6. set up `lldap` account(s) via: http://ldap.localhost/
+   - username: `admin` *(configured via `.env`)*
    - password: `change_me` *(configured via `.env`)*
-   - run ldap setup *(follow instructions)*
-   - create admin account *(all fields required)*
+   - create user account(s)
 
-7. set up `openldap` account(s) via: http://openldap.localhost/log_in/
-   - username: *# set in previous step*
-   - password: *# set in previous step*
-   - create user account *(all fields required)*
-
-8. initialize `mypads` via: http://etherpad.localhost/mypads/?/admin
+7. initialize `mypads` via: http://etherpad.localhost/mypads/?/admin
     - username: `admin` *(configured via `config/etherpad.json`)*
     - password: `change_me` *(configured via `.env`)*
 
-9. configure `mypads` via: http://etherpad.localhost/mypads/?/admin
+8. configure `mypads` via: http://etherpad.localhost/mypads/?/admin
     - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
     - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
     - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
     - copy content from the `config/etherpad-mypads-ldap-configuration.json` file
     - paste the copied content into the **“LDAP settings”** input/textarea field
 
-10. now open `medienhaus-spaces` and log in via: http://localhost/login/
-    - username: *# set in previous step*
-    - password: *# set in previous step*
-    - *explore and have fun*
+9. now open `medienhaus-spaces` and log in via: http://localhost/login/
+   - username: *# set in previous step*
+   - password: *# set in previous step*
+   - *explore and have fun*
 
 <br>
 
@@ -87,5 +82,5 @@ This repository contains our Docker composition for a containerized runtime envi
 | `element-web` | http://element.localhost/ |
 | `etherpad-lite` | http://etherpad.localhost/ |
 | `spacedeck-open` | http://spacedeck.localhost/ |
-| `ldap-user-manager` | http://openldap.localhost/ |
+| `lldap` | http://ldap.localhost/ |
 | `traefik` | http://localhost:8080/ |
