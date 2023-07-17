@@ -56,15 +56,15 @@ This repository contains our Docker composition for a containerized runtime envi
    - create user account(s)
 
 7. initialize `mypads` via: http://etherpad.localhost/mypads/?/admin
-    - username: `admin` *(configured via `config/etherpad.json`)*
-    - password: `change_me` *(configured via `.env`)*
+   - username: `admin` *(configured via `config/etherpad.json`)*
+   - password: `change_me` *(configured via `.env`)*
 
 8. configure `mypads` via: http://etherpad.localhost/mypads/?/admin
-    - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
-    - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
-    - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
-    - copy content from the `config/etherpad-mypads-ldap-configuration.json` file
-    - paste the copied content into the **“LDAP settings”** input/textarea field
+   - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
+   - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
+   - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
+   - copy content from the `config/etherpad-mypads-ldap-configuration.json` file
+   - paste the copied content into the **“LDAP settings”** input/textarea field
 
 9. now open `medienhaus-spaces` and log in via: http://localhost/login/
    - username: *# set in previous step*
