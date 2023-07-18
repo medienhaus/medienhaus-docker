@@ -29,13 +29,15 @@ This repository contains our Docker composition for a containerized runtime envi
    ${VISUAL:-${EDITOR:-vim}} .env
    ```
 
-3. create, edit, and understand `docker-compose.yml` file
+3. create `docker-compose.yml` file
    <br>
+   - for localhost with unsecured `http` context
    ```
    cp docker-compose.example.yml docker-compose.yml
    ```
+   - for production with encrypted `https` context
    ```
-   ${VISUAL:-${EDITOR:-vim}} docker-compose.yml
+   cp docker-compose.example.yml docker-compose.yml
    ```
 
 4. substitute variables in `config/*` files via definitions in `.env`
