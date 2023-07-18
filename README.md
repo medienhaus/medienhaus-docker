@@ -31,13 +31,12 @@ This repository contains our Docker composition for a containerized runtime envi
 
 3. create `docker-compose.yml` file
    <br>
-   - for localhost with unsecured `http` context
    ```
    cp docker-compose.example.yml docker-compose.yml
    ```
-   - for production with encrypted `https` context
+   ⚠️ For *production*, please use [`docker-compose.websecure.yml`](docker-compose.websecure.yml) with secured `https` context! ⚠️
    ```
-   cp docker-compose.example.yml docker-compose.yml
+   cp docker-compose.websecure.yml docker-compose.yml
    ```
 
 4. substitute variables in `config/*` files via definitions in `.env`
@@ -69,9 +68,6 @@ This repository contains our Docker composition for a containerized runtime envi
    - paste the copied content into the **“LDAP settings”** input/textarea field
 
 9. now open `medienhaus-spaces` and log in via: http://localhost/login/
-   - username: *# set in previous step*
-   - password: *# set in previous step*
-   - *explore and have fun*
 
 <br>
 
