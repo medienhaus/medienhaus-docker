@@ -51,23 +51,23 @@ This repository contains our Docker composition for a containerized runtime envi
    docker compose up -d --build --no-deps --remove-orphans
    ```
 
-6. set up `lldap` account(s) via: http://ldap.localhost/
+6. set up `lldap` user account(s) via: http://ldap.localhost/
    - username: `admin` *(configured via `.env`)*
    - password: `change_me` *(configured via `.env`)*
    - create user account(s)
 
-7. initialize `mypads` via: http://etherpad.localhost/mypads/?/admin
+7. initialize etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
    - username: `admin` *(configured via `config/etherpad.json`)*
    - password: `change_me` *(configured via `.env`)*
 
-8. configure `mypads` via: http://etherpad.localhost/mypads/?/admin
+8. configure etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
    - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
    - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
    - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
    - copy content from the `config/etherpad-mypads-ldap-configuration.json` file
    - paste the copied content into the **“LDAP settings”** input/textarea field
 
-9. now open `medienhaus-spaces` and log in via: http://localhost/login/
+9. now open `medienhaus-spaces` and log in via: http://localhost/login
 
 <br>
 
@@ -76,9 +76,8 @@ This repository contains our Docker composition for a containerized runtime envi
 | Application / Service | URL / Link |
 | --- | --- |
 | `medienhaus-spaces` | http://localhost/ |
-| `matrix-synapse` | http://matrix.localhost:8008/ |
+| `matrix-synapse` | http://matrix.localhost/ |
 | `element-web` | http://element.localhost/ |
 | `etherpad-lite` | http://etherpad.localhost/ |
 | `spacedeck-open` | http://spacedeck.localhost/ |
 | `lldap` | http://ldap.localhost/ |
-| `traefik` | http://localhost:8080/ |
