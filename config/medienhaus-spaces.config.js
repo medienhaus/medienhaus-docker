@@ -13,7 +13,8 @@ module.exports = {
                 baseUrl: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/p',
                 api: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/mypads/api'
             },
-            sketch: {
+            spacedeck: {
+                path: '/sketch',
                 baseUrl: '${HTTP_SCHEMA}://spacedeck.${SPACES_HOSTNAME}',
             },
         },
@@ -33,6 +34,14 @@ module.exports = {
             {
                 source: this.publicRuntimeConfig.authProviders.etherpad.path + '/:roomId',
                 destination: '/etherpad/:roomId',
+            },
+            {
+                source: this.publicRuntimeConfig.authProviders.spacedeck.path,
+                destination: '/spacedeck',
+            },
+            {
+                source: this.publicRuntimeConfig.authProviders.spacedeck.path + '/:roomId',
+                destination: '/spacedeck/:roomId',
             },
         ];
     },
