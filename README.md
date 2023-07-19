@@ -28,13 +28,13 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    ${VISUAL:-${EDITOR:-vim}} .env
    ```
-   ⚠️ For *production*, please change **at least** the following environment variables! ⚠️
-      - `ADMIN_CONTACT_LETSENCRYPT` for issuing SSL certificates via `traefikj
+   ⚠️ For *production*, please change **at least** the following environment variables!
+      - `ADMIN_CONTACT_LETSENCRYPT` for issuing SSL certificates via `traefik`
       - `BASE_URL` to your *fully qualified domain name*, e.g. `spaces.example.org`
       - `HTTP_SCHEMA` to `https` for enabling https context for all services
       - `change_me` to generated **long**, **random**, and **secure** passwords/secrets
 
-   🔑 generate **long**, **random**, and **secure** passwords/secrets with `openssl` 🔑
+   💭 Generate **long**, **random**, and **secure** passwords/secrets via `openssl` command:
    ```
    openssl rand -hex 32
    ```
@@ -44,7 +44,7 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    cp docker-compose.example.yml docker-compose.yml
    ```
-   ⚠️ For *production*, please use [`docker-compose.websecure.yml`](docker-compose.websecure.yml) with secured `https` context! ⚠️
+   ⚠️ For *production*, please use [`docker-compose.websecure.yml`](docker-compose.websecure.yml) with secured `https` context!
    ```
    cp docker-compose.websecure.yml docker-compose.yml
    ```
