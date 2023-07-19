@@ -20,7 +20,7 @@ This repository contains our Docker composition for a containerized runtime envi
    git submodule update --init --remote
    ```
 
-2. create and edit `.env` file
+2. create `.env` file from example
    <br>
    ```
    cp .env.example .env
@@ -28,8 +28,18 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    ${VISUAL:-${EDITOR:-vim}} .env
    ```
+   ⚠️ For *production*, please change **at least** the following environment variables! ⚠️
+      - `ADMIN_CONTACT_LETSENCRYPT` for issuing SSL certificates via `traefikj
+      - `BASE_URL` to your *fully qualified domain name*, e.g. `spaces.example.org`
+      - `HTTP_SCHEMA` to `https` for enabling https context for all services
+      - `change_me` to generated **long**, **random**, and **secure** passwords/secrets
 
-3. create `docker-compose.yml` file
+   🔑 generate **long**, **random**, and **secure** passwords/secrets with `openssl` 🔑
+   ```
+   openssl rand -hex 32
+   ```
+
+3. create `docker-compose.yml` file from example
    <br>
    ```
    cp docker-compose.example.yml docker-compose.yml
