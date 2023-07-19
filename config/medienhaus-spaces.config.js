@@ -1,5 +1,6 @@
 const WebpackConfig = require('./webpack.config.js');
 
+// eslint-disable-next-line no-undef
 module.exports = {
     publicRuntimeConfig: {
         name: '${SPACES_APP_PREFIX}/spaces',
@@ -11,7 +12,9 @@ module.exports = {
             etherpad: {
                 path: '/write',
                 baseUrl: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/p',
-                api: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/mypads/api'
+                myPads: {
+                    api: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/mypads/api',
+                },
             },
             spacedeck: {
                 path: '/sketch',
@@ -25,29 +28,32 @@ module.exports = {
             pathToElement: '${HTTP_SCHEMA}://${SPACES_HOSTNAME}/element',
         },
     },
-    async rewrites() {
-        return [
-            {
+    rewrites() {
+        const rewriteConfig = [];
+
+        if (this.publicRuntimeConfig.authProviders.etherpad) {
+            rewriteConfig.push({
                 source: this.publicRuntimeConfig.authProviders.etherpad.path,
                 destination: '/etherpad',
             },
             {
                 source: this.publicRuntimeConfig.authProviders.etherpad.path + '/:roomId',
                 destination: '/etherpad/:roomId',
-            },
-            {
+            });
+        }
+
+        if (this.publicRuntimeConfig.authProviders.spacedeck) {
+            rewriteConfig.push({
                 source: this.publicRuntimeConfig.authProviders.spacedeck.path,
                 destination: '/spacedeck',
             },
             {
                 source: this.publicRuntimeConfig.authProviders.spacedeck.path + '/:roomId',
                 destination: '/spacedeck/:roomId',
-            },
-        ];
-    },
-    eslint: {
-        ignoreDuringBuilds: true,
+            });
+        }
+
+        return rewriteConfig;
     },
     webpack: WebpackConfig,
 };
-
