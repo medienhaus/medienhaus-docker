@@ -280,7 +280,6 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik
-    command: dev
     labels:
       traefik.enable: "true"
       traefik.http.routers.medienhaus-spaces.entrypoints: "web"
