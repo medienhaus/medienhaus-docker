@@ -4,5 +4,6 @@
 /.env
 /docker-compose.yml
 
+/config
 /data
 /storage

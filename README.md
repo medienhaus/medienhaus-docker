@@ -49,10 +49,13 @@ This repository contains our Docker composition for a containerized runtime envi
    cp docker-compose.websecure.yml docker-compose.yml
    ```
 
-4. substitute variables in `config/*` files via definitions in `.env`
+4. create config files from `template/*` files and `.env` variables
    <br>
    ```
-   docker compose -f docker-pre-compose.yml up
+   chmod +x envsubst.sh
+   ```
+   ```
+   ./envsubst.sh
    ```
 
 5. start docker composition
