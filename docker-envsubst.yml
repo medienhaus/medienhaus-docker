@@ -213,6 +213,54 @@ services:
   #    #- ./config/element-medienhaus-spaces.json:/tmp/element-medienhaus-spaces.json:rw
   #    - ./config:/tmp:rw
 
+  # ------------------------------------------------------
+  # medienhaus-cms
+  # ------------------------------------------------------
+
+  #configure-nginx-medienhaus-cms:
+  #  image: busybox:latest
+  #  container_name: configure-nginx-medienhaus-cms
+  #  env_file:
+  #    - .env
+  #  command: >
+  #    sed -i
+  #        -e "s/\$${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g"
+  #        /tmp/nginx-matrix-synapse.conf
+  #  volumes:
+  #    #- ./config/nginx-medienhaus-cms:/tmp/nginx-medienhaus-cms:rw
+  #    - ./config:/tmp:rw
+
+  configure-medienhaus-cms:
+  #configure-medienhaus-cms-env:
+    image: busybox:latest
+    container_name: configure-medienhaus-cms
+    #container_name: configure-medienhaus-cms-env
+    env_file:
+      - .env
+    command: >
+      sed -i
+          -e "s/\$${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g"
+          -e "s/\$${HTTP_SCHEMA}/${HTTP_SCHEMA}/g"
+          -e "s/\$${MATRIX_BASEURL}/${MATRIX_BASEURL}/g"
+          -e "s/\$${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g"
+          /tmp/medienhaus-cms.env
+    volumes:
+      #- ./config/medienhaus-cms.env:/tmp/medienhaus-cms.env:rw
+      - ./config:/tmp:rw
+
+  #configure-medienhaus-cms-config:
+  #  image: busybox:latest
+  #  container_name: configure-medienhaus-cms-config
+  #  env_file:
+  #    - .env
+  #  command: >
+  #    sed -i
+  #        -e "s/\$${}/${}/g"
+  #        /tmp/medienhaus-cms.config.json
+  #  volumes:
+  #    #- ./config/medienhaus-cms.config.json:/tmp/medienhaus-cms.config.json:rw
+  #    - ./config:/tmp:rw
+
 # ------------------------------------------------------
 # networks (example)
 # ------------------------------------------------------

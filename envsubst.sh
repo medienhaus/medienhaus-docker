@@ -7,7 +7,8 @@ set -euo pipefail
 if ! command -v sed >/dev/null; then
   printf "\n-- %s --\n" "sed: command not found"
   printf "\n-- %s --\n" "consider running docker-envsubst.yml instead"
-  printf "\n%s\n\n" "docker compose -f docker-envsubst.yml up"
+  printf "\n%s\n" "mkdir -p config && cp template/* config/"
+  printf "%s\n\n" "docker compose -f docker-envsubst.yml up"
   exit 1
 fi
 
@@ -137,6 +138,24 @@ cp \
     ./template/element-medienhaus-spaces.json \
     ./config/element-medienhaus-spaces.json
 
+# -- configure medienhaus-cms --------------------------------------------------
+
+#sed \
+#    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+#    ./template/nginx-medienhaus-cms.conf \
+#    > ./config/nginx-medienhaus-cms.conf
+
+sed \
+    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
+    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+    ./template/medienhaus-cms.env \
+    > ./config/medienhaus-cms.env
+
+cp \
+    ./template/medienhaus-cms.config.json \
+    ./config/medienhaus-cms.config.json
+
 # -- print success message -----------------------------------------------------
 printf "\n-- %s --\n\n" "$0: finished successfully"
-
