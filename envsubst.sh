@@ -138,6 +138,14 @@ cp \
     ./template/element-medienhaus-spaces.json \
     ./config/element-medienhaus-spaces.json
 
+# -- configure medienhaus-api --------------------------------------------------
+
+sed \
+    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+    ./template/medienhaus-api.config.js \
+    > ./config/medienhaus-api.config.js
+
 # -- configure medienhaus-cms --------------------------------------------------
 
 #sed \

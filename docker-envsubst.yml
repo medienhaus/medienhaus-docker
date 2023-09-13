@@ -214,6 +214,24 @@ services:
   #    - ./config:/tmp:rw
 
   # ------------------------------------------------------
+  # medienhaus-api
+  # ------------------------------------------------------
+
+  configure-medienhaus-api:
+    image: busybox:latest
+    container_name: configure-medienhaus-api
+    env_file:
+      - .env
+    command: >
+      sed -i
+          -e "s/\$${HTTP_SCHEMA}/${HTTP_SCHEMA}/g"
+          -e "s/\$${MATRIX_BASEURL}/${MATRIX_BASEURL}/g"
+          /tmp/medienhaus-api.config.js
+    volumes:
+      #- ./config/medienhaus-api.config.js:/tmp/medienhaus-api.config.js:rw
+      - ./config:/tmp:rw
+
+  # ------------------------------------------------------
   # medienhaus-cms
   # ------------------------------------------------------
 
