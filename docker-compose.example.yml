@@ -134,7 +134,6 @@ services:
       - ./config/nginx-etherpad.conf:/etc/nginx/conf.d/default.conf:ro
 
   etherpad:
-    #image: etherpad:latest
     build:
       context: ./etherpad-lite
       args:
