@@ -167,7 +167,7 @@ services:
     #ports:
     #  - "5432:5432"
     volumes:
-      - ./data/spacedeck:/var/lib/postgresql/data:rw
+      - ./data/spacedeck/storage:/var/lib/postgresql/data:rw
 
   nginx-spacedeck:
     image: nginx:latest
@@ -199,7 +199,8 @@ services:
     volumes:
       - ./config/spacedeck.json:/app/config/default.json:ro
       - ./data/spacedeck/storage:/app/storage:rw
-      - ./data/spacedeck/database:/app/database:rw
+      # NOTE: not sure this is necessary, see volume in postgres-spacedeck above
+      #- ./data/spacedeck/database:/app/database:rw
 
   # ------------------------------------------------------
   # matrix-synapse
