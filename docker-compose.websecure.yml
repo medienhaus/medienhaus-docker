@@ -301,8 +301,8 @@ services:
     volumes:
       - ./config/medienhaus-spaces.config.js:/usr/src/app/next.config.js:ro
       - ./medienhaus-spaces:/usr/src/app:rw
-      - /usr/src/app/node_modules
-      - /usr/src/app/.next
+      - medienhaus-spaces--node_modules:/usr/src/app/node_modules
+      - medienhaus-spaces--.next:/usr/src/app/.next
 
   element-medienhaus-spaces:
     image: vectorim/element-web:latest
@@ -333,9 +333,11 @@ services:
 #    external: true
 
 # ------------------------------------------------------
-# volumes (example)
+# volumes
 # ------------------------------------------------------
 
-#volumes:
-#  medienhaus_data:
-#    driver: local
+volumes:
+  medienhaus-spaces--node_modules:
+    driver: local
+  medienhaus-spaces--.next:
+    driver: local
