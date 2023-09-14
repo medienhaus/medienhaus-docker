@@ -108,10 +108,10 @@ services:
       POSTGRES_DB: "etherpad"
       POSTGRES_USER: "etherpad"
       POSTGRES_PASSWORD: "${ETHERPAD_POSTGRES_PASSWORD}"
-    #ports:
-    #  - "5432:5432"
     healthcheck:
       test: [ "CMD-SHELL", "psql -U etherpad -lqt | cut -d \\| -f 1 | grep -wq etherpad" ]
+    #ports:
+    #  - "5432:5432"
     volumes:
       - ./data/etherpad:/var/lib/postgresql/data:rw
 
@@ -163,10 +163,10 @@ services:
       POSTGRES_DB: "spacedeck"
       POSTGRES_USER: "spacedeck"
       POSTGRES_PASSWORD: "${SPACEDECK_POSTGRES_PASSWORD}"
-    #ports:
-    #  - "5432:5432"
     healthcheck:
       test: [ "CMD-SHELL", "psql -U spacedeck -lqt | cut -d \\| -f 1 | grep -wq spacedeck" ]
+    #ports:
+    #  - "5432:5432"
     volumes:
       - ./data/spacedeck:/var/lib/postgresql/data:rw
 
@@ -215,10 +215,10 @@ services:
       POSTGRES_USER: "synapse"
       POSTGRES_PASSWORD: "${MATRIX_POSTGRES_PASSWORD}"
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
-    #ports:
-    #  - "5432:5432"
     healthcheck:
       test: [ "CMD-SHELL", "psql -U synapse -lqt | cut -d \\| -f 1 | grep -wq synapse" ]
+    #ports:
+    #  - "5432:5432"
     volumes:
       - ./data/matrix-synapse/database:/var/lib/postgresql/data:rw
 
