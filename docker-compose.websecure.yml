@@ -259,6 +259,24 @@ services:
       - ./data/matrix-synapse/synapse:/data:rw
       - ./config/matrix-synapse.yaml:/etc/matrix-synapse/homeserver.yaml:ro
 
+  #synapse-admin:
+  #  build:
+  #    context: https://github.com/Awesome-Technologies/synapse-admin.git
+  #    args:
+  #      REACT_APP_SERVER: "${HTTP_SCHEMA}://${MATRIX_SERVERNAME}"
+  #  container_name: synapse-admin
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - traefik
+  #  labels:
+  #    traefik.enable: "true"
+  #    #traefik.http.routers.synapse-admin.entrypoints: "web"
+  #    traefik.http.routers.synapse-admin.entrypoints: "websecure"
+  #    traefik.http.routers.synapse-admin.tls.certresolver: "myresolver"
+  #    traefik.http.routers.synapse-admin.rule: "Host(`synapse-admin.${SPACES_HOSTNAME}`)"
+  #  #ports:
+  #  #  - "8080:80"
+
   # ------------------------------------------------------
   # element
   # ------------------------------------------------------
