@@ -23,8 +23,8 @@ export default () => ({
     post: true
   },
   application: {
-    name: 'some name',
-    api_name: 'someName-api',
+    name: 'medienhaus',
+    api_name: 'medienhaus-api',
     standards: [
       {
         name: 'dev.medienhaus.meta',
@@ -42,14 +42,26 @@ export default () => ({
   },
   attributable: {
     spaceTypes: {
-      item: ['item', 'studentproject', 'project', 'event'],
+      item: [
+        'item',
+        'studentproject',
+        'project',
+        'event'
+      ],
       context: [
         'context',
         'class',
         'faculty',
         'centre'
       ],
-      content: ['lang', 'headline', 'text', 'ul', 'ol', 'quote']
+      content: [
+        'lang',
+        'headline',
+        'text',
+        'ul',
+        'ol',
+        'quote'
+      ]
     }
   }
 })
