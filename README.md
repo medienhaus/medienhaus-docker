@@ -64,23 +64,30 @@ This repository contains our Docker composition for a containerized runtime envi
    docker compose up -d --build --no-deps --remove-orphans
    ```
 
-6. set up `lldap` user account(s) via: http://ldap.localhost/
+6. create `matrix-synapse` administrator account
+   <br>
+   ```
+   docker exec -it matrix-synapse register_new_matrix_user http://localhost:8008 -c /etc/matrix-synapse/homeserver.yaml --admin --user $(grep "^MATRIX_ADMIN_USER=" .env | cut -d "=" -f 2-) --password $(grep "^MATRIX_ADMIN_PASSWORD=" .env | cut -d "=" -f 2-)
+   ```
+   ⚠️ This command applies `MATRIX_ADMIN_USER` and `MATRIX_ADMIN_PASSWORD` from `.env`!
+
+7. set up `lldap` user account(s) via: http://ldap.localhost/
    - username: `admin` *(configured via `.env`)*
    - password: `change_me` *(configured via `.env`)*
    - create user account(s)
 
-7. initialize etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
+8. initialize etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
    - username: `admin` *(configured via `config/etherpad.json`)*
    - password: `change_me` *(configured via `.env`)*
 
-8. configure etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
+9. configure etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
    - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
    - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
    - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
    - copy content from the `config/etherpad-mypads-ldap-configuration.json` file
    - paste the copied content into the **“LDAP settings”** input/textarea field
 
-9. now open `medienhaus-spaces` and log in via: http://localhost/login
+10. now open `medienhaus-spaces` and log in via: http://localhost/login
 
 <br>
 
