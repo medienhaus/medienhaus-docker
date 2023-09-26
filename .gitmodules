@@ -13,7 +13,7 @@
 [submodule "medienhaus-spaces"]
 	path = medienhaus-spaces
 	url = https://github.com/medienhaus/medienhaus-spaces.git
-	branch = develop
+	branch = main
 [submodule "medienhaus-api"]
 	path = medienhaus-api
 	url = https://github.com/medienhaus/medienhaus-api.git
