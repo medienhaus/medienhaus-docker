@@ -69,20 +69,20 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    chmod +x ./scripts/create-matrix-synapse-root-account.sh
    ```
+   ⚠️ This script registers the `root` account with `MATRIX_ADMIN_PASSWORD` from `.env`!
    ```
    ./scripts/create-matrix-synapse-root-account.sh
    ```
-   ⚠️ This script registers the `root` account with `MATRIX_ADMIN_PASSWORD` from `.env`!
 
 7. create `medienhaus-api` matrix account and create config files from `template/*`
    <br>
    ```
    chmod +x ./scripts/init-medienhaus-api.sh
    ```
+   ⚠️ This script uses `MEDIENHAUS_API_USER_ID` and `MEDIENHAUS_API_PASSWORD` from `.env`!
    ```
    ./scripts/init-medienhaus-api.sh
    ```
-   ⚠️ This script uses `MEDIENHAUS_API_USER_ID` and `MEDIENHAUS_API_PASSWORD` from `.env`!
 
 8. re-start `medienhaus-api` docker container
    <br>
