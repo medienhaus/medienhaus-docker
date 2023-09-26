@@ -61,7 +61,7 @@ This repository contains our Docker composition for a containerized runtime envi
 5. start docker composition
    <br>
    ```
-   docker compose up -d
+   docker compose -f docker-init.yml up -d
    ```
 
 6. **OPTIONAL:** create `matrix-synapse` administrator account
@@ -87,7 +87,7 @@ This repository contains our Docker composition for a containerized runtime envi
 8. re-start docker composition, include `medienhaus-api` and `medienhaus-cms` services
    <br>
    ```
-   docker compose --profile with-medienhaus-api-and-cms up -d
+   docker compose -f docker-compose.yml up -d
    ```
 
 9. set up `lldap` user account(s) via: http://ldap.localhost/
