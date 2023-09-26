@@ -346,6 +346,7 @@ services:
   medienhaus-api:
     build: ./medienhaus-api
     container_name: medienhaus-api
+    profiles: ["with-medienhaus-api-and-cms"]
     restart: unless-stopped
     depends_on:
       - traefik
@@ -371,6 +372,7 @@ services:
   #nginx-medienhaus-cms:
   #  image: nginx:latest
   #  container_name: nginx-medienhaus-cms
+  #  profiles: ["with-medienhaus-api-and-cms"]
   #  restart: unless-stopped
   #  depends_on:
   #    - traefik
@@ -390,6 +392,7 @@ services:
   medienhaus-cms:
     build: ./medienhaus-cms
     container_name: medienhaus-cms
+    profiles: ["with-medienhaus-api-and-cms"]
     #restart: on-failure
     restart: unless-stopped
     depends_on:
