@@ -1,3 +1,6 @@
+include:
+  - docker-include.medienhaus-api-and-cms.websecure.yml
+
 services:
 
   # ------------------------------------------------------
@@ -345,7 +348,7 @@ services:
 
 #networks:
 #  default:
-#    name: traefik
+#    name: medienhaus-spaces
 #    driver: bridge
 #    external: true
 

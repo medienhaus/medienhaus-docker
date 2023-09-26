@@ -1,0 +1,90 @@
+services:
+
+  # ------------------------------------------------------
+  # medienhaus-api
+  # ------------------------------------------------------
+
+  medienhaus-api:
+    build: ./medienhaus-api
+    container_name: medienhaus-api
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    environment:
+      API_PORT: "3000"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.medienhaus-api.entrypoints: "web"
+      #traefik.http.routers.medienhaus-api.entrypoints: "websecure"
+      #traefik.http.routers.medienhaus-api.tls.certresolver: "myresolver"
+      traefik.http.routers.medienhaus-api.rule: "Host(`api.${SPACES_HOSTNAME}`)"
+    #ports:
+    #  - "3000:3000"
+    volumes:
+      - ./config/medienhaus-api.config.js:/usr/src/app/config.js:ro
+      - ./medienhaus-api:/usr/src/app:rw
+      - medienhaus-api--node_modules:/usr/src/app/node_modules
+
+  # ------------------------------------------------------
+  # medienhaus-cms
+  # ------------------------------------------------------
+
+  #nginx-medienhaus-cms:
+  #  image: nginx:latest
+  #  container_name: nginx-medienhaus-cms
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - traefik
+  #    - medienhaus-cms
+  #  labels:
+  #    traefik.enable: "true"
+  #    traefik.http.routers.nginx-medienhaus-cms.entrypoints: "web"
+  #    #traefik.http.routers.nginx-medienhaus-cms.entrypoints: "websecure"
+  #    #traefik.http.routers.nginx-medienhaus-cms.tls.certresolver: "myresolver"
+  #    traefik.http.routers.nginx-medienhaus-cms.rule: "Host(`cms.${SPACES_HOSTNAME}`)"
+  #  #ports:
+  #  #  - "3000:80"
+  #  volumes:
+  #    - ./config/nginx-medienhaus-cms.conf:/etc/nginx/conf.d/default.conf:ro
+  #    - ./medienhaus-cms/build:/usr/share/nginx/html:ro
+
+  medienhaus-cms:
+    build: ./medienhaus-cms
+    container_name: medienhaus-cms
+    #restart: on-failure
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.medienhaus-cms.entrypoints: "web"
+      #traefik.http.routers.medienhaus-cms.entrypoints: "websecure"
+      #traefik.http.routers.medienhaus-cms.tls.certresolver: "myresolver"
+      traefik.http.routers.medienhaus-cms.rule: "Host(`cms.${SPACES_HOSTNAME}`)"
+    #ports:
+    #  - "3000:3000"
+    volumes:
+      - ./config/medienhaus-cms.config.json:/usr/src/app/src/config.json:ro
+      - ./config/medienhaus-cms.env:/usr/src/app/.env:ro
+      - ./medienhaus-cms:/usr/src/app:rw
+      - medienhaus-cms--node_modules:/usr/src/app/node_modules
+
+# ------------------------------------------------------
+# networks (example)
+# ------------------------------------------------------
+
+#networks:
+#  default:
+#    name: medienhaus-spaces
+#    driver: bridge
+#    external: true
+
+# ------------------------------------------------------
+# volumes
+# ------------------------------------------------------
+
+volumes:
+  medienhaus-api--node_modules:
+    driver: local
+  medienhaus-cms--node_modules:
+    driver: local

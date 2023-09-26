@@ -90,6 +90,11 @@ cp \
     ./template/medienhaus-cms.config.json \
     ./config/medienhaus-cms.config.json
 
+# -- update docker-compose.yml and docker-compose.websecure.yml ----------------
+
+sed -i '' '1,2 s/^#//' docker-compose.yml
+sed -i '' '1,2 s/^#//' docker-compose.websecure.yml
+
 # -- print success message -----------------------------------------------------
 
 printf "\n-- %s --\n\n" "$0: finished successfully"

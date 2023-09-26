@@ -61,20 +61,11 @@ This repository contains our Docker composition for a containerized runtime envi
 5. start docker composition
    <br>
    ```
-   docker compose -f docker-init.yml up -d
+   docker compose up -d
    ```
+   ⚠️ For *production*, please use [`docker-init.websecure.yml`](docker-init.websecure.yml) with secured `https` context!
 
-6. **OPTIONAL:** create `matrix-synapse` administrator account
-   <br>
-   ```
-   chmod +x ./scripts/create-matrix-synapse-root-account.sh
-   ```
-   💬 This script registers the `root` account with `MATRIX_ADMIN_PASSWORD` from `.env`!
-   ```
-   ./scripts/create-matrix-synapse-root-account.sh
-   ```
-
-7. create `medienhaus-api` matrix account and create config files from `template/*`
+6. create `medienhaus-api` matrix account and create config files from `template/*`
    <br>
    ```
    chmod +x ./scripts/init-medienhaus-api.sh
@@ -84,29 +75,32 @@ This repository contains our Docker composition for a containerized runtime envi
    ./scripts/init-medienhaus-api.sh
    ```
 
-8. re-start docker composition, include `medienhaus-api` and `medienhaus-cms` services
+7. re-start docker composition, include `medienhaus-api` and `medienhaus-cms` services
    <br>
    ```
    docker compose -f docker-compose.yml up -d
    ```
+   ⚠️ For *production*, please use [`docker-compose.websecure.yml`](docker-compose.websecure.yml) with secured `https` context!
 
-9. set up `lldap` user account(s) via: http://ldap.localhost/
+8. set up `lldap` user account(s) via: http://ldap.localhost/
    - username: `admin` *(configured via `.env`)*
    - password: `change_me` *(configured via `.env`)*
    - create user account(s)
 
-10. initialize etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
-    - username: `admin` *(configured via `config/etherpad.json`)*
-    - password: `change_me` *(configured via `.env`)*
+9. initialize etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
+   - username: `admin` *(configured via `config/etherpad.json`)*
+   - password: `change_me` *(configured via `.env`)*
 
-11. configure etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
+10. configure etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
     - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
     - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
     - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
     - copy content from the `config/etherpad-mypads-ldap-configuration.json` file
     - paste the copied content into the **“LDAP settings”** input/textarea field
 
-12. now open `medienhaus-spaces` and log in via: http://localhost/login
+11. log in the `medienhaus-spaces` application via: http://localhost/login
+    - username: *(configured via `lldap`)*
+    - password: *(configured via `lldap`)*
 
 <br>
 
