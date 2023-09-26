@@ -34,7 +34,7 @@ docker exec matrix-synapse \
     --password "${MEDIENHAUS_API_PASSWORD}" \
     --admin
 
-#MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec matrix-synapse \
+#MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
 #  curl "http://localhost:8008/_matrix/client/r0/login" \
 #    --silent \
 #    --request POST \
@@ -47,7 +47,7 @@ docker exec matrix-synapse \
 #EOF
 #)
 
-MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec matrix-synapse \
+MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
   curl "http://localhost:8008/_matrix/client/r0/login" \
     --silent \
     --request POST \
