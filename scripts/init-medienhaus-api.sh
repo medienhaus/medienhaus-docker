@@ -27,14 +27,14 @@ set -o allexport && source .env && set +o allexport
 
 # -- configure matrix-synapse --------------------------------------------------
 
-docker exec -it matrix-synapse \
+docker exec matrix-synapse \
   register_new_matrix_user http://localhost:8008 \
     -c /etc/matrix-synapse/homeserver.yaml \
     --user "${MEDIENHAUS_API_USER_ID}" \
     --password "${MEDIENHAUS_API_PASSWORD}" \
     --admin
 
-#MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec -it matrix-synapse \
+#MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec matrix-synapse \
 #  curl "http://localhost:8008/_matrix/client/r0/login" \
 #    --silent \
 #    --request POST \
@@ -47,7 +47,7 @@ docker exec -it matrix-synapse \
 #EOF
 #)
 
-MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec -it matrix-synapse \
+MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec matrix-synapse \
   curl "http://localhost:8008/_matrix/client/r0/login" \
     --silent \
     --request POST \
@@ -55,7 +55,7 @@ MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec -it matrix-synapse \
 {
   "type": "m.login.password",
   "user": "${MEDIENHAUS_API_USER_ID}",
-  "password": "${MEDIENHAUS_API_ACCESS_TOKEN}"
+  "password": "${MEDIENHAUS_API_PASSWORD}"
 }
 EOF
 )
