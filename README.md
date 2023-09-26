@@ -64,7 +64,7 @@ This repository contains our Docker composition for a containerized runtime envi
    docker compose up -d
    ```
 
-6. **optional:** create `matrix-synapse` administrator account
+6. **OPTIONAL:** create `matrix-synapse` administrator account
    <br>
    ```
    chmod +x ./scripts/create-matrix-synapse-root-account.sh
