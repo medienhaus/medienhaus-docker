@@ -52,42 +52,61 @@ This repository contains our Docker composition for a containerized runtime envi
 4. create config files from `template/*` files and `.env` variables
    <br>
    ```
-   chmod +x envsubst.sh
+   chmod +x ./scripts/envsubst.sh
    ```
    ```
-   ./envsubst.sh
+   ./scripts/envsubst.sh
    ```
 
 5. start docker composition
    <br>
    ```
-   docker compose up -d --build --no-deps --remove-orphans
+   docker compose up -d --force-recreate --remove-orphans
    ```
 
-6. create `matrix-synapse` administrator account
+6. **optional:** create `matrix-synapse` administrator account
    <br>
    ```
-   docker exec -it matrix-synapse register_new_matrix_user http://localhost:8008 -c /etc/matrix-synapse/homeserver.yaml --admin --user $(grep "^MATRIX_ADMIN_USER=" .env | cut -d "=" -f 2-) --password $(grep "^MATRIX_ADMIN_PASSWORD=" .env | cut -d "=" -f 2-)
+   chmod +x ./scripts/create-matrix-synapse-root-account.sh
    ```
-   ⚠️ This command applies `MATRIX_ADMIN_USER` and `MATRIX_ADMIN_PASSWORD` from `.env`!
+   ```
+   ./scripts/create-matrix-synapse-root-account.sh
+   ```
+   ⚠️ This script registers the `root` account with `MATRIX_ADMIN_PASSWORD` from `.env`!
 
-7. set up `lldap` user account(s) via: http://ldap.localhost/
+7. create `medienhaus-api` matrix account and create config files from `template/*`
+   <br>
+   ```
+   chmod +x ./scripts/init-medienhaus-api.sh
+   ```
+   ```
+   ./scripts/init-medienhaus-api.sh
+   ```
+   ⚠️ This script uses `MEDIENHAUS_API_USER_ID` and `MEDIENHAUS_API_PASSWORD` from `.env`!
+
+8. re-start `medienhaus-api` docker container
+   <br>
+   ```
+   docker compose restart medienhaus-api
+   ```
+
+9. set up `lldap` user account(s) via: http://ldap.localhost/
    - username: `admin` *(configured via `.env`)*
    - password: `change_me` *(configured via `.env`)*
    - create user account(s)
 
-8. initialize etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
-   - username: `admin` *(configured via `config/etherpad.json`)*
-   - password: `change_me` *(configured via `.env`)*
+10. initialize etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
+    - username: `admin` *(configured via `config/etherpad.json`)*
+    - password: `change_me` *(configured via `.env`)*
 
-9. configure etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
-   - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
-   - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
-   - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
-   - copy content from the `config/etherpad-mypads-ldap-configuration.json` file
-   - paste the copied content into the **“LDAP settings”** input/textarea field
+11. configure etherpad `mypads` via: http://etherpad.localhost/mypads/?/admin
+    - copy content from the `config/etherpad-mypads-extra-html-javascript.html` file
+    - paste the copied content into the **“Extra HTML for &lt;head&gt;”** input/textarea field
+    - click the **“Authentication method”** dropdown and select **“LDAP”** for authentication
+    - copy content from the `config/etherpad-mypads-ldap-configuration.json` file
+    - paste the copied content into the **“LDAP settings”** input/textarea field
 
-10. now open `medienhaus-spaces` and log in via: http://localhost/login
+12. now open `medienhaus-spaces` and log in via: http://localhost/login
 
 <br>
 
@@ -96,6 +115,8 @@ This repository contains our Docker composition for a containerized runtime envi
 | Application / Service | URL / Link |
 | --- | --- |
 | `medienhaus-spaces` | http://localhost/ |
+| `medienhaus-api` | http://api.localhost/ |
+| `medienhaus-cms` | http://cms.localhost/ |
 | `matrix-synapse` | http://matrix.localhost/ |
 | `element-web` | http://element.localhost/ |
 | `etherpad-lite` | http://etherpad.localhost/ |
