@@ -18,7 +18,7 @@ fi
 
 set -o allexport && source .env && set +o allexport
 
-# -- create matrix-synapse root account ----------------------------------------
+# -- create matrix-synapse admin account ---------------------------------------
 
 docker exec matrix-synapse \
   register_new_matrix_user http://localhost:8008 \
