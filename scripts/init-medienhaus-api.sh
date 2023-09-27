@@ -78,7 +78,7 @@ MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
     "events_default": 100,
     "invite": 50
   },
-  "topic": "[medienhaus-api](https://github.com/medienhaus/medienhaus-api/) root context",
+  "topic": "medienhaus-api root context — https://github.com/medienhaus/medienhaus-api/",
   "creation_content": {
     "type": "m.space"
   },
