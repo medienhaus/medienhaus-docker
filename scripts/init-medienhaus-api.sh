@@ -25,7 +25,8 @@ fi
 
 set -o allexport && source .env && set +o allexport
 
-# -- configure matrix-synapse --------------------------------------------------
+# -- create matrix-synapse account for api user --------------------------------
+# -- NOTE: for now this needs to be an admin account due to ratelimit reasons --
 
 docker exec matrix-synapse \
   register_new_matrix_user http://localhost:8008 \
@@ -33,6 +34,8 @@ docker exec matrix-synapse \
     --user "${MEDIENHAUS_API_USER_ID}" \
     --password "${MEDIENHAUS_API_PASSWORD}" \
     --admin
+
+# -- retrieve access_token for api account -------------------------------------
 
 #MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
 #  curl "http://localhost:8008/_matrix/client/r0/login" \
@@ -60,6 +63,51 @@ MEDIENHAUS_API_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
 EOF
 )
 
+# -- create root context space for medienhaus-api ------------------------------
+
+MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
+  curl "http://localhost:8008/_matrix/client/r0/createRoom?access_token=${MEDIENHAUS_API_ACCESS_TOKEN}" \
+    --silent \
+    --request POST \
+    --data-binary @- << EOF | sed -En 's/.*"room_id":"([^"]*).*/\1/p'
+{
+  "name": "medienhaus-api-root-context",
+  "preset": "private_chat",
+  "visibility": "private",
+  "power_level_content_override": {
+    "events_default": 100,
+    "invite": 50
+  },
+  "topic": "[medienhaus-api](https://github.com/medienhaus/medienhaus-api/) root context",
+  "creation_content": {
+    "type": "m.space"
+  },
+  "initial_state": [
+    {
+      "type": "m.room.guest_access",
+      "state_key": "",
+      "content": {
+        "guest_access": "can_join"
+      }
+    },
+    {
+      "type": "m.room.history_visibility",
+      "content": {
+        "history_visibility": "world_readable"
+      }
+    },
+    {
+      "type": "dev.medienhaus.meta",
+      "content": {
+        "type": "context",
+        "template": "structure-root"
+      }
+    }
+  ]
+}
+EOF
+)
+
 # -- configure medienhaus-api --------------------------------------------------
 
 sed \
@@ -68,6 +116,7 @@ sed \
     -e "s/\${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g" \
     -e "s/\${MEDIENHAUS_API_USER_ID}/${MEDIENHAUS_API_USER_ID}/g" \
     -e "s/\${MEDIENHAUS_API_ACCESS_TOKEN}/${MEDIENHAUS_API_ACCESS_TOKEN}/g" \
+    -e "s/\${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}/g" \
     ./template/medienhaus-api.config.js \
     > ./config/medienhaus-api.config.js
 

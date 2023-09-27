@@ -4,8 +4,7 @@ export default () => ({
     homeserver_base_url: '${HTTP_SCHEMA}://${MATRIX_BASEURL}',
     user_id: '@${MEDIENHAUS_API_USER_ID}:${MATRIX_SERVERNAME}',
     access_token: '${MEDIENHAUS_API_ACCESS_TOKEN}',
-    /* TODO !! */
-    // root_context_space_id: '${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}'
+    root_context_space_id: '${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}'
   },
   fetch: {
     depth: 500,
