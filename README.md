@@ -78,7 +78,7 @@ This repository contains our Docker composition for a containerized runtime envi
 7. re-start docker composition, include `medienhaus-api` and `medienhaus-cms` services
    <br>
    ```
-   docker compose -f docker-compose.yml up -d
+   docker compose up -d
    ```
    ⚠️ For *production*, please use [`docker-compose.websecure.yml`](docker-compose.websecure.yml) with secured `https` context!
 
