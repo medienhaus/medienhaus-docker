@@ -23,7 +23,7 @@ set -o allexport && source .env && set +o allexport
 docker exec matrix-synapse \
   register_new_matrix_user http://localhost:8008 \
     -c /etc/matrix-synapse/homeserver.yaml \
-    --user "root" \
+    --user "${MATRIX_ADMIN_USER_ID}" \
     --password "${MATRIX_ADMIN_PASSWORD}" \
     --admin
 
