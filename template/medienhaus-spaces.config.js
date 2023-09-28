@@ -27,6 +27,7 @@ module.exports = {
         chat: {
             pathToElement: '${HTTP_SCHEMA}://${SPACES_HOSTNAME}/element',
         },
+	contextRootSpaceRoomId: "${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}",
     },
     rewrites() {
         const rewriteConfig = [];

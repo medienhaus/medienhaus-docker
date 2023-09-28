@@ -2,9 +2,9 @@
 export default () => ({
   matrix: {
     homeserver_base_url: 'http://matrix-synapse:8008',
-    user_id: '@${MEDIENHAUS_API_USER_ID}:${MATRIX_SERVERNAME}',
-    access_token: '${MEDIENHAUS_API_ACCESS_TOKEN}',
-    root_context_space_id: '${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}'
+    user_id: '@${MEDIENHAUS_ADMIN_USER_ID}:${MATRIX_SERVERNAME}',
+    access_token: '${MEDIENHAUS_ADMIN_ACCESS_TOKEN}',
+    root_context_space_id: '${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}'
   },
   fetch: {
     depth: 500,
@@ -44,15 +44,11 @@ export default () => ({
     spaceTypes: {
       item: [
         'item',
-        'studentproject',
-        'project',
-        'event'
+        'article'
       ],
       context: [
         'context',
-        'class',
-        'faculty',
-        'centre'
+	'category'
       ],
       content: [
         'lang',

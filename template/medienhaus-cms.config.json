@@ -3,6 +3,9 @@
     "context": {
       "category": {
         "label": "Category"
+      },
+      "context":{
+        "label": "Generic Context"
       }
     },
     "item": {
@@ -10,8 +13,14 @@
         "label": "Article",
         "blueprint": [
           "contributors",
-          "image"
+          "image",
+	  "location",
+          "time"
         ]
+      },
+      "item": {
+        "label": "Generic Item",
+        "blueprint": []
       }
     },
     "languages": [
@@ -39,6 +48,7 @@
     },
     "customServer": true,
     "allowSelectingRootContext": true,
-    "allowManualApplicationSpaceId": true
+    "allowManualApplicationSpaceId": false,
+    "api": "${HTTP_SCHEMA}://api.${SPACES_HOSTNAME}/api/v2"
   }
 }
