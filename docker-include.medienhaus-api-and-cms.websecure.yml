@@ -36,6 +36,8 @@ services:
   #  restart: unless-stopped
   #  depends_on:
   #    - traefik
+  #    - matrix-synapse
+  #    - medienhaus-api
   #    - medienhaus-cms
   #  labels:
   #    traefik.enable: "true"
@@ -51,6 +53,7 @@ services:
 
   medienhaus-cms:
     build: ./medienhaus-cms
+    #command: build
     container_name: medienhaus-cms
     #restart: on-failure
     restart: unless-stopped
