@@ -111,8 +111,6 @@ EOF
 # -- configure medienhaus-api --------------------------------------------------
 
 sed \
-    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
     -e "s/\${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g" \
     -e "s/\${MEDIENHAUS_API_USER_ID}/${MEDIENHAUS_API_USER_ID}/g" \
     -e "s/\${MEDIENHAUS_API_ACCESS_TOKEN}/${MEDIENHAUS_API_ACCESS_TOKEN}/g" \

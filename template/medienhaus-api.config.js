@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 export default () => ({
   matrix: {
-    homeserver_base_url: '${HTTP_SCHEMA}://${MATRIX_BASEURL}',
+    homeserver_base_url: 'http://matrix-synapse:8008',
     user_id: '@${MEDIENHAUS_API_USER_ID}:${MATRIX_SERVERNAME}',
     access_token: '${MEDIENHAUS_API_ACCESS_TOKEN}',
     root_context_space_id: '${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}'
