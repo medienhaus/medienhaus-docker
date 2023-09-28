@@ -76,7 +76,7 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    chmod +x ./scripts/init-medienhaus-api.sh
    ```
-   💬 This script uses `MEDIENHAUS_API_USER_ID` and `MEDIENHAUS_API_PASSWORD` from `.env`!
+   💬 This script uses `MEDIENHAUS_ADMIN_USER_ID` and `MEDIENHAUS_ADMIN_PASSWORD` from `.env`!
    ```
    ./scripts/init-medienhaus-api.sh
    ```
