@@ -111,8 +111,8 @@ EOF
 # -- configure medienhaus-api --------------------------------------------------
 
 sed \
-    -e "s/\${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g" \
     -e "s/\${MEDIENHAUS_API_USER_ID}/${MEDIENHAUS_API_USER_ID}/g" \
+    -e "s/\${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g" \
     -e "s/\${MEDIENHAUS_API_ACCESS_TOKEN}/${MEDIENHAUS_API_ACCESS_TOKEN}/g" \
     -e "s/\${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}/g" \
     ./template/medienhaus-api.config.js \
@@ -130,6 +130,7 @@ sed \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
     -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
     -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+    -e "s/\${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_API_ROOT_CONTEXT_SPACE_ID}/g" \
     ./template/medienhaus-cms.env \
     > ./config/medienhaus-cms.env
 
