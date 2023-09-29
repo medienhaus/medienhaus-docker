@@ -83,7 +83,10 @@ This repository contains our Docker composition for a containerized runtime envi
 7. update config files && re-start docker composition, including `medienhaus-*` services
    <br>
    ```
-   ./scripts/envsubst.sh && docker compose up -d
+   ./scripts/envsubst.sh
+   ```
+   ```
+   docker compose up -d
    ```
 
 8. set up `lldap` user account(s) via: http://ldap.localhost/
