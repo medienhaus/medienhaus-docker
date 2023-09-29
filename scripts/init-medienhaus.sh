@@ -101,57 +101,29 @@ MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
 EOF
 )
 
-# -- configure medienhaus-api --------------------------------------------------
+# -- update .env ---------------------------------------------------------------
 
-sed \
-    -e "s/\${MEDIENHAUS_ADMIN_USER_ID}/${MEDIENHAUS_ADMIN_USER_ID}/g" \
-    -e "s/\${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g" \
+sed -i '' '67,68 s/^#//' .env
+
+# -- write values to .env ------------------------------------------------------
+
+sed -i '' \
     -e "s/\${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
     -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
-    ./template/medienhaus-api.config.js \
-    > ./config/medienhaus-api.config.js
-
-# -- configure medienhaus-cms --------------------------------------------------
-
-#sed \
-#    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-#    ./template/nginx-medienhaus-cms.conf \
-#    > ./config/nginx-medienhaus-cms.conf
-
-sed \
-    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
-    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
-    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-    -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
-    ./template/medienhaus-cms.env \
-    > ./config/medienhaus-cms.env
-
-sed \
-    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-    ./template/medienhaus-cms.config.json \
-    > ./config/medienhaus-cms.config.json
-
-# -- configure medienhaus-spaces -----------------------------------------------
-
-sed \
-    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
-    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
-    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-    -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
-    ./template/medienhaus-spaces.config.js \
-    > ./config/medienhaus-spaces.config.js
-
-cp \
-    ./template/element-medienhaus-spaces.json \
-    ./config/element-medienhaus-spaces.json
+    ./.env
 
 # -- update docker-compose.yml and docker-compose.websecure.yml ----------------
 
 sed -i '' '1,2 s/^#//' docker-compose.yml
 sed -i '' '1,2 s/^#//' docker-compose.websecure.yml
+
+# -- update scripts/envsubst.sh ------------------------------------------------
+
+sed -i '' '126,132 s/^#//' scripts/envsubst.sh
+sed -i '' '141,148 s/^#//' scripts/envsubst.sh
+sed -i '' '150,154 s/^#//' scripts/envsubst.sh
+sed -i '' '158,165 s/^#//' scripts/envsubst.sh
+sed -i '' '167,169 s/^#//' scripts/envsubst.sh
 
 # -- print success message -----------------------------------------------------
 

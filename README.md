@@ -50,9 +50,9 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    cp docker-compose.example.yml docker-compose.yml
    ```
-   ⚠️ For *production*, please use [`docker-compose.websecure.yml`](docker-compose.websecure.yml) with secured `https` context!
+   ⚠️ For *production*, please use [`docker-compose.example.websecure.yml`](docker-compose.example.websecure.yml) with secured `https` context!
    ```
-   cp docker-compose.websecure.yml docker-compose.yml
+   cp docker-compose.example.websecure.yml docker-compose.yml
    ```
 
 4. create config files from `template/*` files and `.env` variables
@@ -69,7 +69,6 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    docker compose up -d
    ```
-   ⚠️ For *production*, please use [`docker-init.websecure.yml`](docker-init.websecure.yml) with secured `https` context!
 
 6. create `medienhaus-api` matrix account and create config files from `template/*`
    <br>
@@ -81,12 +80,11 @@ This repository contains our Docker composition for a containerized runtime envi
    ./scripts/init-medienhaus-api.sh
    ```
 
-7. re-start docker composition, include `medienhaus-api` and `medienhaus-cms` services
+7. update config files && re-start docker composition, including `medienhaus-*` services
    <br>
    ```
-   docker compose up -d
+   ./scripts/envsubst.sh && docker compose up -d
    ```
-   ⚠️ For *production*, please use [`docker-compose.websecure.yml`](docker-compose.websecure.yml) with secured `https` context!
 
 8. set up `lldap` user account(s) via: http://ldap.localhost/
    - username: `admin` *(configured via `.env`)*
