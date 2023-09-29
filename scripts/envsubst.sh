@@ -37,13 +37,30 @@ sed \
     ./template/etherpad.json \
     > ./config/etherpad.json
 
+#sed \
+#    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+#    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+#    ./template/etherpad-mypads-extra-html-javascript.html \
+#    > ./config/etherpad-mypads-extra-html-javascript.html
+
+#sed \
+#    -e "s/\${LDAP_SCHEMA}/${LDAP_SCHEMA}/g" \
+#    -e "s/\${LDAP_HOST}/${LDAP_HOST}/g" \
+#    -e "s/\${LDAP_PORT}/${LDAP_PORT}/g" \
+#    -e "s/\${LDAP_SEARCH_BASE}/${LDAP_SEARCH_BASE}/g" \
+#    -e "s/\${LDAP_ATTRIBUTE_UID}/${LDAP_ATTRIBUTE_UID}/g" \
+#    -e "s/\${LDAP_ATTRIBUTE_MAIL}/${LDAP_ATTRIBUTE_MAIL}/g" \
+#    -e "s/\${LDAP_ATTRIBUTE_NAME}/${LDAP_ATTRIBUTE_NAME}/g" \
+#    -e "s/\${LDAP_ATTRIBUTE_FIRSTNAME}/${LDAP_ATTRIBUTE_FIRSTNAME}/g" \
+#    -e "s/\${LDAP_ATTRIBUTE_LASTNAME}/${LDAP_ATTRIBUTE_LASTNAME}/g" \
+#    -e "s/\${LDAP_BIND_DN}/${LDAP_BIND_DN}/g" \
+#    -e "s/\${LDAP_BIND_PASSWORD}/${LDAP_BIND_PASSWORD}/g" \
+#    ./template/etherpad-mypads-ldap-configuration.json \
+#    > ./config/etherpad-mypads-ldap-configuration.json
+
 sed \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
     -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-    ./template/etherpad-mypads-extra-html-javascript.html \
-    > ./config/etherpad-mypads-extra-html-javascript.html
-
-sed \
     -e "s/\${LDAP_SCHEMA}/${LDAP_SCHEMA}/g" \
     -e "s/\${LDAP_HOST}/${LDAP_HOST}/g" \
     -e "s/\${LDAP_PORT}/${LDAP_PORT}/g" \
@@ -55,8 +72,8 @@ sed \
     -e "s/\${LDAP_ATTRIBUTE_LASTNAME}/${LDAP_ATTRIBUTE_LASTNAME}/g" \
     -e "s/\${LDAP_BIND_DN}/${LDAP_BIND_DN}/g" \
     -e "s/\${LDAP_BIND_PASSWORD}/${LDAP_BIND_PASSWORD}/g" \
-    ./template/etherpad-mypads-ldap-configuration.json \
-    > ./config/etherpad-mypads-ldap-configuration.json
+    ./template/etherpad-mypads.configuration.js \
+    > ./config/etherpad-mypads.configuration.js
 
 # -- configure spacedeck -------------------------------------------------------
 

@@ -112,18 +112,18 @@ sed -i '' \
     -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
     ./.env
 
-# -- update docker-compose.yml and docker-compose.websecure.yml ----------------
+# -- update docker-compose.yml -------------------------------------------------
 
 sed -i '' '1,2 s/^#//' docker-compose.yml
-sed -i '' '1,2 s/^#//' docker-compose.websecure.yml
 
 # -- update scripts/envsubst.sh ------------------------------------------------
 
-sed -i '' '126,132 s/^#//' scripts/envsubst.sh
-sed -i '' '141,148 s/^#//' scripts/envsubst.sh
-sed -i '' '150,154 s/^#//' scripts/envsubst.sh
+sed -i '' '143,149 s/^#//' scripts/envsubst.sh
+#sed -i '' '153,156 s/^#//' scripts/envsubst.sh
 sed -i '' '158,165 s/^#//' scripts/envsubst.sh
-sed -i '' '167,169 s/^#//' scripts/envsubst.sh
+sed -i '' '167,171 s/^#//' scripts/envsubst.sh
+sed -i '' '175,182 s/^#//' scripts/envsubst.sh
+sed -i '' '184,186 s/^#//' scripts/envsubst.sh
 
 # -- print success message -----------------------------------------------------
 
