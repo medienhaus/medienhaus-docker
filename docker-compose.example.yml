@@ -151,6 +151,7 @@ services:
     #  - "9001:9001"
     volumes:
       - ./config/etherpad.json:/opt/etherpad-lite/settings.json:ro
+      - ./config/etherpad-mypads.configuration.js:/opt/etherpad-lite/node_modules/ep_mypads/configuration.js:ro
       - ./etherpad-skin-medienhaus:/opt/etherpad-lite/src/static/skins/medienhaus:ro
 
   # ------------------------------------------------------
