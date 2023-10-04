@@ -116,15 +116,6 @@ sed -i '' \
 
 sed -i '' '1,2 s/^#//' docker-compose.yml
 
-# -- update scripts/envsubst.sh ------------------------------------------------
-
-sed -i '' '143,149 s/^#//' scripts/envsubst.sh
-#sed -i '' '153,156 s/^#//' scripts/envsubst.sh
-sed -i '' '158,165 s/^#//' scripts/envsubst.sh
-sed -i '' '167,171 s/^#//' scripts/envsubst.sh
-sed -i '' '175,182 s/^#//' scripts/envsubst.sh
-sed -i '' '184,186 s/^#//' scripts/envsubst.sh
-
 # -- print success message -----------------------------------------------------
 
 printf "\n-- %s --\n\n" "$0: finished successfully"
