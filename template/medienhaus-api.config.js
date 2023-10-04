@@ -48,7 +48,7 @@ export default () => ({
       ],
       context: [
         'context',
-	'category'
+        'category'
       ],
       content: [
         'lang',

@@ -14,7 +14,7 @@
         "blueprint": [
           "contributors",
           "image",
-	  "location",
+          "location",
           "time"
         ]
       },
