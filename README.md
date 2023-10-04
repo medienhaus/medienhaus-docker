@@ -61,7 +61,7 @@ This repository contains our Docker composition for a containerized runtime envi
    chmod +x ./scripts/envsubst.sh
    ```
    ```
-   ./scripts/envsubst.sh
+   ./scripts/envsubst.sh --services
    ```
 
 5. start docker composition
@@ -83,7 +83,7 @@ This repository contains our Docker composition for a containerized runtime envi
 7. update config files && re-start docker composition, including `medienhaus-*` services
    <br>
    ```
-   ./scripts/envsubst.sh
+   ./scripts/envsubst.sh --medienhaus
    ```
    ```
    docker compose up -d
