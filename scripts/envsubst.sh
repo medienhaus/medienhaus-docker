@@ -142,6 +142,20 @@ configure_services() {
     ./template/element.json \
     > ./config/element.json
 
+  # -- configure medienhaus-spaces (without root_context_space_id) -------------
+
+  sed \
+    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
+    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+    ./template/medienhaus-spaces.config.js \
+    > ./config/medienhaus-spaces.config.js
+
+  cp \
+    ./template/element-medienhaus-spaces.json \
+    ./config/element-medienhaus-spaces.json
+
 }
 
 # -- configure medienhaus-* ----------------------------------------------------
@@ -179,7 +193,7 @@ configure_medienhaus() {
     ./template/medienhaus-cms.config.json \
     > ./config/medienhaus-cms.config.json
 
-  # -- configure medienhaus-spaces ---------------------------------------------
+  # -- configure medienhaus-spaces (with root_context_space_id) ----------------
 
   sed \
     -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
@@ -190,9 +204,9 @@ configure_medienhaus() {
     ./template/medienhaus-spaces.config.js \
     > ./config/medienhaus-spaces.config.js
 
-  cp \
-    ./template/element-medienhaus-spaces.json \
-    ./config/element-medienhaus-spaces.json
+  #cp \
+  #  ./template/element-medienhaus-spaces.json \
+  #  ./config/element-medienhaus-spaces.json
 
 }
 

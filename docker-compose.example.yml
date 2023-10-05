@@ -141,6 +141,7 @@ services:
       context: ./etherpad-lite
       args:
         ETHERPAD_PLUGINS: "ep_adminpads2 ep_comments_page ep_headings2 ep_markdown ep_mypads"
+    # NOTE: if using authentik as identity provider, update the ldapauth-fork dependency in ep_mypads
     #command: sh -c "cd node_modules/ep_mypads/ && npm install ldapauth-fork@^5.0.5 && etherpad"
     container_name: etherpad
     restart: unless-stopped
@@ -300,6 +301,48 @@ services:
       traefik.http.routers.element.rule: "Host(`element.${SPACES_HOSTNAME}`)"
     volumes:
       - ./config/element.json:/app/config.json:ro
+
+  # ------------------------------------------------------
+  # medienhaus-spaces
+  # ------------------------------------------------------
+
+  medienhaus-spaces:
+    build: ./medienhaus-spaces
+    container_name: medienhaus-spaces
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.medienhaus-spaces.entrypoints: "web"
+      #traefik.http.routers.medienhaus-spaces.entrypoints: "websecure"
+      #traefik.http.routers.medienhaus-spaces.tls.certresolver: "myresolver"
+      traefik.http.routers.medienhaus-spaces.rule: "Host(`${SPACES_HOSTNAME}`)"
+    #ports:
+    #  - "3000:3000"
+    volumes:
+      - ./config/medienhaus-spaces.config.js:/usr/src/app/next.config.js:ro
+      - ./medienhaus-spaces:/usr/src/app:rw
+      - medienhaus-spaces--node_modules:/usr/src/app/node_modules
+      - medienhaus-spaces--.next:/usr/src/app/.next
+
+  element-medienhaus-spaces:
+    image: vectorim/element-web:latest
+    container_name: element-medienhaus-spaces
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - medienhaus-spaces
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.element-medienhaus-spaces.entrypoints: "web"
+      #traefik.http.routers.element-medienhaus-spaces.entrypoints: "websecure"
+      #traefik.http.routers.element-medienhaus-spaces.tls.certresolver: "myresolver"
+      traefik.http.routers.element-medienhaus-spaces.rule: "Host(`${SPACES_HOSTNAME}`) && PathPrefix(`/element/`)"
+      traefik.http.routers.element-medienhaus-spaces.middlewares: "element-medienhaus-spaces@docker"
+      traefik.http.middlewares.element-medienhaus-spaces.stripprefix.prefixes: "/element"
+    volumes:
+      - ./config/element-medienhaus-spaces.json:/app/config.json:ro
 
 # ------------------------------------------------------
 # networks (example)
