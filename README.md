@@ -58,10 +58,7 @@ This repository contains our Docker composition for a containerized runtime envi
 4. create config files from `template/*` files and `.env` variables
    <br>
    ```
-   chmod +x ./scripts/envsubst.sh
-   ```
-   ```
-   ./scripts/envsubst.sh --services
+   sh ./scripts/envsubst.sh --services
    ```
 
 5. start docker composition
@@ -72,18 +69,15 @@ This repository contains our Docker composition for a containerized runtime envi
 
 6. create `medienhaus-api` matrix account and create config files from `template/*`
    <br>
-   ```
-   chmod +x ./scripts/init-medienhaus-api.sh
-   ```
    💬 This script uses `MEDIENHAUS_ADMIN_USER_ID` and `MEDIENHAUS_ADMIN_PASSWORD` from `.env`!
    ```
-   ./scripts/init-medienhaus-api.sh
+   sh ./scripts/init-medienhaus-api.sh
    ```
 
 7. update config files && re-start docker composition, including `medienhaus-*` services
    <br>
    ```
-   ./scripts/envsubst.sh --medienhaus
+   sh ./scripts/envsubst.sh --medienhaus
    ```
    ```
    docker compose up -d
