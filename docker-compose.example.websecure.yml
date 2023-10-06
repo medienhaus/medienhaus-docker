@@ -196,6 +196,7 @@ services:
     build: ./spacedeck-open
     container_name: spacedeck
     restart: unless-stopped
+    stop_grace_period: 1s
     depends_on:
       postgres-spacedeck:
         condition: service_healthy
