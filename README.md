@@ -58,7 +58,7 @@ This repository contains our Docker composition for a containerized runtime envi
 4. create config files from `template/*` files and `.env` variables
    <br>
    ```
-   sh ./scripts/envsubst.sh --services
+   sh ./scripts/envsubst.sh
    ```
    🧩 Configure `MEDIENHAUS_ROOT_CONTEXT_SPACE_ID` in `.env` if skipping the [*optional*](#optional-instructions-for-medienhaus-api-and-medienhaus-cms) section!
 
@@ -94,7 +94,7 @@ This repository contains our Docker composition for a containerized runtime envi
    sh ./scripts/envsubst.sh --medienhaus
    ```
    ```
-   docker compose up -d
+   docker compose up -d --force-recreate
    ```
 
 <br>
