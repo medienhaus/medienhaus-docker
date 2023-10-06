@@ -56,5 +56,6 @@ module.exports = {
 
         return rewriteConfig;
     },
+    output: 'standalone',
     webpack: WebpackConfig,
 };

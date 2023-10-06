@@ -307,11 +307,15 @@ services:
   # ------------------------------------------------------
 
   medienhaus-spaces:
-    build: ./medienhaus-spaces
+    build:
+      context: ./medienhaus-spaces
+      target: "development-runner"
     container_name: medienhaus-spaces
     restart: unless-stopped
     depends_on:
       - traefik
+    environment:
+      NODE_ENV: "development"
     labels:
       traefik.enable: "true"
       traefik.http.routers.medienhaus-spaces.entrypoints: "web"
@@ -321,10 +325,10 @@ services:
     #ports:
     #  - "3000:3000"
     volumes:
-      - ./config/medienhaus-spaces.config.js:/usr/src/app/next.config.js:ro
-      - ./medienhaus-spaces:/usr/src/app:rw
-      - medienhaus-spaces--node_modules:/usr/src/app/node_modules
-      - medienhaus-spaces--.next:/usr/src/app/.next
+      - ./config/medienhaus-spaces.config.js:/app/next.config.js:ro
+      - ./medienhaus-spaces:/app:rw
+      - medienhaus-spaces--node_modules:/app/node_modules
+      - medienhaus-spaces--.next:/app/.next
 
   element-medienhaus-spaces:
     image: vectorim/element-web:latest
