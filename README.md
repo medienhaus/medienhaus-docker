@@ -60,7 +60,7 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    sh ./scripts/envsubst.sh --services
    ```
-   🧩 Make sure that `MEDIENHAUS_ROOT_CONTEXT_SPACE_ID` is configured in `.env` if skipping the *optional* section!
+   🧩 Configure `MEDIENHAUS_ROOT_CONTEXT_SPACE_ID` in `.env` if skipping the [*optional*](#optional-instructions-for-medienhaus-api-and-medienhaus-cms) section!
 
 5. start docker composition
    <br>
@@ -77,14 +77,16 @@ This repository contains our Docker composition for a containerized runtime envi
    - username: *(configured via `lldap`)*
    - password: *(configured via `lldap`)*
 
-**OPTIONAL:** for `medienhaus-api` and `medienhaus-cms`
+<br>
+
+#### OPTIONAL: Instructions for `medienhaus-api` and `medienhaus-cms`
 
 8. create `medienhaus-api` matrix account and create config files from `template/*`
    <br>
-   💬 This script uses `MEDIENHAUS_ADMIN_USER_ID` and `MEDIENHAUS_ADMIN_PASSWORD` from `.env`!
    ```
    sh ./scripts/init-medienhaus-api.sh
    ```
+   💬 This script uses `MEDIENHAUS_ADMIN_USER_ID` and `MEDIENHAUS_ADMIN_PASSWORD` from `.env`!
 
 9. update config files && re-start docker composition, including `medienhaus-*` services
    <br>
