@@ -60,6 +60,7 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    sh ./scripts/envsubst.sh --services
    ```
+   🧩 Make sure that `MEDIENHAUS_ROOT_CONTEXT_SPACE_ID` is configured in `.env` if skipping the *optional* section!
 
 5. start docker composition
    <br>
@@ -67,14 +68,25 @@ This repository contains our Docker composition for a containerized runtime envi
    docker compose up -d
    ```
 
-6. create `medienhaus-api` matrix account and create config files from `template/*`
+6. set up `lldap` user account(s) via: http://ldap.localhost/
+   - username: `admin` *(configured via `.env`)*
+   - password: `change_me` *(configured via `.env`)*
+   - create user account(s)
+
+7. open the `medienhaus-spaces` application and log in via: http://localhost/login
+   - username: *(configured via `lldap`)*
+   - password: *(configured via `lldap`)*
+
+**OPTIONAL:** for `medienhaus-api` and `medienhaus-cms`
+
+8. create `medienhaus-api` matrix account and create config files from `template/*`
    <br>
    💬 This script uses `MEDIENHAUS_ADMIN_USER_ID` and `MEDIENHAUS_ADMIN_PASSWORD` from `.env`!
    ```
    sh ./scripts/init-medienhaus-api.sh
    ```
 
-7. update config files && re-start docker composition, including `medienhaus-*` services
+9. update config files && re-start docker composition, including `medienhaus-*` services
    <br>
    ```
    sh ./scripts/envsubst.sh --medienhaus
@@ -82,15 +94,6 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    docker compose up -d
    ```
-
-8. set up `lldap` user account(s) via: http://ldap.localhost/
-   - username: `admin` *(configured via `.env`)*
-   - password: `change_me` *(configured via `.env`)*
-   - create user account(s)
-
-9. open the `medienhaus-spaces` application and log in via: http://localhost/login
-   - username: *(configured via `lldap`)*
-   - password: *(configured via `lldap`)*
 
 <br>
 

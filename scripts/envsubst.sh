@@ -221,32 +221,56 @@ configure_medienhaus() {
 
 }
 
+show_help() {
+cat << EOF
+
+  -- envsubst for services (matrix-synapse, etherpad-lite, spacedeck, lldap, etc.) --
+  !! NOTE: ensure that MEDIENHAUS_ROOT_CONTEXT_SPACE_ID is configured in .env file !!
+
+  sh $0
+  sh $0 [--services]
+
+
+  -- envsubst for medienhaus-* (medienhaus-spaces, medienhaus-api, medienhaus-cms) --
+
+  sh $0 --medienhaus
+
+
+  -- envsubst for anything the composition offers -- i.e. services && medienhaus-* --
+
+  sh $0 --all
+
+EOF
+}
 # -- check command-line arguments ----------------------------------------------
 
-if [[ $# -eq 0 ]] || [[ $1 != "--services" && $1 != "--medienhaus" ]]; then
-  printf "\n-- %s -- %s --\n\n" "$0: exited" "nothing done !!"
-  printf "# %s\n" "envsubst for services (matrix-synapse, etherpad-lite, spacedeck, lldap, etc.)"
-  printf "%s\n\n" "$0 --services"
-  printf "# %s\n" "envsubst for medienhaus-* (medienhaus-spaces, medienhaus-api, medienhaus-cms)"
-  printf "%s\n\n" "$0 --medienhaus"
-  printf "# %s\n" "envsubst for services && medienhaus-*"
-  printf "%s\n\n" "$0 --services --medienhaus"
-  exit 1
+if [[ $# -eq 0 ]]; then
+  configure_services
+  printf "\n  -- %s --\n\n" "$0: finished successfully"
+  exit
 else
   while [[ $# -gt 0 ]]; do
     case $1 in
       --services)
         configure_services
-        printf "\n-- %s --\n" "$0 $1: finished successfully"
-        shift
+        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        exit
         ;;
       --medienhaus)
         configure_medienhaus
-        printf "\n-- %s --\n" "$0 $1: finished successfully"
-        shift
+        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        exit
+        ;;
+      --all)
+        configure_services
+        configure_medienhaus
+        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        exit
+        ;;
+      *)
+        show_help
+        exit
         ;;
     esac
   done
-  printf "\n"
-  exit
 fi
