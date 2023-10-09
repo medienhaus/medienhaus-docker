@@ -184,11 +184,6 @@ configure_medienhaus() {
 
   # -- configure medienhaus-cms ------------------------------------------------
 
-  #sed \
-  #    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-  #    ./template/nginx-medienhaus-cms.conf \
-  #    > ./config/nginx-medienhaus-cms.conf
-
   sed \
     -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
