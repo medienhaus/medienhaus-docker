@@ -328,8 +328,8 @@ services:
     volumes:
       - ./config/medienhaus-spaces.config.js:/app/next.config.js:ro
       - ./medienhaus-spaces:/app:rw
-      - medienhaus-spaces--node_modules:/app/node_modules
-      - medienhaus-spaces--.next:/app/.next
+      - medienhaus-spaces--node_modules:/app/node_modules:rw
+      - medienhaus-spaces--.next:/app/.next:rw
 
   element-medienhaus-spaces:
     image: vectorim/element-web:latest
