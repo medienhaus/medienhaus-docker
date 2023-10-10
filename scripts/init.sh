@@ -25,18 +25,21 @@ fi
 
 set -o allexport && source .env && set +o allexport
 
-# -- create matrix-synapse account for medienhaus-* ----------------------------
+# -- register matrix-synapse account for medienhaus-* --------------------------
 # -- NOTE: for now this needs to be an admin account due to ratelimit reasons --
 
-docker exec matrix-synapse \
-  register_new_matrix_user http://localhost:8008 \
-    -c /etc/matrix-synapse/homeserver.yaml \
-    --user "${MEDIENHAUS_ADMIN_USER_ID}" \
-    --password "${MEDIENHAUS_ADMIN_PASSWORD}" \
-    --admin
+register_matrix_account() {
+  docker exec matrix-synapse \
+    register_new_matrix_user http://localhost:8008 \
+      -c /etc/matrix-synapse/homeserver.yaml \
+      --user "${MEDIENHAUS_ADMIN_USER_ID}" \
+      --password "${MEDIENHAUS_ADMIN_PASSWORD}" \
+      --admin
+}
 
 # -- retrieve access_token for created matrix-synapse account ------------------
 
+retrieve_access_token() {
 #MEDIENHAUS_ADMIN_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
 #  curl "http://localhost:8008/_matrix/client/r0/login" \
 #    --silent \
@@ -61,15 +64,17 @@ MEDIENHAUS_ADMIN_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
   "password": "${MEDIENHAUS_ADMIN_PASSWORD}"
 }
 EOF
-)
+  )
+}
 
 # -- create root context space for medienhaus-* and retrieve room_id -----------
 
-MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
-  curl "http://localhost:8008/_matrix/client/r0/createRoom?access_token=${MEDIENHAUS_ADMIN_ACCESS_TOKEN}" \
-    --silent \
-    --request POST \
-    --data-binary @- << EOF | sed -En 's/.*"room_id":"([^"]*).*/\1/p'
+create_root_context_space() {
+  MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
+    curl "http://localhost:8008/_matrix/client/r0/createRoom?access_token=${MEDIENHAUS_ADMIN_ACCESS_TOKEN}" \
+      --silent \
+      --request POST \
+      --data-binary @- << EOF | sed -En 's/.*"room_id":"([^"]*).*/\1/p'
 {
   "name": "medienhaus/ root context",
   "preset": "private_chat",
@@ -99,7 +104,8 @@ MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
   ]
 }
 EOF
-)
+  )
+}
 
 # -- configure access_token and room_id in .env --------------------------------
 
@@ -160,6 +166,9 @@ EOF
 # -- check command-line arguments ----------------------------------------------
 
 if [[ $# -eq 0 ]]; then
+  register_matrix_account
+  retrieve_access_token
+  create_root_context_space
   configure_env
   configure_compose_spaces
   printf "\n-- %s --\n\n" "$0: finished successfully"
@@ -168,6 +177,9 @@ else
   while [[ $# -gt 0 ]]; do
     case $1 in
       --api)
+        register_matrix_account
+        retrieve_access_token
+        create_root_context_space
         configure_env
         configure_compose_spaces
         configure_compose_api
@@ -175,6 +187,9 @@ else
         exit
         ;;
       --cms)
+        register_matrix_account
+        retrieve_access_token
+        create_root_context_space
         configure_env
         configure_compose_spaces
         configure_compose_cms
@@ -182,6 +197,9 @@ else
         exit
         ;;
       --all)
+        register_matrix_account
+        retrieve_access_token
+        create_root_context_space
         configure_env
         configure_compose_spaces
         configure_compose_api
