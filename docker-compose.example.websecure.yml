@@ -1,5 +1,7 @@
 #include:
-#  - docker-include.medienhaus-api-and-cms.websecure.yml
+#  - docker-include.medienhaus-spaces.websecure.yml
+#  - docker-include.medienhaus-api.websecure.yml
+#  - docker-include.medienhaus-cms.websecure.yml
 
 services:
 

@@ -15,8 +15,8 @@ fi
 
 # -- check if config directory exists, else exit -------------------------------
 
-if [[ ! -d config ]]; then
-  printf "\n-- %s --\n" "./config/ directory not found"
+if [[ ! -w .env ]]; then
+  printf "\n-- %s --\n" ".env file not found or not writable"
   printf "\n-- %s --\n" "make sure to follow the setup instructions in README.md"
   exit 1
 fi
@@ -25,7 +25,7 @@ fi
 
 set -o allexport && source .env && set +o allexport
 
-# -- create matrix-synapse account for medienhaus ------------------------------
+# -- create matrix-synapse account for medienhaus-* ----------------------------
 # -- NOTE: for now this needs to be an admin account due to ratelimit reasons --
 
 docker exec matrix-synapse \
@@ -35,7 +35,7 @@ docker exec matrix-synapse \
     --password "${MEDIENHAUS_ADMIN_PASSWORD}" \
     --admin
 
-# -- retrieve access_token for medienhaus account ------------------------------
+# -- retrieve access_token for created matrix-synapse account ------------------
 
 #MEDIENHAUS_ADMIN_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
 #  curl "http://localhost:8008/_matrix/client/r0/login" \
@@ -63,7 +63,7 @@ MEDIENHAUS_ADMIN_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
 EOF
 )
 
-# -- create root context space for medienhaus ----------------------------------
+# -- create root context space for medienhaus-* and retrieve room_id -----------
 
 MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
   curl "http://localhost:8008/_matrix/client/r0/createRoom?access_token=${MEDIENHAUS_ADMIN_ACCESS_TOKEN}" \
@@ -101,21 +101,98 @@ MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
 EOF
 )
 
-# -- update .env ---------------------------------------------------------------
+# -- configure access_token and room_id in .env --------------------------------
 
-sed -i '' '67,68 s/^#//' .env
+configure_env() {
+  sed -i '' '67 s/^#//' .env
+  sed -i '' '68 s/^#//' .env
 
-# -- write values to .env ------------------------------------------------------
+  sed -i '' \
+      -e "s/\${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
+      -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
+      ./.env
+}
 
-sed -i '' \
-    -e "s/\${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
-    -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
-    ./.env
+# -- configure includes in docker-compose.yml ----------------------------------
 
-# -- update docker-compose.yml -------------------------------------------------
+configure_compose_spaces() {
+  sed -i '' '1 s/^#//' docker-compose.yml
+  sed -i '' '2 s/^#//' docker-compose.yml
+}
 
-sed -i '' '1,2 s/^#//' docker-compose.yml
+configure_compose_api() {
+  sed -i '' '1 s/^#//' docker-compose.yml
+  sed -i '' '3 s/^#//' docker-compose.yml
+}
 
-# -- print success message -----------------------------------------------------
+configure_compose_cms() {
+  sed -i '' '1 s/^#//' docker-compose.yml
+  sed -i '' '4 s/^#//' docker-compose.yml
+}
 
-printf "\n-- %s --\n\n" "$0: finished successfully"
+# -- show help / print usage information ---------------------------------------
+#
+show_help() {
+cat << EOF
+
+  -- init for medienhaus-spaces (default) --
+
+  sh $0
+
+
+  -- init for medienhaus-spaces and medienhaus-api --
+
+  sh $0 --api
+
+
+  -- init for medienhaus-spaces and medienhaus-cms --
+
+  sh $0 --cms
+
+
+  -- init for medienhaus-* (all of the above) --
+
+  sh $0 --all
+
+EOF
+}
+
+# -- check command-line arguments ----------------------------------------------
+
+if [[ $# -eq 0 ]]; then
+  configure_env
+  configure_compose_spaces
+  printf "\n-- %s --\n\n" "$0: finished successfully"
+  exit
+else
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --api)
+        configure_env
+        configure_compose_spaces
+        configure_compose_api
+        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        exit
+        ;;
+      --cms)
+        configure_env
+        configure_compose_spaces
+        configure_compose_cms
+        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        exit
+        ;;
+      --all)
+        configure_env
+        configure_compose_spaces
+        configure_compose_api
+        configure_compose_cms
+        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        exit
+        ;;
+      *)
+        show_help
+        exit
+        ;;
+    esac
+  done
+fi

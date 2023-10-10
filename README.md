@@ -60,7 +60,6 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    sh ./scripts/envsubst.sh
    ```
-   🧩 Configure `MEDIENHAUS_ROOT_CONTEXT_SPACE_ID` in `.env` if skipping the [*optional*](#optional-instructions-for-medienhaus-api-and-medienhaus-cms) section!
 
 5. start docker composition
    <br>
@@ -68,34 +67,56 @@ This repository contains our Docker composition for a containerized runtime envi
    docker compose up -d
    ```
 
-6. set up `lldap` user account(s) via: http://ldap.localhost/
+6. create `matrix-synapse` account for `medienhaus-*`
+   <br>
+   ```
+   sh ./scripts/init.sh
+   ```
+   🧩 **OPTIONAL:** If you want to include `medienhaus-api`, run the following:
+   ```
+   sh ./scripts/init.sh --api
+   ```
+   🧩 **OPTIONAL:** If you want to include `medienhaus-cms`, run the following:
+   ```
+   sh ./scripts/init.sh --cms
+   ```
+   🧩 **OPTIONAL:** If you want to include `medienhaus-api` and `medienhaus-cms`, run the following:
+   ```
+   sh ./scripts/init.sh --all
+   ```
+
+7. re-create config files from `template/*` files and `.env` variables *including `medienhaus-*` services*
+   <br>
+   ```
+   sh ./scripts/envsubst.sh
+   ```
+   🧩 **OPTIONAL:** If you want to include `medienhaus-api`, run the following:
+   ```
+   sh ./scripts/envsubst.sh --api
+   ```
+   🧩 **OPTIONAL:** If you want to include `medienhaus-cms`, run the following:
+   ```
+   sh ./scripts/envsubst.sh --cms
+   ```
+   🧩 **OPTIONAL:** If you want to include `medienhaus-api` and `medienhaus-cms`, run the following:
+   ```
+   sh ./scripts/envsubst.sh --all
+   ```
+
+8. re-start docker composition *including `medienhaus-*` services*
+   <br>
+   ```
+   docker compose up -d
+   ```
+
+9. set up `lldap` user account(s) via: http://ldap.localhost/
    - username: `admin` *(configured via `.env`)*
    - password: `change_me` *(configured via `.env`)*
    - create user account(s)
 
-7. open the `medienhaus-spaces` application and log in via: http://localhost/login
-   - username: *(configured via `lldap`)*
-   - password: *(configured via `lldap`)*
-
-<br>
-
-#### OPTIONAL: Instructions for `medienhaus-api` and `medienhaus-cms`
-
-8. create `medienhaus-api` matrix account and create config files from `template/*`
-   <br>
-   ```
-   sh ./scripts/init-medienhaus-api.sh
-   ```
-   💬 This script uses `MEDIENHAUS_ADMIN_USER_ID` and `MEDIENHAUS_ADMIN_PASSWORD` from `.env`!
-
-9. update config files && re-start docker composition, including `medienhaus-*` services
-   <br>
-   ```
-   sh ./scripts/envsubst.sh --medienhaus
-   ```
-   ```
-   docker compose up -d --force-recreate
-   ```
+10. open the `medienhaus-spaces` application and log in via: http://localhost/login
+    - username: *(configured via `lldap`)*
+    - password: *(configured via `lldap`)*
 
 <br>
 

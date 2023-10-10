@@ -27,7 +27,7 @@ set -o allexport && source .env && set +o allexport
 
 configure_services() {
 
-  # -- configure etherpad ------------------------------------------------------
+  # -- etherpad ----------------------------------------------------------------
 
   sed \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
@@ -58,7 +58,7 @@ configure_services() {
   #    ./template/etherpad-mypads-extra-html-javascript.html \
   #    > ./config/etherpad-mypads-extra-html-javascript.html
 
-  # -- configure spacedeck -----------------------------------------------------
+  # -- spacedeck ---------------------------------------------------------------
 
   sed \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
@@ -83,7 +83,7 @@ configure_services() {
     ./template/spacedeck.json \
     > ./config/spacedeck.json
 
-  # -- configure matrix-synapse ------------------------------------------------
+  # -- matrix-synapse ----------------------------------------------------------
 
   sed \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
@@ -112,7 +112,7 @@ configure_services() {
     ./template/matrix-synapse.yaml \
     > ./config/matrix-synapse.yaml
 
-  # -- configure element-web ---------------------------------------------------
+  # -- element-web -------------------------------------------------------------
 
   sed \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
@@ -121,15 +121,26 @@ configure_services() {
     ./template/element.json \
     > ./config/element.json
 
-  # -- configure medienhaus-spaces (without root_context_space_id) -------------
+  # -- medienhaus-spaces -------------------------------------------------------
 
-  sed \
-    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
-    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
-    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-    ./template/medienhaus-spaces.config.js \
-    > ./config/medienhaus-spaces.config.js
+  if [[ -z "${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID+fail_if_unset}" ]]; then
+    sed \
+      -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
+      -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+      -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+      -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+      ./template/medienhaus-spaces.config.js \
+      > ./config/medienhaus-spaces.config.js
+  else
+    sed \
+      -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
+      -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+      -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+      -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+      -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
+      ./template/medienhaus-spaces.config.js \
+      > ./config/medienhaus-spaces.config.js
+  fi
 
   cp \
     ./template/element-medienhaus-spaces.json \
@@ -137,11 +148,9 @@ configure_services() {
 
 }
 
-# -- configure medienhaus-* ----------------------------------------------------
-configure_medienhaus() {
+# -- configure medienhaus-api --------------------------------------------------
 
-  # -- configure medienhaus-api ------------------------------------------------
-
+configure_api() {
   sed \
     -e "s/\${MEDIENHAUS_ADMIN_USER_ID}/${MEDIENHAUS_ADMIN_USER_ID}/g" \
     -e "s/\${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g" \
@@ -149,9 +158,11 @@ configure_medienhaus() {
     -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
     ./template/medienhaus-api.config.js \
     > ./config/medienhaus-api.config.js
+}
 
-  # -- configure medienhaus-cms ------------------------------------------------
+# -- configure medienhaus-cms --------------------------------------------------
 
+configure_cms() {
   sed \
     -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
@@ -166,45 +177,35 @@ configure_medienhaus() {
     -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
     ./template/medienhaus-cms.config.json \
     > ./config/medienhaus-cms.config.json
-
-  # -- configure medienhaus-spaces (with root_context_space_id) ----------------
-
-  sed \
-    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
-    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
-    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-    -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
-    ./template/medienhaus-spaces.config.js \
-    > ./config/medienhaus-spaces.config.js
-
-  #cp \
-  #  ./template/element-medienhaus-spaces.json \
-  #  ./config/element-medienhaus-spaces.json
-
 }
+
+# -- show help / print usage information ---------------------------------------
 
 show_help() {
 cat << EOF
 
-  -- envsubst for services (matrix-synapse, etherpad-lite, spacedeck, lldap, etc.) --
-  !! NOTE: ensure that MEDIENHAUS_ROOT_CONTEXT_SPACE_ID is configured in .env file !!
+  -- envsubst for services and medienhaus-spaces (default) --
 
   sh $0
-  sh $0 [--services]
 
 
-  -- envsubst for medienhaus-* (medienhaus-spaces, medienhaus-api, medienhaus-cms) --
+  -- envsubst for services and medienhaus-spaces and medienhaus-api --
 
-  sh $0 --medienhaus
+  sh $0 --api
 
 
-  -- envsubst for anything the composition offers -- i.e. services && medienhaus-* --
+  -- envsubst for services and medienhaus-spaces and medienhaus-cms --
+
+  sh $0 --cms
+
+
+  -- envsubst for services and medienhaus-* (all of the above) --
 
   sh $0 --all
 
 EOF
 }
+
 # -- check command-line arguments ----------------------------------------------
 
 if [[ $# -eq 0 ]]; then
@@ -214,19 +215,22 @@ if [[ $# -eq 0 ]]; then
 else
   while [[ $# -gt 0 ]]; do
     case $1 in
-      --services)
+      --api)
         configure_services
+        configure_api
         printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
-      --medienhaus)
-        configure_medienhaus
+      --cms)
+        configure_services
+        configure_cms
         printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
       --all)
         configure_services
-        configure_medienhaus
+        configure_api
+        configure_cms
         printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
