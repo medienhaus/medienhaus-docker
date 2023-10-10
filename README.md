@@ -34,7 +34,7 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    ${VISUAL:-${EDITOR:-vim}} .env
    ```
-   ⚠️ For *production*, please change **at least** the following environment variables!
+   ⚠️ For *production*, please change **at least** the following environment variables❗️
       - `ADMIN_CONTACT_LETSENCRYPT` for issuing SSL certificates via `traefik`
       - `BASE_URL` to your *fully qualified domain name*, e.g. `spaces.example.org`
       - `HTTP_SCHEMA` to `https` for enabling https context for all services
@@ -50,7 +50,7 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    cp docker-compose.example.yml docker-compose.yml
    ```
-   ⚠️ For *production*, please use [`docker-compose.example.websecure.yml`](docker-compose.example.websecure.yml) with secured `https` context!
+   ⚠️ For *production*, please use [`docker-compose.example.websecure.yml`](docker-compose.example.websecure.yml) with secured `https` context❗️
    ```
    cp docker-compose.example.websecure.yml docker-compose.yml
    ```
@@ -72,38 +72,80 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    sh ./scripts/init.sh
    ```
-   🧩 **OPTIONAL:** If you want to include `medienhaus-api`, run the following:
+   <details>
+
+   <summary>⚠️ If you want to include <code>medienhaus-api</code> and/or <code>medienhaus-cms</code>, use these commands <strong>instead</strong>❗️</summary>
+
+   <br>
+
+   If you want to include `medienhaus-api`, run the following:
+
    ```
    sh ./scripts/init.sh --api
    ```
-   🧩 **OPTIONAL:** If you want to include `medienhaus-cms`, run the following:
+
+   If you want to include `medienhaus-cms`, run the following:
+
    ```
    sh ./scripts/init.sh --cms
    ```
-   🧩 **OPTIONAL:** If you want to include `medienhaus-api` and `medienhaus-cms`, run the following:
+
+   If you want to include `medienhaus-api` and `medienhaus-cms`, run the following:
+
    ```
    sh ./scripts/init.sh --all
    ```
 
-7. re-create config files from `template/*` files and `.env` variables *including `medienhaus-*` services*
+   The script can list these commands with the `--help` argument:
+
+   ```
+   sh ./scripts/init.sh --help
+   ```
+
+   </details>
+
+<br>
+
+7. re-create config files from `template/*` files and `.env` variables including `medienhaus-*` services
    <br>
    ```
    sh ./scripts/envsubst.sh
    ```
-   🧩 **OPTIONAL:** If you want to include `medienhaus-api`, run the following:
+   <details>
+
+   <br>
+
+   <summary>⚠️ If you want to include <code>medienhaus-api</code> and/or <code>medienhaus-cms</code>, use these commands <strong>instead</strong>❗️</summary>
+
+   If you want to include `medienhaus-api`, run the following:
+
    ```
    sh ./scripts/envsubst.sh --api
    ```
-   🧩 **OPTIONAL:** If you want to include `medienhaus-cms`, run the following:
+
+   If you want to include `medienhaus-cms`, run the following:
+
    ```
    sh ./scripts/envsubst.sh --cms
    ```
-   🧩 **OPTIONAL:** If you want to include `medienhaus-api` and `medienhaus-cms`, run the following:
+
+   If you want to include `medienhaus-api` and `medienhaus-cms`, run the following:
+
    ```
    sh ./scripts/envsubst.sh --all
    ```
 
-8. re-start docker composition *including `medienhaus-*` services*
+   The script can list these commands with the `--help` argument:
+
+   ```
+   sh ./scripts/envsubst.sh --help
+   ```
+
+   </details>
+
+<br>
+
+8. re-start docker composition including `medienhaus-*` services
    <br>
    ```
    docker compose up -d
