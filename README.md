@@ -74,23 +74,23 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    <details>
 
-   <summary>⚠️ If you want to include <code>medienhaus-api</code> and/or <code>medienhaus-cms</code>, use these commands <strong>instead</strong>❗️</summary>
+   <summary>⚠️ For including <code>medienhaus-api</code> and/or <code>medienhaus-cms</code>, use these commands <strong>instead</strong>❗️</summary>
 
    <br>
 
-   If you want to include `medienhaus-api`, run the following:
+   For including `medienhaus-api`, run the following:
 
    ```
    sh ./scripts/init.sh --api
    ```
 
-   If you want to include `medienhaus-cms`, run the following:
+   For including `medienhaus-cms`, run the following:
 
    ```
    sh ./scripts/init.sh --cms
    ```
 
-   If you want to include `medienhaus-api` and `medienhaus-cms`, run the following:
+   For including `medienhaus-api` and `medienhaus-cms`, run the following:
 
    ```
    sh ./scripts/init.sh --all
@@ -115,21 +115,21 @@ This repository contains our Docker composition for a containerized runtime envi
 
    <br>
 
-   <summary>⚠️ If you want to include <code>medienhaus-api</code> and/or <code>medienhaus-cms</code>, use these commands <strong>instead</strong>❗️</summary>
+   <summary>⚠️ For including <code>medienhaus-api</code> and/or <code>medienhaus-cms</code>, use these commands <strong>instead</strong>❗️</summary>
 
-   If you want to include `medienhaus-api`, run the following:
+   For including `medienhaus-api`, run the following:
 
    ```
    sh ./scripts/envsubst.sh --api
    ```
 
-   If you want to include `medienhaus-cms`, run the following:
+   For including `medienhaus-cms`, run the following:
 
    ```
    sh ./scripts/envsubst.sh --cms
    ```
 
-   If you want to include `medienhaus-api` and `medienhaus-cms`, run the following:
+   For including `medienhaus-api` and `medienhaus-cms`, run the following:
 
    ```
    sh ./scripts/envsubst.sh --all
