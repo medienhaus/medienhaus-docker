@@ -311,7 +311,8 @@ services:
       - traefik
     environment:
       NODE_ENV: "development"
-      # Enables detecting config file changes inside container (via https://github.com/vercel/next.js/issues/36774#issuecomment-1438324196)
+      # NOTE: enable detecting `next.config.js` file changes in running container
+      # via: https://github.com/vercel/next.js/issues/36774#issuecomment-1438324196
       WATCHPACK_POLLING: true
     labels:
       traefik.enable: "true"
