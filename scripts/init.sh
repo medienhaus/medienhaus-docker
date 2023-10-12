@@ -40,24 +40,11 @@ register_matrix_account() {
 # -- retrieve access_token for created matrix-synapse account ------------------
 
 retrieve_access_token() {
-#MEDIENHAUS_ADMIN_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
-#  curl "http://localhost:8008/_matrix/client/r0/login" \
-#    --silent \
-#    --request POST \
-#    --data-binary @- << EOF | grep -o '"access_token":"[^"]*' | grep -o '[^"]*$'
-#{
-#  "type": "m.login.password",
-#  "user": "${MEDIENHAUS_ADMIN_USER_ID}",
-#  "password": "${MEDIENHAUS_ADMIN_PASSWORD}"
-#}
-#EOF
-#)
-
-MEDIENHAUS_ADMIN_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
-  curl "http://localhost:8008/_matrix/client/r0/login" \
-    --silent \
-    --request POST \
-    --data-binary @- << EOF | sed -En 's/.*"access_token":"([^"]*).*/\1/p'
+  MEDIENHAUS_ADMIN_ACCESS_TOKEN=$(docker exec -i matrix-synapse \
+    curl "http://localhost:8008/_matrix/client/r0/login" \
+      --silent \
+      --request POST \
+      --data-binary @- << EOF | sed -En 's/.*"access_token":"([^"]*).*/\1/p'
 {
   "type": "m.login.password",
   "user": "${MEDIENHAUS_ADMIN_USER_ID}",
