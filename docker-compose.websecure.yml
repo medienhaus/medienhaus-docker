@@ -302,11 +302,15 @@ services:
   # ------------------------------------------------------
 
   medienhaus-spaces:
-    build: ./medienhaus-spaces
+    build:
+      context: ./medienhaus-spaces
+      target: "development-runner"
     container_name: medienhaus-spaces
     restart: unless-stopped
     depends_on:
       - traefik
+    environment:
+      NODE_ENV: "development"
     labels:
       traefik.enable: "true"
       #traefik.http.routers.medienhaus-spaces.entrypoints: "web"
