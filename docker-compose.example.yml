@@ -99,7 +99,8 @@ services:
     #  #- "6360:6360"
     #  - "17170:17170"
     volumes:
-      - ./data/lldap:/data:rw
+      #- ./data/lldap:/data:rw
+      - lldap_data:/data:rw
 
   # ------------------------------------------------------
   # etherpad
@@ -316,10 +317,12 @@ services:
 #    external: true
 
 # ------------------------------------------------------
-# volumes (example)
+# volumes
 # ------------------------------------------------------
 
-#volumes:
+volumes:
+  lldap_data:
+    driver: local
 #  medienhaus-spaces--node_modules:
 #    driver: local
 #  medienhaus-spaces--.next:
