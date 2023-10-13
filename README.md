@@ -184,8 +184,6 @@ docker compose up -d --build --force-recreate
 sh scripts/reset.sh
 ```
 
-🧩 For convenience reasons, manually created `lldap` accounts are not deleted.
-
 <details>
 
 <br>
@@ -217,6 +215,8 @@ sh ./scripts/reset.sh --help
 ```
 
 </details>
+
+🧩 For convenience reasons, manually created `lldap` accounts are not deleted.
 
 <br>
 
