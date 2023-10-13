@@ -12,6 +12,8 @@ Customizable, modular, free and open-source environment for decentralized, distr
 
 This repository contains our Docker composition for a containerized runtime environment of [medienhaus-spaces](https://github.com/medienhaus/medienhaus-spaces/) + [medienhaus-api](https://github.com/medienhaus/medienhaus-api/) + [medienhaus-cms](https://github.com/medienhaus/medienhaus-cms/) including [matrix-synapse](https://github.com/matrix-org/synapse/), [element-web](https://github.com/vector-im/element-web/), [etherpad-lite](https://github.com/ether/etherpad-lite/), [spacedeck-open](https://github.com/medienhaus/spacedeck-open/), and [lldap](https://github.com/lldap/lldap).
 
+🧩 For *local development* of [medienhaus-spaces](https://github.com/medienhaus/medienhaus-spaces/), use the simplified [medienhaus-docker-dev](https://github.com/medienhaus/medienhaus-docker-dev/) composition.
+
 ## Instructions
 
 0. `git clone` the `medienhaus-docker` repository and change directory
