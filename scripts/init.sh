@@ -13,7 +13,7 @@ if ! command -v sed >/dev/null; then
   exit 1
 fi
 
-# -- check if config directory exists, else exit -------------------------------
+# -- check if .env file exists, else exit --------------------------------------
 
 if [[ ! -w .env ]]; then
   printf "\n-- %s --\n" ".env file not found or not writable"
@@ -124,7 +124,7 @@ configure_compose_cms() {
 }
 
 # -- show help / print usage information ---------------------------------------
-#
+
 show_help() {
 cat << EOF
 
