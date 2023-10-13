@@ -128,24 +128,24 @@ configure_compose_cms() {
 show_help() {
 cat << EOF
 
-  -- init for medienhaus-spaces (default) --
+-- init for medienhaus-spaces (default) --
 
-  sh $0
-
-
-  -- init for medienhaus-spaces and medienhaus-api --
-
-  sh $0 --api
+sh $0
 
 
-  -- init for medienhaus-spaces and medienhaus-cms --
+-- init for medienhaus-spaces and medienhaus-api --
 
-  sh $0 --cms
+sh $0 --api
 
 
-  -- init for medienhaus-* (all of the above) --
+-- init for medienhaus-spaces and medienhaus-cms --
 
-  sh $0 --all
+sh $0 --cms
+
+
+-- init for medienhaus-* (all of the above) --
+
+sh $0 --all
 
 EOF
 }
@@ -170,7 +170,7 @@ else
         configure_env
         configure_compose_spaces
         configure_compose_api
-        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
       --cms)
@@ -180,7 +180,7 @@ else
         configure_env
         configure_compose_spaces
         configure_compose_cms
-        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
       --all)
@@ -191,7 +191,7 @@ else
         configure_compose_spaces
         configure_compose_api
         configure_compose_cms
-        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
       *)

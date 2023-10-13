@@ -184,24 +184,24 @@ configure_cms() {
 show_help() {
 cat << EOF
 
-  -- envsubst for services and medienhaus-spaces (default) --
+-- envsubst for services and medienhaus-spaces (default) --
 
-  sh $0
-
-
-  -- envsubst for services and medienhaus-spaces and medienhaus-api --
-
-  sh $0 --api
+sh $0
 
 
-  -- envsubst for services and medienhaus-spaces and medienhaus-cms --
+-- envsubst for services and medienhaus-spaces and medienhaus-api --
 
-  sh $0 --cms
+sh $0 --api
 
 
-  -- envsubst for services and medienhaus-* (all of the above) --
+-- envsubst for services and medienhaus-spaces and medienhaus-cms --
 
-  sh $0 --all
+sh $0 --cms
+
+
+-- envsubst for services and medienhaus-* (all of the above) --
+
+sh $0 --all
 
 EOF
 }
@@ -210,7 +210,7 @@ EOF
 
 if [[ $# -eq 0 ]]; then
   configure_services
-  printf "\n  -- %s --\n\n" "$0: finished successfully"
+  printf "\n-- %s --\n\n" "$0: finished successfully"
   exit
 else
   while [[ $# -gt 0 ]]; do
@@ -218,20 +218,20 @@ else
       --api)
         configure_services
         configure_api
-        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
       --cms)
         configure_services
         configure_cms
-        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
       --all)
         configure_services
         configure_api
         configure_cms
-        printf "\n  -- %s --\n\n" "$0 $1: finished successfully"
+        printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit
         ;;
       *)
