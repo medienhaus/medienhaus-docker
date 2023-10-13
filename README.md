@@ -4,7 +4,7 @@
 
 Customizable, modular, free and open-source environment for decentralized, distributed communication and collaboration without third-party dependencies.
 
-[Website](https://medienhaus.dev/) — [Twitter](https://twitter.com/medienhaus_)
+[Website](https://medienhaus.dev/) — [Mastodon](https://chaos.social/@medienhaus)
 
 <br>
 
@@ -161,6 +161,30 @@ This repository contains our Docker composition for a containerized runtime envi
 10. open the `medienhaus-spaces` application and log in via: http://localhost/login
     - username: *(configured via `lldap`)*
     - password: *(configured via `lldap`)*
+
+<br>
+
+## Destructions — reset everything and start from scratch
+
+```
+docker compose down && \
+rm -rf data/ && \
+cp .env.example .env && \
+cp docker-compose.example.yml docker-compose.yml && \
+sh scripts/envsubst.sh && \
+docker compose up -d --build --force-recreate --wait && \
+sh scripts/init.sh && \
+sh scripts/envsubst.sh && \
+docker compose up -d --build --force-recreate
+```
+
+💥 If you want to *TAKE ALL THE SHORTCUTS YOU CAN TAKE*, run `scripts/reset.sh`.
+
+```
+sh scripts/reset.sh
+```
+
+🧩 For convenience reasons, manually created `lldap` accounts are not deleted.
 
 <br>
 
