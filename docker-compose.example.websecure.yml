@@ -1,3 +1,8 @@
+#include:
+#  - docker-include.medienhaus-spaces.websecure.yml
+#  - docker-include.medienhaus-api.websecure.yml
+#  - docker-include.medienhaus-cms.websecure.yml
+
 services:
 
   # ------------------------------------------------------
@@ -94,7 +99,8 @@ services:
     #  #- "6360:6360"
     #  - "17170:17170"
     volumes:
-      - ./data/lldap:/data:rw
+      #- ./data/lldap:/data:rw
+      - lldap_data:/data:rw
 
   # ------------------------------------------------------
   # etherpad
@@ -138,7 +144,8 @@ services:
       context: ./etherpad-lite
       args:
         ETHERPAD_PLUGINS: "ep_adminpads2 ep_comments_page ep_headings2 ep_markdown ep_mypads"
-    command: sh -c "cd node_modules/ep_mypads/ && npm install ldapauth-fork@^5.0.5 && etherpad"
+    # NOTE: if using authentik as identity provider, update the ldapauth-fork dependency in ep_mypads
+    #command: sh -c "cd node_modules/ep_mypads/ && npm install ldapauth-fork@^5.0.5 && etherpad"
     container_name: etherpad
     restart: unless-stopped
     depends_on:
@@ -148,6 +155,7 @@ services:
     #  - "9001:9001"
     volumes:
       - ./config/etherpad.json:/opt/etherpad-lite/settings.json:ro
+      #- ./config/etherpad-mypads.configuration.js:/opt/etherpad-lite/node_modules/ep_mypads/configuration.js:ro
       - ./etherpad-skin-medienhaus:/opt/etherpad-lite/src/static/skins/medienhaus:ro
 
   # ------------------------------------------------------
@@ -191,6 +199,7 @@ services:
     build: ./spacedeck-open
     container_name: spacedeck
     restart: unless-stopped
+    stop_grace_period: 1s
     depends_on:
       postgres-spacedeck:
         condition: service_healthy
@@ -297,62 +306,13 @@ services:
     volumes:
       - ./config/element.json:/app/config.json:ro
 
-  # ------------------------------------------------------
-  # medienhaus-spaces
-  # ------------------------------------------------------
-
-  medienhaus-spaces:
-    build:
-      context: ./medienhaus-spaces
-      target: "development-runner"
-    container_name: medienhaus-spaces
-    restart: unless-stopped
-    depends_on:
-      - traefik
-    environment:
-      NODE_ENV: "development"
-      # NOTE: enable detecting `next.config.js` file changes in running container
-      # via: https://github.com/vercel/next.js/issues/36774#issuecomment-1438324196
-      WATCHPACK_POLLING: "true"
-    labels:
-      traefik.enable: "true"
-      #traefik.http.routers.medienhaus-spaces.entrypoints: "web"
-      traefik.http.routers.medienhaus-spaces.entrypoints: "websecure"
-      traefik.http.routers.medienhaus-spaces.tls.certresolver: "myresolver"
-      traefik.http.routers.medienhaus-spaces.rule: "Host(`${SPACES_HOSTNAME}`)"
-    #ports:
-    #  - "3000:3000"
-    volumes:
-      - ./config/medienhaus-spaces.config.js:/usr/src/app/next.config.js:ro
-      - ./medienhaus-spaces:/usr/src/app:rw
-      - medienhaus-spaces--node_modules:/usr/src/app/node_modules
-      - medienhaus-spaces--.next:/usr/src/app/.next
-
-  element-medienhaus-spaces:
-    image: vectorim/element-web:latest
-    container_name: element-medienhaus-spaces
-    restart: unless-stopped
-    depends_on:
-      - traefik
-      - medienhaus-spaces
-    labels:
-      traefik.enable: "true"
-      #traefik.http.routers.element-medienhaus-spaces.entrypoints: "web"
-      traefik.http.routers.element-medienhaus-spaces.entrypoints: "websecure"
-      traefik.http.routers.element-medienhaus-spaces.tls.certresolver: "myresolver"
-      traefik.http.routers.element-medienhaus-spaces.rule: "Host(`${SPACES_HOSTNAME}`) && PathPrefix(`/element/`)"
-      traefik.http.routers.element-medienhaus-spaces.middlewares: "element-medienhaus-spaces@docker"
-      traefik.http.middlewares.element-medienhaus-spaces.stripprefix.prefixes: "/element"
-    volumes:
-      - ./config/element-medienhaus-spaces.json:/app/config.json:ro
-
 # ------------------------------------------------------
 # networks (example)
 # ------------------------------------------------------
 
 #networks:
 #  default:
-#    name: traefik
+#    name: medienhaus-spaces
 #    driver: bridge
 #    external: true
 
@@ -361,7 +321,9 @@ services:
 # ------------------------------------------------------
 
 volumes:
-  medienhaus-spaces--node_modules:
+  lldap_data:
     driver: local
-  medienhaus-spaces--.next:
-    driver: local
+#  medienhaus-spaces--node_modules:
+#    driver: local
+#  medienhaus-spaces--.next:
+#    driver: local

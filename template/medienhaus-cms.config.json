@@ -1,0 +1,54 @@
+{
+  "medienhaus": {
+    "context": {
+      "category": {
+        "label": "Category"
+      },
+      "context":{
+        "label": "Generic Context"
+      }
+    },
+    "item": {
+      "article": {
+        "label": "Article",
+        "blueprint": [
+          "contributors",
+          "image",
+          "location",
+          "time"
+        ]
+      },
+      "item": {
+        "label": "Generic Item",
+        "blueprint": []
+      }
+    },
+    "languages": [
+      "en",
+      "de"
+    ],
+    "sites": {
+      "account": {
+        "avatar": true,
+        "name": true,
+        "mail": true
+      },
+      "moderate": {
+        "invite": true,
+        "rightsManagement": true,
+        "manageContexts": {
+          "showRoot": true
+        }
+      }
+    },
+    "limits": {
+      "maxAvatarDimensions": 2500,
+      "maxImageSize": 4000000,
+      "maxAudioSize": 10000000
+    },
+    "customServer": true,
+    "allowSelectingRootContext": true,
+    "allowManualApplicationSpaceId": false,
+    "api": "${HTTP_SCHEMA}://api.${SPACES_HOSTNAME}/api/v2"
+  }
+}

@@ -4,15 +4,15 @@
   "skinName": "medienhaus",
   "ip": "0.0.0.0",
   "port": 9001,
-  "dbType" : "postgres",
-  "dbSettings" : {
+  "dbType": "postgres",
+  "dbSettings": {
     "host": "postgres-etherpad",
     "port": "5432",
     "database": "etherpad",
     "user": "etherpad",
     "password": "${ETHERPAD_POSTGRES_PASSWORD}"
   },
-  "defaultPadText" : "",
+  "defaultPadText": "",
   "padOptions": {
     "noColors": true,
     "showControls": true,
@@ -38,5 +38,24 @@
   },
   "socketIo": {
     "maxHttpBufferSize": 10000
+  },
+  "ep_mypads": {
+    "ldap": {
+      "url": "${LDAP_SCHEMA}://${LDAP_HOST}:${LDAP_PORT}",
+      "bindDN": "${LDAP_BIND_DN}",
+      "bindCredentials": "${LDAP_BIND_PASSWORD}",
+      "searchBase": "${LDAP_SEARCH_BASE}",
+      "searchFilter": "(|(${LDAP_ATTRIBUTE_MAIL}={{mail}})(${LDAP_ATTRIBUTE_UID}={{username}}))",
+      "tlsOptions": {
+        "rejectUnauthorized": true
+      },
+      "properties": {
+        "login": "${LDAP_ATTRIBUTE_UID}",
+        "email": "${LDAP_ATTRIBUTE_MAIL}",
+        "firstname": "${LDAP_ATTRIBUTE_FIRSTNAME}",
+        "lastname": "${LDAP_ATTRIBUTE_LASTNAME}"
+      },
+      "defaultLang": "en"
+    }
   }
 }

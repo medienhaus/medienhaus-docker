@@ -14,3 +14,11 @@
 	path = medienhaus-spaces
 	url = https://github.com/medienhaus/medienhaus-spaces.git
 	branch = main
+[submodule "medienhaus-api"]
+	path = medienhaus-api
+	url = https://github.com/medienhaus/medienhaus-api.git
+	branch = main
+[submodule "medienhaus-cms"]
+	path = medienhaus-cms
+	url = https://github.com/medienhaus/medienhaus-cms.git
+	branch = main

@@ -1,0 +1,46 @@
+services:
+
+  # ------------------------------------------------------
+  # medienhaus-cms
+  # ------------------------------------------------------
+
+  medienhaus-cms:
+    build: ./medienhaus-cms
+    container_name: medienhaus-cms
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - matrix-synapse
+    environment:
+      NODE_ENV: development
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.medienhaus-cms.entrypoints: "web"
+      #traefik.http.routers.medienhaus-cms.entrypoints: "websecure"
+      #traefik.http.routers.medienhaus-cms.tls.certresolver: "myresolver"
+      traefik.http.routers.medienhaus-cms.rule: "Host(`cms.${SPACES_HOSTNAME}`)"
+    #ports:
+    #  - "3000:3000"
+    volumes:
+      - ./config/medienhaus-cms.config.json:/usr/src/app/src/config.json:ro
+      - ./config/medienhaus-cms.env:/usr/src/app/.env:ro
+      - ./medienhaus-cms:/usr/src/app:rw
+      - medienhaus-cms--node_modules:/usr/src/app/node_modules:rw
+
+# ------------------------------------------------------
+# networks (example)
+# ------------------------------------------------------
+
+#networks:
+#  default:
+#    name: medienhaus-spaces
+#    driver: bridge
+#    external: true
+
+# ------------------------------------------------------
+# volumes
+# ------------------------------------------------------
+
+volumes:
+  medienhaus-cms--node_modules:
+    driver: local
