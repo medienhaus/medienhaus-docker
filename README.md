@@ -186,6 +186,38 @@ sh scripts/reset.sh
 
 🧩 For convenience reasons, manually created `lldap` accounts are not deleted.
 
+<details>
+
+<br>
+
+<summary>⚠️ For including <code>medienhaus-api</code> and/or <code>medienhaus-cms</code>, use these commands <strong>instead</strong>❗️</summary>
+
+For including `medienhaus-api`, run the following:
+
+```
+sh ./scripts/reset.sh --api
+```
+
+For including `medienhaus-cms`, run the following:
+
+```
+sh ./scripts/reset.sh --cms
+```
+
+For including `medienhaus-api` and `medienhaus-cms`, run the following:
+
+```
+sh ./scripts/reset.sh --all
+```
+
+The script can list these commands with the `--help` argument:
+
+```
+sh ./scripts/reset.sh --help
+```
+
+</details>
+
 <br>
 
 ## URLs / Links for default localhost setup
