@@ -168,7 +168,9 @@ This repository contains our Docker composition for a containerized runtime envi
 
 ```
 docker compose down && \
-rm -rf data/ && \
+rm -rf data/etherpad && \
+rm -rf data/matrix-synapse && \
+rm -rf data/spacedeck && \
 cp .env.example .env && \
 cp docker-compose.example.yml docker-compose.yml && \
 sh scripts/envsubst.sh && \

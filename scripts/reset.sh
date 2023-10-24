@@ -37,7 +37,10 @@ EOF
 
 if [[ $# -eq 0 ]]; then
   docker compose down
-  rm -rf data/
+  rm -rf data/etherpad
+  #rm -rf data/lldap
+  rm -rf data/matrix-synapse
+  rm -rf data/spacedeck
   cp .env.example .env
   cp docker-compose.example.yml docker-compose.yml
   sh scripts/envsubst.sh
@@ -52,7 +55,10 @@ else
     case $1 in
       --api)
         docker compose down
-        rm -rf data/
+        rm -rf data/etherpad
+        #rm -rf data/lldap
+        rm -rf data/matrix-synapse
+        rm -rf data/spacedeck
         cp .env.example .env
         cp docker-compose.example.yml docker-compose.yml
         sh scripts/envsubst.sh
@@ -65,7 +71,10 @@ else
         ;;
       --cms)
         docker compose down
-        rm -rf data/
+        rm -rf data/etherpad
+        #rm -rf data/lldap
+        rm -rf data/matrix-synapse
+        rm -rf data/spacedeck
         cp .env.example .env
         cp docker-compose.example.yml docker-compose.yml
         sh scripts/envsubst.sh
@@ -78,7 +87,10 @@ else
         ;;
       --all)
         docker compose down
-        rm -rf data/
+        rm -rf data/etherpad
+        #rm -rf data/lldap
+        rm -rf data/matrix-synapse
+        rm -rf data/spacedeck
         cp .env.example .env
         cp docker-compose.example.yml docker-compose.yml
         sh scripts/envsubst.sh
