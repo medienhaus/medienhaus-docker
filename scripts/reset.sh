@@ -13,22 +13,22 @@ cat << EOF
 
 -- reset for medienhaus-spaces (default) --
 
-sh $0
+$0
 
 
 -- reset for medienhaus-spaces and medienhaus-api --
 
-sh $0 --api
+$0 --api
 
 
 -- reset for medienhaus-spaces and medienhaus-cms --
 
-sh $0 --cms
+$0 --cms
 
 
 -- reset for medienhaus-* (all of the above) --
 
-sh $0 --all
+$0 --all
 
 EOF
 }
@@ -43,10 +43,10 @@ if [[ $# -eq 0 ]]; then
   rm -rf data/spacedeck
   cp .env.example .env
   cp docker-compose.example.yml docker-compose.yml
-  sh scripts/envsubst.sh
+  ./scripts/envsubst.sh
   docker compose up -d --build --force-recreate --wait
-  sh scripts/init.sh
-  sh scripts/envsubst.sh
+  ./scripts/init.sh
+  ./scripts/envsubst.sh
   docker compose up -d --build --force-recreate --wait
   printf "\n-- %s --\n\n" "$0: finished successfully"
   exit
@@ -61,10 +61,10 @@ else
         rm -rf data/spacedeck
         cp .env.example .env
         cp docker-compose.example.yml docker-compose.yml
-        sh scripts/envsubst.sh
+        ./scripts/envsubst.sh
         docker compose up -d --build --force-recreate --wait
-        sh scripts/init.sh --api
-        sh scripts/envsubst.sh --api
+        ./scripts/init.sh --api
+        ./scripts/envsubst.sh --api
         docker compose up -d --build --force-recreate --wait
         printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit
@@ -77,10 +77,10 @@ else
         rm -rf data/spacedeck
         cp .env.example .env
         cp docker-compose.example.yml docker-compose.yml
-        sh scripts/envsubst.sh
+        ./scripts/envsubst.sh
         docker compose up -d --build --force-recreate --wait
-        sh scripts/init.sh --cms
-        sh scripts/envsubst.sh --cms
+        ./scripts/init.sh --cms
+        ./scripts/envsubst.sh --cms
         docker compose up -d --build --force-recreate --wait
         printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit
@@ -93,10 +93,10 @@ else
         rm -rf data/spacedeck
         cp .env.example .env
         cp docker-compose.example.yml docker-compose.yml
-        sh scripts/envsubst.sh
+        ./scripts/envsubst.sh
         docker compose up -d --build --force-recreate --wait
-        sh scripts/init.sh --all
-        sh scripts/envsubst.sh --all
+        ./scripts/init.sh --all
+        ./scripts/envsubst.sh --all
         docker compose up -d --build --force-recreate --wait
         printf "\n-- %s --\n\n" "$0 $1: finished successfully"
         exit

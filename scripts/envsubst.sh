@@ -186,22 +186,22 @@ cat << EOF
 
 -- envsubst for services and medienhaus-spaces (default) --
 
-sh $0
+$0
 
 
 -- envsubst for services and medienhaus-spaces and medienhaus-api --
 
-sh $0 --api
+$0 --api
 
 
 -- envsubst for services and medienhaus-spaces and medienhaus-cms --
 
-sh $0 --cms
+$0 --cms
 
 
 -- envsubst for services and medienhaus-* (all of the above) --
 
-sh $0 --all
+$0 --all
 
 EOF
 }

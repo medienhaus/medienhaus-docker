@@ -130,22 +130,22 @@ cat << EOF
 
 -- init for medienhaus-spaces (default) --
 
-sh $0
+$0
 
 
 -- init for medienhaus-spaces and medienhaus-api --
 
-sh $0 --api
+$0 --api
 
 
 -- init for medienhaus-spaces and medienhaus-cms --
 
-sh $0 --cms
+$0 --cms
 
 
 -- init for medienhaus-* (all of the above) --
 
-sh $0 --all
+$0 --all
 
 EOF
 }

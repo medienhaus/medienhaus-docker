@@ -60,7 +60,7 @@ This repository contains our Docker composition for a containerized runtime envi
 4. create config files from `template/*` files and `.env` variables
    <br>
    ```
-   sh ./scripts/envsubst.sh
+   ./scripts/envsubst.sh
    ```
 
 5. start docker composition
@@ -72,7 +72,7 @@ This repository contains our Docker composition for a containerized runtime envi
 6. create `matrix-synapse` account for `medienhaus-*`
    <br>
    ```
-   sh ./scripts/init.sh
+   ./scripts/init.sh
    ```
    <details>
 
@@ -83,25 +83,25 @@ This repository contains our Docker composition for a containerized runtime envi
    For including `medienhaus-api`, run the following:
 
    ```
-   sh ./scripts/init.sh --api
+   ./scripts/init.sh --api
    ```
 
    For including `medienhaus-cms`, run the following:
 
    ```
-   sh ./scripts/init.sh --cms
+   ./scripts/init.sh --cms
    ```
 
    For including `medienhaus-api` and `medienhaus-cms`, run the following:
 
    ```
-   sh ./scripts/init.sh --all
+   ./scripts/init.sh --all
    ```
 
    The script can list these commands with the `--help` argument:
 
    ```
-   sh ./scripts/init.sh --help
+   ./scripts/init.sh --help
    ```
 
    </details>
@@ -111,7 +111,7 @@ This repository contains our Docker composition for a containerized runtime envi
 7. re-create config files from `template/*` files and `.env` variables including `medienhaus-*` services
    <br>
    ```
-   sh ./scripts/envsubst.sh
+   ./scripts/envsubst.sh
    ```
    <details>
 
@@ -122,25 +122,25 @@ This repository contains our Docker composition for a containerized runtime envi
    For including `medienhaus-api`, run the following:
 
    ```
-   sh ./scripts/envsubst.sh --api
+   ./scripts/envsubst.sh --api
    ```
 
    For including `medienhaus-cms`, run the following:
 
    ```
-   sh ./scripts/envsubst.sh --cms
+   ./scripts/envsubst.sh --cms
    ```
 
    For including `medienhaus-api` and `medienhaus-cms`, run the following:
 
    ```
-   sh ./scripts/envsubst.sh --all
+   ./scripts/envsubst.sh --all
    ```
 
    The script can list these commands with the `--help` argument:
 
    ```
-   sh ./scripts/envsubst.sh --help
+   ./scripts/envsubst.sh --help
    ```
 
    </details>
@@ -173,17 +173,17 @@ rm -rf data/matrix-synapse && \
 rm -rf data/spacedeck && \
 cp .env.example .env && \
 cp docker-compose.example.yml docker-compose.yml && \
-sh scripts/envsubst.sh && \
+./scripts/envsubst.sh && \
 docker compose up -d --build --force-recreate --wait && \
-sh scripts/init.sh && \
-sh scripts/envsubst.sh && \
+./scripts/init.sh && \
+./scripts/envsubst.sh && \
 docker compose up -d --build --force-recreate
 ```
 
 💥 If you want to *TAKE ALL THE SHORTCUTS YOU CAN TAKE*, run `scripts/reset.sh`.
 
 ```
-sh scripts/reset.sh
+./scripts/reset.sh
 ```
 
 <details>
@@ -195,25 +195,25 @@ sh scripts/reset.sh
 For including `medienhaus-api`, run the following:
 
 ```
-sh ./scripts/reset.sh --api
+./scripts/reset.sh --api
 ```
 
 For including `medienhaus-cms`, run the following:
 
 ```
-sh ./scripts/reset.sh --cms
+./scripts/reset.sh --cms
 ```
 
 For including `medienhaus-api` and `medienhaus-cms`, run the following:
 
 ```
-sh ./scripts/reset.sh --all
+./scripts/reset.sh --all
 ```
 
 The script can list these commands with the `--help` argument:
 
 ```
-sh ./scripts/reset.sh --help
+./scripts/reset.sh --help
 ```
 
 </details>
