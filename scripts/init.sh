@@ -44,7 +44,7 @@ retrieve_access_token() {
     curl "http://localhost:8008/_matrix/client/r0/login" \
       --silent \
       --request POST \
-      --data-binary @- << EOF | sed -En 's/.*"access_token":"([^"]*).*/\1/p'
+      --data-binary @- << EOF | sed -n 's/.*"access_token":"\([^"]*\).*/\1/p'
 {
   "type": "m.login.password",
   "user": "${MEDIENHAUS_ADMIN_USER_ID}",
@@ -61,7 +61,7 @@ create_root_context_space() {
     curl "http://localhost:8008/_matrix/client/r0/createRoom?access_token=${MEDIENHAUS_ADMIN_ACCESS_TOKEN}" \
       --silent \
       --request POST \
-      --data-binary @- << EOF | sed -En 's/.*"room_id":"([^"]*).*/\1/p'
+      --data-binary @- << EOF | sed -n 's/.*"room_id":"\([^"]*\).*/\1/p'
 {
   "name": "medienhaus/ root context",
   "preset": "private_chat",
@@ -97,30 +97,38 @@ EOF
 # -- configure access_token and room_id in .env --------------------------------
 
 configure_env() {
-  sed -i '' '67 s/^#//' .env
-  sed -i '' '68 s/^#//' .env
+  sed -e '67s/^#//' \
+      -e '68s/^#//' \
+      ./.env > ./.env.tmp \
+      && mv ./.env.tmp ./.env
 
-  sed -i '' \
-      -e "s/\${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
+  sed -e "s/\${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
       -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
-      ./.env
+      ./.env > ./.env.tmp \
+      && mv ./.env.tmp ./.env
 }
 
 # -- configure includes in docker-compose.yml ----------------------------------
 
 configure_compose_spaces() {
-  sed -i '' '1 s/^#//' docker-compose.yml
-  sed -i '' '2 s/^#//' docker-compose.yml
+  sed -e '1s/^#//' \
+      -e '2s/^#//' \
+      ./docker-compose.yml > ./docker-compose.tmp \
+      && mv ./docker-compose.tmp ./docker-compose.yml
 }
 
 configure_compose_api() {
-  sed -i '' '1 s/^#//' docker-compose.yml
-  sed -i '' '3 s/^#//' docker-compose.yml
+  sed -e '1s/^#//' \
+      -e '3s/^#//' \
+      ./docker-compose.yml > ./docker-compose.tmp \
+      && mv ./docker-compose.tmp ./docker-compose.yml
 }
 
 configure_compose_cms() {
-  sed -i '' '1 s/^#//' docker-compose.yml
-  sed -i '' '4 s/^#//' docker-compose.yml
+  sed -e '1s/^#//' \
+      -e '4s/^#//' \
+      ./docker-compose.yml > ./docker-compose.tmp \
+      && mv ./docker-compose.tmp ./docker-compose.yml
 }
 
 # -- show help / print usage information ---------------------------------------
