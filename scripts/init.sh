@@ -99,10 +99,7 @@ EOF
 configure_env() {
   sed -e '67s/^#//' \
       -e '68s/^#//' \
-      ./.env > ./.env.tmp \
-      && mv ./.env.tmp ./.env
-
-  sed -e "s/\${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
+      -e "s/\${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
       -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
       ./.env > ./.env.tmp \
       && mv ./.env.tmp ./.env
