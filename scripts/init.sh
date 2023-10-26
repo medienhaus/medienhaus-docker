@@ -105,6 +105,14 @@ configure_env() {
       && mv ./.env.tmp ./.env
 }
 
+# -- write room_id to ./medienhaus-spaces/.env.local ---------------------------
+
+configure_env_local() {
+cat << EOF > ./medienhaus-spaces/.env.local
+MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}
+EOF
+}
+
 # -- configure includes in docker-compose.yml ----------------------------------
 
 configure_compose_spaces() {
@@ -161,7 +169,7 @@ if [[ $# -eq 0 ]]; then
   register_matrix_account
   retrieve_access_token
   create_root_context_space
-  configure_env
+  configure_env_local
   configure_compose_spaces
   printf "\n-- %s --\n\n" "$0: finished successfully"
   exit
@@ -173,6 +181,7 @@ else
         retrieve_access_token
         create_root_context_space
         configure_env
+        configure_env_local
         configure_compose_spaces
         configure_compose_api
         printf "\n-- %s --\n\n" "$0 $1: finished successfully"
@@ -183,6 +192,7 @@ else
         retrieve_access_token
         create_root_context_space
         configure_env
+        configure_env_local
         configure_compose_spaces
         configure_compose_cms
         printf "\n-- %s --\n\n" "$0 $1: finished successfully"
@@ -193,6 +203,7 @@ else
         retrieve_access_token
         create_root_context_space
         configure_env
+        configure_env_local
         configure_compose_spaces
         configure_compose_api
         configure_compose_cms

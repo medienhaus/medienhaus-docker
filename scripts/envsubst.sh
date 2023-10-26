@@ -123,24 +123,13 @@ configure_services() {
 
   # -- medienhaus-spaces -------------------------------------------------------
 
-  if [[ -z "${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID+fail_if_unset}" ]]; then
-    sed \
-      -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
-      -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-      -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
-      -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-      ./template/medienhaus-spaces.config.js \
-      > ./config/medienhaus-spaces.config.js
-  else
-    sed \
-      -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
-      -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-      -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
-      -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-      -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
-      ./template/medienhaus-spaces.config.js \
-      > ./config/medienhaus-spaces.config.js
-  fi
+  sed \
+    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
+    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+    ./template/medienhaus-spaces.config.js \
+    > ./config/medienhaus-spaces.config.js
 
   cp \
     ./template/element-medienhaus-spaces.json \
