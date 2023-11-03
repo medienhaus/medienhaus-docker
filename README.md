@@ -19,7 +19,8 @@ This repository contains our Docker composition for a containerized runtime envi
 0. `git clone` the `medienhaus-docker` repository and change directory
    <br>
    ```
-   git clone https://github.com/medienhaus/medienhaus-docker.git && cd medienhaus-docker/
+   git clone https://github.com/medienhaus/medienhaus-docker.git && \
+   cd medienhaus-docker/
    ```
 
 1. fetch contents of submodules
