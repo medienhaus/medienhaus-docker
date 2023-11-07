@@ -53,14 +53,57 @@ EOF
   )
 }
 
+# -- disable ratelimit for created matrix-synapse account ----------------------
+
+disable_ratelimit() {
+  docker exec -i matrix-synapse \
+    curl "http://localhost:8008/_synapse/admin/v1/users/${MEDIENHAUS_ADMIN_USER_ID}/override_ratelimit" \
+      --header "Authorization: Bearer ${MEDIENHAUS_ADMIN_ACCESS_TOKEN}" \
+      --silent \
+      --output /dev/null \
+      --request POST \
+      --data-binary @- << EOF
+{
+  "messages_per_second": 0,
+  "burst_count": 0
+}
+EOF
+}
+
 # -- create root context space for medienhaus-* and retrieve room_id -----------
+# -- if `medienhaus-spaces/structure.json` exists, create context structure ----
+#
+# -- NOTE: valid context structures can be generated with `medienhaus-dev-tools`
+# -- https://github.com/medienhaus/medienhaus-dev-tools ------------------------
 
 create_root_context_space() {
-  MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
-    curl "http://localhost:8008/_matrix/client/r0/createRoom?access_token=${MEDIENHAUS_ADMIN_ACCESS_TOKEN}" \
-      --silent \
-      --request POST \
-      --data-binary @- << EOF | sed -n 's/.*"room_id":"\([^"]*\).*/\1/p'
+  if [[ -r medienhaus-spaces/structure.json ]]; then
+    MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker run \
+      --name context-structure.js \
+      --network=medienhaus-docker-dev_default \
+      --rm \
+      --volume ./medienhaus-spaces/structure.json:/opt/structure.json \
+      node:lts-alpine \
+        sh -c "
+          wget \
+            --quiet \
+            --output-document=/opt/context-structure.js \
+            https://raw.githubusercontent.com/medienhaus/medienhaus-dev-tools/main/cli/createStructure.js \
+          && \
+          node /opt/context-structure.js \
+            -b \"http://matrix-synapse:8008\" \
+            -s \"${MATRIX_SERVERNAME}\" \
+            -t \"${MEDIENHAUS_ADMIN_ACCESS_TOKEN}\" \
+            -f /opt/structure.json \
+            -r
+        "
+    )
+  else
+    MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker exec -i matrix-synapse \
+      curl "http://localhost:8008/_matrix/client/r0/createRoom?access_token=${MEDIENHAUS_ADMIN_ACCESS_TOKEN}" \
+        --silent \
+        --request POST \
+        --data-binary @- << EOF | sed -n 's/.*"room_id":"\([^"]*\).*/\1/p'
 {
   "name": "medienhaus/ root context",
   "preset": "private_chat",
@@ -90,7 +133,8 @@ create_root_context_space() {
   ]
 }
 EOF
-  )
+    )
+  fi
 }
 
 # -- configure access_token and room_id in .env --------------------------------
@@ -167,6 +211,7 @@ EOF
 if [[ $# -eq 0 ]]; then
   register_matrix_account
   retrieve_access_token
+  disable_ratelimit
   create_root_context_space
   configure_env_local
   configure_compose_spaces
@@ -178,6 +223,7 @@ else
       --api)
         register_matrix_account
         retrieve_access_token
+        disable_ratelimit
         create_root_context_space
         configure_env
         configure_env_local
@@ -189,6 +235,7 @@ else
       --cms)
         register_matrix_account
         retrieve_access_token
+        disable_ratelimit
         create_root_context_space
         configure_env
         configure_env_local
@@ -200,6 +247,7 @@ else
       --all)
         register_matrix_account
         retrieve_access_token
+        disable_ratelimit
         create_root_context_space
         configure_env
         configure_env_local
