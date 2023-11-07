@@ -26,7 +26,6 @@ fi
 set -o allexport && source .env && set +o allexport
 
 # -- register matrix-synapse account for medienhaus-* --------------------------
-# -- NOTE: for now this needs to be an admin account due to ratelimit reasons --
 
 register_matrix_account() {
   docker exec matrix-synapse \
