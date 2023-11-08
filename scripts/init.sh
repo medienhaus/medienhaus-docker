@@ -57,7 +57,7 @@ EOF
 
 disable_ratelimit() {
   docker exec -i matrix-synapse \
-    curl "http://localhost:8008/_synapse/admin/v1/users/${MEDIENHAUS_ADMIN_USER_ID}/override_ratelimit" \
+    curl "http://localhost:8008/_synapse/admin/v1/users/@${MEDIENHAUS_ADMIN_USER_ID}:${MATRIX_SERVERNAME}/override_ratelimit" \
       --header "Authorization: Bearer ${MEDIENHAUS_ADMIN_ACCESS_TOKEN}" \
       --silent \
       --output /dev/null \
