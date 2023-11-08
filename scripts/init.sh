@@ -80,7 +80,7 @@ create_root_context_space() {
   if [[ -r medienhaus-spaces/structure.json ]]; then
     MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker run \
       --name context-structure.js \
-      --network=medienhaus-docker-dev_default \
+      --network=medienhaus-docker_default \
       --rm \
       --volume ./medienhaus-spaces/structure.json:/opt/structure.json \
       node:lts-alpine \
