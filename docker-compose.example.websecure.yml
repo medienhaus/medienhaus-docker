@@ -59,7 +59,7 @@ services:
       LLDAP_LDAP_PORT: "${LDAP_PORT}"
       #LLDAP_HTTP_HOST: "${LDAP_HOST}"
       LLDAP_HTTP_PORT: "80"
-      #LLDAP_HTTP_URL: "${HTTP_SCHEMA}://lldap.${SPACES_HOSTNAME}"
+      #LLDAP_HTTP_URL: "${HTTP_SCHEMA}://${LDAP_HOSTNAME}"
       LLDAP_JWT_SECRET: "${LDAP_JWT_SECRET}"
       LLDAP_LDAP_BASE_DN: "${LDAP_BASE_DN}"
       LLDAP_USER_DN: "${LDAP_BIND_USER}"
@@ -89,7 +89,7 @@ services:
       #traefik.http.routers.lldap.entrypoints: "web"
       traefik.http.routers.lldap.entrypoints: "websecure"
       traefik.http.routers.lldap.tls.certresolver: "myresolver"
-      traefik.http.routers.lldap.rule: "Host(`ldap.${SPACES_HOSTNAME}`)"
+      traefik.http.routers.lldap.rule: "Host(`${LDAP_HOSTNAME}`)"
     # NOTE: lldap does not expose ports automatically
     expose:
       - "80"
@@ -132,7 +132,7 @@ services:
       #traefik.http.routers.nginx-etherpad.entrypoints: "web"
       traefik.http.routers.nginx-etherpad.entrypoints: "websecure"
       traefik.http.routers.nginx-etherpad.tls.certresolver: "myresolver"
-      traefik.http.routers.nginx-etherpad.rule: "Host(`etherpad.${SPACES_HOSTNAME}`)"
+      traefik.http.routers.nginx-etherpad.rule: "Host(`${ETHERPAD_HOSTNAME}`)"
     #ports:
     #  - "9001:80"
     volumes:
@@ -188,7 +188,7 @@ services:
       #traefik.http.routers.nginx-spacedeck.entrypoints: "web"
       traefik.http.routers.nginx-spacedeck.entrypoints: "websecure"
       traefik.http.routers.nginx-spacedeck.tls.certresolver: "myresolver"
-      traefik.http.routers.nginx-spacedeck.rule: "Host(`spacedeck.${SPACES_HOSTNAME}`)"
+      traefik.http.routers.nginx-spacedeck.rule: "Host(`${SPACEDECK_HOSTNAME}`)"
     #ports:
     #  - "9666:80"
     volumes:
@@ -301,7 +301,7 @@ services:
       #traefik.http.routers.element.entrypoints: "web"
       traefik.http.routers.element.entrypoints: "websecure"
       traefik.http.routers.element.tls.certresolver: "myresolver"
-      traefik.http.routers.element.rule: "Host(`element.${SPACES_HOSTNAME}`)"
+      traefik.http.routers.element.rule: "Host(`${ELEMENT_HOSTNAME}`)"
     volumes:
       - ./config/element.json:/app/config.json:ro
 

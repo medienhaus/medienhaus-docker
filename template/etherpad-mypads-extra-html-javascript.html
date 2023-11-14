@@ -55,14 +55,14 @@
     const link = document.createElement('link')
     link.rel = 'stylesheet'
     link.type = 'text/css'
-    link.href = '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/static/skins/medienhaus/mypads.css'
+    link.href = '${HTTP_SCHEMA}://${ETHERPAD_HOSTNAME}/static/skins/medienhaus/mypads.css'
 
     head.appendChild(link);
 
     const link2 = document.createElement('link')
     link2.rel = 'stylesheet'
     link2.type = 'text/css'
-    link2.href = '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/static/skins/medienhaus/index.css'
+    link2.href = '${HTTP_SCHEMA}://${ETHERPAD_HOSTNAME}/static/skins/medienhaus/index.css'
 
     head.appendChild(link2);
   }

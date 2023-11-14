@@ -7,14 +7,14 @@ module.exports = {
         },
         etherpad: {
             path: '/write',
-            baseUrl: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/p',
+            baseUrl: '${HTTP_SCHEMA}://${ETHERPAD_HOSTNAME}/p',
             myPads: {
-                api: '${HTTP_SCHEMA}://etherpad.${SPACES_HOSTNAME}/mypads/api',
+                api: '${HTTP_SCHEMA}://${ETHERPAD_HOSTNAME}/mypads/api',
             },
         },
         spacedeck: {
             path: '/sketch',
-            baseUrl: '${HTTP_SCHEMA}://spacedeck.${SPACES_HOSTNAME}',
+            baseUrl: '${HTTP_SCHEMA}://${SPACEDECK_HOSTNAME}',
         },
     },
     account: {

@@ -32,6 +32,7 @@ configure_services() {
   sed \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
     -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+    -e "s/\${ETHERPAD_HOSTNAME}/${ETHERPAD_HOSTNAME}/g" \
     ./template/nginx-etherpad.conf \
     > ./config/nginx-etherpad.conf
 
@@ -52,17 +53,18 @@ configure_services() {
     ./template/etherpad.json \
     > ./config/etherpad.json
 
-  #sed \
-  #    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
-  #    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
-  #    ./template/etherpad-mypads-extra-html-javascript.html \
-  #    > ./config/etherpad-mypads-extra-html-javascript.html
+  sed \
+      -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+      -e "s/\${ETHERPAD_HOSTNAME}/${ETHERPAD_HOSTNAME}/g" \
+      ./template/etherpad-mypads-extra-html-javascript.html \
+      > ./config/etherpad-mypads-extra-html-javascript.html
 
   # -- spacedeck ---------------------------------------------------------------
 
   sed \
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
     -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+    -e "s/\${SPACEDECK_HOSTNAME}/${SPACEDECK_HOSTNAME}/g" \
     ./template/nginx-spacedeck.conf \
     > ./config/nginx-spacedeck.conf
 
@@ -128,6 +130,8 @@ configure_services() {
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
     -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
     -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
+    -e "s/\${ETHERPAD_HOSTNAME}/${ETHERPAD_HOSTNAME}/g" \
+    -e "s/\${SPACEDECK_HOSTNAME}/${SPACEDECK_HOSTNAME}/g" \
     ./template/medienhaus-spaces.config.js \
     > ./config/medienhaus-spaces.config.js
 
