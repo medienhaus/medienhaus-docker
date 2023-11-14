@@ -22,8 +22,7 @@ listeners:
     type: http
     x_forwarded: true
     resources:
-      #- names: [client, federation]
-      - names: [client]
+      - names: ${MATRIX_HTTP_LISTENERS}
         compress: false
 
 database:

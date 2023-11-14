@@ -97,6 +97,7 @@ configure_services() {
     -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
     -e "s/\${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g" \
     -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+    -e "s/\${MATRIX_HTTP_LISTENERS}/${MATRIX_HTTP_LISTENERS:-"[client]"}/g" \
     -e "s/\${MATRIX_POSTGRES_PASSWORD}/${MATRIX_POSTGRES_PASSWORD}/g" \
     -e "s/\${LDAP_SCHEMA}/${LDAP_SCHEMA}/g" \
     -e "s/\${LDAP_HOST}/${LDAP_HOST}/g" \
