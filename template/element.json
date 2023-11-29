@@ -4,7 +4,7 @@
       "base_url": "${HTTP_SCHEMA}://${MATRIX_BASEURL}",
       "server_name": "${MATRIX_SERVERNAME}"
     },
-      "m.identity_server": {
+    "m.identity_server": {
       "base_url": ""
     }
   },
