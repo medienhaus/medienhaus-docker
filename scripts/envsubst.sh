@@ -112,6 +112,12 @@ configure_services() {
     -e "s/\${MATRIX_REGISTRATION_SECRET}/${MATRIX_REGISTRATION_SECRET}/g" \
     -e "s/\${MATRIX_MACAROON_SECRET_KEY}/${MATRIX_MACAROON_SECRET_KEY}/g" \
     -e "s/\${MATRIX_FORM_SECRET}/${MATRIX_FORM_SECRET}/g" \
+    -e "s/\${COTURN_LISTENING_PORT}/${COTURN_LISTENING_PORT:-3478}/g" \
+    -e "s/\${COTURN_TLS_LISTENING_PORT}/${COTURN_TLS_LISTENING_PORT:-5349}/g" \
+    -e "s/\${COTURN_ALT_LISTENING_PORT}/${COTURN_ALT_LISTENING_PORT:-0}/g" \
+    -e "s/\${COTURN_ALT_TLS_LISTENING_PORT}/${COTURN_ALT_TLS_LISTENING_PORT:-0}/g" \
+    -e "s/\${COTURN_REALM}/${COTURN_REALM}/g" \
+    -e "s/\${COTURN_STATIC_AUTH_SECRET}/${COTURN_STATIC_AUTH_SECRET}/g" \
     ./template/matrix-synapse.yaml \
     > ./config/matrix-synapse.yaml
 
@@ -127,6 +133,10 @@ configure_services() {
   # -- coturn ------------------------------------------------------------------
 
   sed \
+    -e "s/\${COTURN_LISTENING_PORT}/${COTURN_LISTENING_PORT:-3478}/g" \
+    -e "s/\${COTURN_TLS_LISTENING_PORT}/${COTURN_TLS_LISTENING_PORT:-5349}/g" \
+    -e "s/\${COTURN_ALT_LISTENING_PORT}/${COTURN_ALT_LISTENING_PORT:-0}/g" \
+    -e "s/\${COTURN_ALT_TLS_LISTENING_PORT}/${COTURN_ALT_TLS_LISTENING_PORT:-0}/g" \
     -e "s/\${COTURN_REALM}/${COTURN_REALM}/g" \
     -e "s/\${COTURN_STATIC_AUTH_SECRET}/${COTURN_STATIC_AUTH_SECRET}/g" \
     ./template/coturn-turnserver.conf \
