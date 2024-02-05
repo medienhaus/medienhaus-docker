@@ -124,6 +124,14 @@ configure_services() {
     ./template/element.json \
     > ./config/element.json
 
+  # -- coturn ------------------------------------------------------------------
+
+  sed \
+    -e "s/\${COTURN_REALM}/${COTURN_REALM}/g" \
+    -e "s/\${COTURN_STATIC_AUTH_SECRET}/${COTURN_STATIC_AUTH_SECRET}/g" \
+    ./template/coturn-turnserver.conf \
+    > ./config/coturn-turnserver.conf
+
   # -- medienhaus-spaces -------------------------------------------------------
 
   sed \

@@ -305,6 +305,33 @@ services:
     volumes:
       - ./config/element.json:/app/config.json:ro
 
+  # ------------------------------------------------------
+  # coturn
+  # ------------------------------------------------------
+
+  coturn:
+    image: coturn/coturn:latest
+    container_name: coturn
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    environment:
+      DETECT_EXTERNAL_IP: "yes"
+      DETECT_RELAY_IP: "yes"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.medienhaus-spaces.entrypoints: "web"
+      #traefik.http.routers.medienhaus-spaces.entrypoints: "websecure"
+      traefik.http.routers.medienhaus-spaces.tls.certresolver: "myresolver"
+      traefik.http.routers.medienhaus-spaces.rule: "Host(`turn.${SPACES_HOSTNAME}`)"
+    network_mode: "host"
+    #ports:
+    #  - "3000:3000"
+    tmpfs:
+      - /var/lib/coturn
+    volumes:
+      - ./config/coturn-turnserver.conf:/etc/coturn/turnserver.conf:ro
+
 # ------------------------------------------------------
 # networks (example)
 # ------------------------------------------------------
