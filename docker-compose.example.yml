@@ -315,6 +315,8 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik
+    env_file:
+      - .env
     environment:
       DETECT_EXTERNAL_IP: "yes"
       DETECT_RELAY_IP: "yes"
@@ -325,8 +327,12 @@ services:
       traefik.http.routers.medienhaus-spaces.tls.certresolver: "myresolver"
       traefik.http.routers.medienhaus-spaces.rule: "Host(`turn.${SPACES_HOSTNAME}`)"
     network_mode: "host"
-    #ports:
-    #  - "3000:3000"
+    ports:
+      - "${COTURN_LISTENING_PORT:-3478}"
+      - "${COTURN_TLS_LISTENING_PORT:-5349}"
+      - "${COTURN_ALT_LISTENING_PORT:-0}"
+      - "${COTURN_ALT_TLS_LISTENING_PORT:-0}"
+      - "${COTURN_MIN_PORT:-49152}-${COTURN_MAX_PORT:-65535}:${COTURN_MIN_PORT:-49152}-${COTURN_MAX_PORT:-65535}/udp"
     tmpfs:
       - /var/lib/coturn
     volumes:

@@ -137,6 +137,8 @@ configure_services() {
     -e "s/\${COTURN_TLS_LISTENING_PORT}/${COTURN_TLS_LISTENING_PORT:-5349}/g" \
     -e "s/\${COTURN_ALT_LISTENING_PORT}/${COTURN_ALT_LISTENING_PORT:-0}/g" \
     -e "s/\${COTURN_ALT_TLS_LISTENING_PORT}/${COTURN_ALT_TLS_LISTENING_PORT:-0}/g" \
+    -e "s/\${COTURN_MIN_PORT}/${COTURN_MIN_PORT:-49152}/g" \
+    -e "s/\${COTURN_MAX_PORT}/${COTURN_MAX_PORT:-65535}/g" \
     -e "s/\${COTURN_REALM}/${COTURN_REALM}/g" \
     -e "s/\${COTURN_STATIC_AUTH_SECRET}/${COTURN_STATIC_AUTH_SECRET}/g" \
     ./template/coturn-turnserver.conf \
