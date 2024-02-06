@@ -22,8 +22,8 @@ fi
 # -- check if config files exist in config directory; then create backup -------
 
 if command -v find >/dev/null; then
-  find -d config -type f -exec mkdir -p _config-backup \; \
-                         -exec cp -R {} _config-backup \;
+  find config -type f -exec mkdir -p _config-backup \; \
+                      -exec cp -R {} _config-backup \;
 fi
 
 # -- import variables from .env ------------------------------------------------
