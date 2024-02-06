@@ -322,10 +322,10 @@ services:
       DETECT_RELAY_IP: "yes"
     labels:
       traefik.enable: "true"
-      #traefik.http.routers.medienhaus-spaces.entrypoints: "web"
-      traefik.http.routers.medienhaus-spaces.entrypoints: "websecure"
-      traefik.http.routers.medienhaus-spaces.tls.certresolver: "myresolver"
-      traefik.http.routers.medienhaus-spaces.rule: "Host(`turn.${SPACES_HOSTNAME}`)"
+      #traefik.http.routers.coturn.entrypoints: "web"
+      traefik.http.routers.coturn.entrypoints: "websecure"
+      traefik.http.routers.coturn.tls.certresolver: "myresolver"
+      traefik.http.routers.coturn.rule: "Host(`turn.${SPACES_HOSTNAME}`)"
     network_mode: "host"
     ports:
       - "${COTURN_LISTENING_PORT:-3478}"
