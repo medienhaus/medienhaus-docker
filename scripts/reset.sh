@@ -41,8 +41,6 @@ if [[ $# -eq 0 ]]; then
   #rm -rf data/lldap
   rm -rf data/matrix-synapse
   rm -rf data/spacedeck
-  cp .env.example .env
-  cp docker-compose.example.yml docker-compose.yml
   ./scripts/envsubst.sh
   docker compose up -d --build --force-recreate --wait
   ./scripts/init.sh
@@ -59,8 +57,6 @@ else
         #rm -rf data/lldap
         rm -rf data/matrix-synapse
         rm -rf data/spacedeck
-        cp .env.example .env
-        cp docker-compose.example.yml docker-compose.yml
         ./scripts/envsubst.sh
         docker compose up -d --build --force-recreate --wait
         ./scripts/init.sh --api
@@ -75,8 +71,6 @@ else
         #rm -rf data/lldap
         rm -rf data/matrix-synapse
         rm -rf data/spacedeck
-        cp .env.example .env
-        cp docker-compose.example.yml docker-compose.yml
         ./scripts/envsubst.sh
         docker compose up -d --build --force-recreate --wait
         ./scripts/init.sh --cms
@@ -91,8 +85,6 @@ else
         #rm -rf data/lldap
         rm -rf data/matrix-synapse
         rm -rf data/spacedeck
-        cp .env.example .env
-        cp docker-compose.example.yml docker-compose.yml
         ./scripts/envsubst.sh
         docker compose up -d --build --force-recreate --wait
         ./scripts/init.sh --all
