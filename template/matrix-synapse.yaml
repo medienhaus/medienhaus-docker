@@ -70,6 +70,21 @@ signing_key_path: "/data/matrix-synapse.signing.key"
 trusted_key_servers:
   - server_name: "matrix.org"
 
+turn_uris:
+  - "turn://${MATRIX_TURN_URI}:${MATRIX_TURN_LISTENING_PORT}?transport=udp"
+  - "turn://${MATRIX_TURN_URI}:${MATRIX_TURN_LISTENING_PORT}?transport=tcp"
+  - "turn://${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=udp"
+  - "turn://${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=tcp"
+  - "turn://${MATRIX_TURN_URI}:${MATRIX_TURN_ALT_LISTENING_PORT}?transport=udp"
+  - "turn://${MATRIX_TURN_URI}:${MATRIX_TURN_ALT_LISTENING_PORT}?transport=tcp"
+  - "turn://${MATRIX_TURN_URI}:${MATRIX_TURN_ALT_TLS_LISTENING_PORT}?transport=udp"
+  - "turn://${MATRIX_TURN_URI}:${MATRIX_TURN_ALT_TLS_LISTENING_PORT}?transport=tcp"
+
+turn_shared_secret: "${MATRIX_TURN_STATIC_AUTH_SECRET}"
+
+turn_user_lifetime: 86400000
+
+turn_allow_guests: true
 
 # less strict ratelimiting for medienhaus/spaces; see link below for details; defaults as comments below
 # https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#ratelimiting
