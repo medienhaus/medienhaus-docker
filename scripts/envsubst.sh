@@ -34,6 +34,21 @@ set -o allexport && source .env && set +o allexport
 
 configure_services() {
 
+  # -- authelia ----------------------------------------------------------------
+
+  sed \
+    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+    -e "s/\${AUTHELIA_SYNAPSE_CLIENT_SECRET}/${AUTHELIA_SYNAPSE_CLIENT_SECRET}/g" \
+    ./template/authelia-configuration.yml \
+    > ./config/authelia-configuration.yml
+
+  echo "${AUTHELIA_JWT_SECRET}" > ./secrets/authelia/JWT_SECRET
+  echo "${AUTHELIA_SESSION_SECRET}" > ./secrets/authelia/SESSION_SECRET
+  echo "${AUTHELIA_NOTIFIER_SMTP_PASSWORD}" > ./secrets/authelia/NOTIFIER_SMTP_PASSWORD
+  echo "${AUTHELIA_STORAGE_ENCRYPTION_KEY}" > ./secrets/authelia/STORAGE_ENCRYPTION_KEY
+  echo "${AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET}" > ./secrets/authelia/IDENTITY_PROVIDERS_OIDC_HMAC_SECRET
+  echo "${AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD}" > ./secrets/authelia/AUTHENTICATION_BACKEND_LDAP_PASSWORD
+
   # -- etherpad ----------------------------------------------------------------
 
   sed \
@@ -116,6 +131,8 @@ configure_services() {
     -e "s/\${LDAP_ATTRIBUTE_NAME}/${LDAP_ATTRIBUTE_NAME}/g" \
     -e "s/\${LDAP_BIND_DN}/${LDAP_BIND_DN}/g" \
     -e "s/\${LDAP_BIND_PASSWORD}/${LDAP_BIND_PASSWORD}/g" \
+    -e "s/\${AUTHELIA_HOSTNAME}/${AUTHELIA_HOSTNAME}/g" \
+    -e "s/\${AUTHELIA_SYNAPSE_CLIENT_SECRET}/${AUTHELIA_SYNAPSE_CLIENT_SECRET}/g" \
     -e "s/\${MATRIX_REGISTRATION_SECRET}/${MATRIX_REGISTRATION_SECRET}/g" \
     -e "s/\${MATRIX_MACAROON_SECRET_KEY}/${MATRIX_MACAROON_SECRET_KEY}/g" \
     -e "s/\${MATRIX_FORM_SECRET}/${MATRIX_FORM_SECRET}/g" \

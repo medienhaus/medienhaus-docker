@@ -25,6 +25,12 @@ fi
 
 set -o allexport && source .env && set +o allexport
 
+# -- generate private key for authelia -----------------------------------------
+
+openssl genrsa \
+  -out ./secrets/authelia/AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY \
+  4096
+
 # -- register matrix-synapse account for medienhaus-* --------------------------
 
 register_matrix_account() {

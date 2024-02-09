@@ -36,20 +36,40 @@ database:
     cp_min: 5
     cp_max: 10
 
-modules:
-  - module: "ldap_auth_provider.LdapAuthProviderModule"
-    config:
-      enabled: true
-      mode: "search"
-      uri: "${LDAP_SCHEMA}://${LDAP_HOST}:${LDAP_PORT}"
-      start_tls: ${LDAP_STARTTLS}
-      base: "${LDAP_SEARCH_BASE}"
-      attributes:
-        uid: "${LDAP_ATTRIBUTE_UID}"
-        mail: "${LDAP_ATTRIBUTE_MAIL}"
-        name: "${LDAP_ATTRIBUTE_NAME}"
-      bind_dn: "${LDAP_BIND_DN}"
-      bind_password: "${LDAP_BIND_PASSWORD}"
+#modules:
+#  - module: "ldap_auth_provider.LdapAuthProviderModule"
+#    config:
+#      enabled: true
+#      mode: "search"
+#      uri: "${LDAP_SCHEMA}://${LDAP_HOST}:${LDAP_PORT}"
+#      start_tls: ${LDAP_STARTTLS}
+#      base: "${LDAP_SEARCH_BASE}"
+#      attributes:
+#        uid: "${LDAP_ATTRIBUTE_UID}"
+#        mail: "${LDAP_ATTRIBUTE_MAIL}"
+#        name: "${LDAP_ATTRIBUTE_NAME}"
+#      bind_dn: "${LDAP_BIND_DN}"
+#      bind_password: "${LDAP_BIND_PASSWORD}"
+
+oidc_providers:
+  - idp_id: authelia
+    idp_name: "Authelia"
+    idp_icon: "mxc://authelia.com/cKlrTPsGvlpKxAYeHWJsdVHI"
+    discover: true
+    issuer: "https://${AUTHELIA_HOSTNAME}"
+    client_id: "synapse"
+    client_secret: "${AUTHELIA_SYNAPSE_CLIENT_SECRET}"
+    scopes:
+      - "openid"
+      - "profile"
+      - "email"
+    allow_existing_users: true
+    user_mapping_provider:
+      config:
+        subject_claim: "sub"
+        localpart_template: "{{ user.preferred_username }}"
+        display_name_template: "{{ user.name }}"
+        email_template: "{{ user.email }}"
 
 log_config: "/data/matrix-synapse.log.config"
 
