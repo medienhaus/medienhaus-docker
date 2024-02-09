@@ -14,6 +14,9 @@ services:
       - traefik
     environment:
       NODE_ENV: "development"
+      # NOTE: enable detecting `next.config.js` file changes in running container
+      # via: https://github.com/vercel/next.js/issues/36774#issuecomment-1438324196
+      WATCHPACK_POLLING: "true"
     labels:
       traefik.enable: "true"
       traefik.http.routers.medienhaus-spaces.entrypoints: "web"
@@ -24,6 +27,9 @@ services:
     #  - "3000:3000"
     volumes:
       - ./config/medienhaus-spaces.config.js:/app/config.js:ro
+      - ./medienhaus-spaces:/app:rw
+      - medienhaus-spaces--node_modules:/app/node_modules:rw
+      - medienhaus-spaces--.next:/app/.next:rw
 
   element-medienhaus-spaces:
     image: vectorim/element-web:latest
@@ -54,11 +60,11 @@ services:
 #    external: true
 
 # ------------------------------------------------------
-# volumes (example)
+# volumes
 # ------------------------------------------------------
 
-#volumes:
-#  medienhaus-spaces--node_modules:
-#    driver: local
-#  medienhaus-spaces--.next:
-#    driver: local
+volumes:
+  medienhaus-spaces--node_modules:
+    driver: local
+  medienhaus-spaces--.next:
+    driver: local
