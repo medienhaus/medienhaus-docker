@@ -44,7 +44,7 @@ email:
   #force_tls: true
   #require_transport_security: true
   #enable_tls: false
-  notif_from: "${SPACES_APP_PREFIX}/spaces <${SMTP_FROM_ADDESS}>"
+  notif_from: "${SPACES_APP_PREFIX}/spaces <${SMTP_FROM_ADDRESS}>"
   app_name: "${SPACES_APP_PREFIX}/spaces"
   enable_notifs: true
   notif_for_new_users: false
