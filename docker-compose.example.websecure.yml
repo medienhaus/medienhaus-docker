@@ -267,6 +267,32 @@ services:
       - ./data/matrix-synapse/synapse:/data:rw
       - ./config/matrix-synapse.yaml:/etc/matrix-synapse/homeserver.yaml:ro
 
+  coturn:
+    image: coturn/coturn:latest
+    container_name: coturn
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    environment:
+      DETECT_EXTERNAL_IP: "yes"
+      DETECT_RELAY_IP: "yes"
+    labels:
+      traefik.enable: "true"
+      #traefik.http.routers.coturn.entrypoints: "web"
+      traefik.http.routers.coturn.entrypoints: "websecure"
+      traefik.http.routers.coturn.tls.certresolver: "myresolver"
+      traefik.http.routers.coturn.rule: "Host(`turn.${SPACES_HOSTNAME}`)"
+    network_mode: "host"
+    # NOTE: port definitions are ignored when using host network
+    #ports:
+    #  - "${MATRIX_TURN__LISTENING_PORT:-3478}:${MATRIX_TURN__LISTENING_PORT:-3478}"
+    #  - "${MATRIX_TURN__TLS_LISTENING_PORT:-5349}:${MATRIX_TURN__TLS_LISTENING_PORT:-5349}"
+    #  - "${MATRIX_TURN__MIN_PORT:-49152}-${MATRIX_TURN__MAX_PORT:-65535}:${MATRIX_TURN__MIN_PORT:-49152}-${MATRIX_TURN__MAX_PORT:-65535}/udp"
+    tmpfs:
+      - /var/lib/coturn
+    volumes:
+      - ./config/coturn-turnserver.conf:/etc/coturn/turnserver.conf:ro
+
   #synapse-admin:
   #  build:
   #    context: https://github.com/Awesome-Technologies/synapse-admin.git
@@ -304,39 +330,6 @@ services:
       traefik.http.routers.element.rule: "Host(`${ELEMENT_HOSTNAME}`)"
     volumes:
       - ./config/element.json:/app/config.json:ro
-
-  # ------------------------------------------------------
-  # coturn
-  # ------------------------------------------------------
-
-  coturn:
-    image: coturn/coturn:latest
-    container_name: coturn
-    restart: unless-stopped
-    depends_on:
-      - traefik
-    env_file:
-      - .env
-    environment:
-      DETECT_EXTERNAL_IP: "yes"
-      DETECT_RELAY_IP: "yes"
-    labels:
-      traefik.enable: "true"
-      #traefik.http.routers.coturn.entrypoints: "web"
-      traefik.http.routers.coturn.entrypoints: "websecure"
-      traefik.http.routers.coturn.tls.certresolver: "myresolver"
-      traefik.http.routers.coturn.rule: "Host(`turn.${SPACES_HOSTNAME}`)"
-    network_mode: "host"
-    ports:
-      - "${COTURN_LISTENING_PORT:-3478}"
-      - "${COTURN_TLS_LISTENING_PORT:-5349}"
-      - "${COTURN_ALT_LISTENING_PORT:-0}"
-      - "${COTURN_ALT_TLS_LISTENING_PORT:-0}"
-      - "${COTURN_MIN_PORT:-49152}-${COTURN_MAX_PORT:-65535}:${COTURN_MIN_PORT:-49152}-${COTURN_MAX_PORT:-65535}/udp"
-    tmpfs:
-      - /var/lib/coturn
-    volumes:
-      - ./config/coturn-turnserver.conf:/etc/coturn/turnserver.conf:ro
 
 # ------------------------------------------------------
 # networks (example)
