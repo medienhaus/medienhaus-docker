@@ -44,7 +44,7 @@ email:
   #force_tls: true
   #require_transport_security: true
   #enable_tls: false
-  notif_from: "${SPACES_APP_PREFIX}/spaces <${SMTP_FROM_ADDESS}>"
+  notif_from: "${SPACES_APP_PREFIX}/spaces <${SMTP_FROM_ADDRESS}>"
   app_name: "${SPACES_APP_PREFIX}/spaces"
   enable_notifs: true
   notif_for_new_users: false
@@ -111,8 +111,8 @@ trusted_key_servers:
 turn_uris:
   - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_LISTENING_PORT}?transport=udp"
   - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_LISTENING_PORT}?transport=tcp"
-  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=udp"
-  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=tcp"
+  - "turns:${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=udp"
+  - "turns:${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=tcp"
 
 turn_shared_secret: "${MATRIX_TURN_STATIC_AUTH_SECRET}"
 
