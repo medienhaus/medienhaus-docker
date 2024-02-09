@@ -156,9 +156,8 @@ configure_env() {
 # -- write room_id to ./medienhaus-spaces/.env.local ---------------------------
 
 configure_env_local() {
-cat << EOF > ./medienhaus-spaces/.env.local
-MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}
-EOF
+  echo "MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}" \
+  > ./medienhaus-spaces/.env.local
 }
 
 # -- configure includes in docker-compose.yml ----------------------------------
