@@ -121,6 +121,13 @@ configure_services() {
     -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
     -e "s/\${MATRIX_HTTP_LISTENERS}/${MATRIX_HTTP_LISTENERS:-"[client]"}/g" \
     -e "s/\${MATRIX_POSTGRES_PASSWORD}/${MATRIX_POSTGRES_PASSWORD}/g" \
+    -e "s/\${SMTP_HOST}/${SMTP_HOST}/g" \
+    -e "s/\${SMTP_PORT}/${SMTP_PORT}/g" \
+    -e "s/\${SMTP_USERNAME}/${SMTP_USERNAME}/g" \
+    -e "s/\${SMTP_PASSWORD}/${SMTP_PASSWORD}/g" \
+    -e "s/\${SMTP_FROM_ADDESS}/${SMTP_FROM_ADDESS}/g" \
+    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
+    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
     -e "s/\${LDAP_SCHEMA}/${LDAP_SCHEMA}/g" \
     -e "s/\${LDAP_HOST}/${LDAP_HOST}/g" \
     -e "s/\${LDAP_PORT}/${LDAP_PORT}/g" \
