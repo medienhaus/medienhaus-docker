@@ -110,7 +110,7 @@ configure_services() {
     -e "s/\${SMTP_PORT}/${SMTP_PORT}/g" \
     -e "s/\${SMTP_USERNAME}/${SMTP_USERNAME}/g" \
     -e "s/\${SMTP_PASSWORD}/${SMTP_PASSWORD}/g" \
-    -e "s/\${SMTP_FROM_ADDESS}/${SMTP_FROM_ADDESS}/g" \
+    -e "s/\${SMTP_FROM_ADDRESS}/${SMTP_FROM_ADDRESS}/g" \
     -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
     -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
     -e "s/\${LDAP_SCHEMA}/${LDAP_SCHEMA}/g" \
