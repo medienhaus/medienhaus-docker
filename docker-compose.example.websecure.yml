@@ -44,6 +44,32 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   # ------------------------------------------------------
+  # dex
+  # ------------------------------------------------------
+
+  dex:
+    image: dexidp/dex:latest
+    container_name: dex
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    labels:
+      traefik.enable: "true"
+      #traefik.http.routers.dex.entrypoints: "web"
+      traefik.http.routers.dex.entrypoints: "websecure"
+      traefik.http.routers.dex.tls.certresolver: "myresolver"
+      traefik.http.routers.dex.rule: "Host(`${DEX_HOSTNAME}`)"
+    # NOTE: dex does not expose ports automatically
+    expose:
+      - "5556"
+    #ports:
+    #  - "5556:5556"
+    user: "root"
+    volumes:
+      - ./config/dex-config.yaml:/etc/dex/config.docker.yaml:ro
+      - ./data/dex:/var/dex:rw
+
+  # ------------------------------------------------------
   # lldap
   # ------------------------------------------------------
 

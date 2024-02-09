@@ -34,6 +34,25 @@ set -o allexport && source .env && set +o allexport
 
 configure_services() {
 
+  # -- dex ---------------------------------------------------------------------
+
+  sed \
+    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+    -e "s/\${DEX_HOSTNAME}/${DEX_HOSTNAME}/g" \
+    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+    -e "s/\${MATRIX_OIDC_CLIENT_SECRET}/${MATRIX_OIDC_CLIENT_SECRET}/g" \
+    -e "s/\${LDAP_HOST}/${LDAP_HOST}/g" \
+    -e "s/\${LDAP_PORT}/${LDAP_PORT}/g" \
+    -e "s/\${LDAP_STARTTLS}/${LDAP_STARTTLS}/g" \
+    -e "s/\${LDAP_BIND_DN}/${LDAP_BIND_DN}/g" \
+    -e "s/\${LDAP_BIND_PASSWORD}/${LDAP_BIND_PASSWORD}/g" \
+    -e "s/\${LDAP_SEARCH_BASE}/${LDAP_SEARCH_BASE}/g" \
+    -e "s/\${LDAP_ATTRIBUTE_UID}/${LDAP_ATTRIBUTE_UID}/g" \
+    -e "s/\${LDAP_ATTRIBUTE_MAIL}/${LDAP_ATTRIBUTE_MAIL}/g" \
+    -e "s/\${LDAP_ATTRIBUTE_NAME}/${LDAP_ATTRIBUTE_NAME}/g" \
+    ./template/dex-config.yaml \
+    > ./config/dex-config.yaml
+
   # -- etherpad ----------------------------------------------------------------
 
   sed \
@@ -123,6 +142,8 @@ configure_services() {
     -e "s/\${LDAP_ATTRIBUTE_NAME}/${LDAP_ATTRIBUTE_NAME}/g" \
     -e "s/\${LDAP_BIND_DN}/${LDAP_BIND_DN}/g" \
     -e "s/\${LDAP_BIND_PASSWORD}/${LDAP_BIND_PASSWORD}/g" \
+    -e "s/\${DEX_HOSTNAME}/${DEX_HOSTNAME}/g" \
+    -e "s/\${DEX_MATRIX_OIDC_CLIENT_SECRET}/${DEX_MATRIX_OIDC_CLIENT_SECRET}/g" \
     -e "s/\${MATRIX_REGISTRATION_SECRET}/${MATRIX_REGISTRATION_SECRET}/g" \
     -e "s/\${MATRIX_MACAROON_SECRET_KEY}/${MATRIX_MACAROON_SECRET_KEY}/g" \
     -e "s/\${MATRIX_FORM_SECRET}/${MATRIX_FORM_SECRET}/g" \
