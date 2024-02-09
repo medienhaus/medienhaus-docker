@@ -36,6 +36,24 @@ database:
     cp_min: 5
     cp_max: 10
 
+email:
+  smtp_host: "${SMTP_HOST}"
+  smtp_port: ${SMTP_PORT}
+  smtp_user: "${SMTP_USERNAME}"
+  smtp_pass: "${SMTP_PASSWORD}"
+  #force_tls: true
+  #require_transport_security: true
+  #enable_tls: false
+  notif_from: "${SPACES_APP_PREFIX}/spaces <${SMTP_FROM_ADDESS}>"
+  app_name: "${SPACES_APP_PREFIX}/spaces"
+  enable_notifs: true
+  notif_for_new_users: false
+  # TODO: needs testing with link to medienhaus-spaces
+  client_base_url: "https://${SPACES_HOSTNAME}"
+  validation_token_lifetime: 15m
+  # TODO: needs testing with link to medienhaus-spaces
+  invite_client_location: "https://${SPACES_HOSTNAME}"
+
 modules:
   - module: "ldap_auth_provider.LdapAuthProviderModule"
     config:
