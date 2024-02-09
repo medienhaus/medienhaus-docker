@@ -95,10 +95,6 @@ turn_uris:
   - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_LISTENING_PORT}?transport=tcp"
   - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=udp"
   - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=tcp"
-  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_ALT_LISTENING_PORT}?transport=udp"
-  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_ALT_LISTENING_PORT}?transport=tcp"
-  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_ALT_TLS_LISTENING_PORT}?transport=udp"
-  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_ALT_TLS_LISTENING_PORT}?transport=tcp"
 
 turn_shared_secret: "${MATRIX_TURN_STATIC_AUTH_SECRET}"
 
