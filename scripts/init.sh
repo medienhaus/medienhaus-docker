@@ -145,12 +145,11 @@ EOF
 # -- configure access_token and room_id in .env --------------------------------
 
 configure_env() {
-  sed -e '67s/^#//' \
-      -e '68s/^#//' \
-      -e "s/\${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
-      -e "s/\${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
-      ./.env > ./.env.tmp \
-      && mv ./.env.tmp ./.env
+  sed \
+    -e "s/^#\(MEDIENHAUS_ADMIN_ACCESS_TOKEN=\)$/\1${MEDIENHAUS_ADMIN_ACCESS_TOKEN}/g" \
+    -e "s/^#\(MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=\)$/\1${MEDIENHAUS_ROOT_CONTEXT_SPACE_ID}/g" \
+    ./.env > ./.env.tmp \
+    && mv ./.env.tmp ./.env
 }
 
 # -- write room_id to ./medienhaus-spaces/.env.local ---------------------------
@@ -163,24 +162,27 @@ configure_env_local() {
 # -- configure includes in docker-compose.yml ----------------------------------
 
 configure_compose_spaces() {
-  sed -e '1s/^#//' \
-      -e '2s/^#//' \
-      ./docker-compose.yml > ./docker-compose.tmp \
-      && mv ./docker-compose.tmp ./docker-compose.yml
+  sed \
+    -e '1s/^#//' \
+    -e '2s/^#//' \
+    ./docker-compose.yml > ./docker-compose.tmp \
+    && mv ./docker-compose.tmp ./docker-compose.yml
 }
 
 configure_compose_api() {
-  sed -e '1s/^#//' \
-      -e '3s/^#//' \
-      ./docker-compose.yml > ./docker-compose.tmp \
-      && mv ./docker-compose.tmp ./docker-compose.yml
+  sed \
+    -e '1s/^#//' \
+    -e '3s/^#//' \
+    ./docker-compose.yml > ./docker-compose.tmp \
+    && mv ./docker-compose.tmp ./docker-compose.yml
 }
 
 configure_compose_cms() {
-  sed -e '1s/^#//' \
-      -e '4s/^#//' \
-      ./docker-compose.yml > ./docker-compose.tmp \
-      && mv ./docker-compose.tmp ./docker-compose.yml
+  sed \
+    -e '1s/^#//' \
+    -e '4s/^#//' \
+    ./docker-compose.yml > ./docker-compose.tmp \
+    && mv ./docker-compose.tmp ./docker-compose.yml
 }
 
 # -- show help / print usage information ---------------------------------------
