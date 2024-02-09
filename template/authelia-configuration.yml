@@ -1,0 +1,27 @@
+# yamllint disable rule:comments-indentation
+---
+identity_providers:
+  oidc:
+    #cors:
+    #  # TODO: check which urls are actually correct here
+    #  allowed_origins:
+    #    - https://${MATRIX_BASEURL}
+    #    #- https://${SPACES_HOSTNAME}
+    #    #- https://${MATRIX_SERVERNAME}
+    #    #- https://${MATRIX_BASEURL}
+    #    #- https://${ELEMENT_HOSTNAME}
+    clients:
+      - id: synapse
+        description: Synapse is an open-source Matrix homeserver
+        secret: ${AUTHELIA_SYNAPSE_CLIENT_SECRET}
+        public: false
+        # authorization_policy: two_factor
+        authorization_policy: one_factor
+        scopes:
+          - openid
+          - profile
+          - email
+        redirect_uris:
+          - https://${MATRIX_BASEURL}/_synapse/client/oidc/callback
+        userinfo_signing_algorithm: none
+...
