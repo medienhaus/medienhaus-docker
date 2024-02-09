@@ -106,6 +106,13 @@ configure_services() {
     -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
     -e "s/\${MATRIX_HTTP_LISTENERS}/${MATRIX_HTTP_LISTENERS:-"[client]"}/g" \
     -e "s/\${MATRIX_POSTGRES_PASSWORD}/${MATRIX_POSTGRES_PASSWORD}/g" \
+    -e "s/\${SMTP_HOST}/${SMTP_HOST}/g" \
+    -e "s/\${SMTP_PORT}/${SMTP_PORT}/g" \
+    -e "s/\${SMTP_USERNAME}/${SMTP_USERNAME}/g" \
+    -e "s/\${SMTP_PASSWORD}/${SMTP_PASSWORD}/g" \
+    -e "s/\${SMTP_FROM_ADDESS}/${SMTP_FROM_ADDESS}/g" \
+    -e "s/\${SPACES_APP_PREFIX}/${SPACES_APP_PREFIX}/g" \
+    -e "s/\${SPACES_HOSTNAME}/${SPACES_HOSTNAME}/g" \
     -e "s/\${LDAP_SCHEMA}/${LDAP_SCHEMA}/g" \
     -e "s/\${LDAP_HOST}/${LDAP_HOST}/g" \
     -e "s/\${LDAP_PORT}/${LDAP_PORT}/g" \
@@ -119,12 +126,10 @@ configure_services() {
     -e "s/\${MATRIX_REGISTRATION_SECRET}/${MATRIX_REGISTRATION_SECRET}/g" \
     -e "s/\${MATRIX_MACAROON_SECRET_KEY}/${MATRIX_MACAROON_SECRET_KEY}/g" \
     -e "s/\${MATRIX_FORM_SECRET}/${MATRIX_FORM_SECRET}/g" \
-    -e "s/\${COTURN_LISTENING_PORT}/${COTURN_LISTENING_PORT:-3478}/g" \
-    -e "s/\${COTURN_TLS_LISTENING_PORT}/${COTURN_TLS_LISTENING_PORT:-5349}/g" \
-    -e "s/\${COTURN_ALT_LISTENING_PORT}/${COTURN_ALT_LISTENING_PORT:-0}/g" \
-    -e "s/\${COTURN_ALT_TLS_LISTENING_PORT}/${COTURN_ALT_TLS_LISTENING_PORT:-0}/g" \
-    -e "s/\${COTURN_REALM}/${COTURN_REALM}/g" \
-    -e "s/\${COTURN_STATIC_AUTH_SECRET}/${COTURN_STATIC_AUTH_SECRET}/g" \
+    -e "s/\${MATRIX_TURN_URI}/${MATRIX_TURN_URI}/g" \
+    -e "s/\${MATRIX_TURN_LISTENING_PORT}/${MATRIX_TURN_LISTENING_PORT}/g" \
+    -e "s/\${MATRIX_TURN_TLS_LISTENING_PORT}/${MATRIX_TURN_TLS_LISTENING_PORT}/g" \
+    -e "s/\${MATRIX_TURN_STATIC_AUTH_SECRET}/${MATRIX_TURN_STATIC_AUTH_SECRET}/g" \
     ./template/matrix-synapse.yaml \
     > ./config/matrix-synapse.yaml
 
@@ -140,14 +145,12 @@ configure_services() {
   # -- coturn ------------------------------------------------------------------
 
   sed \
-    -e "s/\${COTURN_LISTENING_PORT}/${COTURN_LISTENING_PORT:-3478}/g" \
-    -e "s/\${COTURN_TLS_LISTENING_PORT}/${COTURN_TLS_LISTENING_PORT:-5349}/g" \
-    -e "s/\${COTURN_ALT_LISTENING_PORT}/${COTURN_ALT_LISTENING_PORT:-0}/g" \
-    -e "s/\${COTURN_ALT_TLS_LISTENING_PORT}/${COTURN_ALT_TLS_LISTENING_PORT:-0}/g" \
-    -e "s/\${COTURN_MIN_PORT}/${COTURN_MIN_PORT:-49152}/g" \
-    -e "s/\${COTURN_MAX_PORT}/${COTURN_MAX_PORT:-65535}/g" \
-    -e "s/\${COTURN_REALM}/${COTURN_REALM}/g" \
-    -e "s/\${COTURN_STATIC_AUTH_SECRET}/${COTURN_STATIC_AUTH_SECRET}/g" \
+    -e "s/\${MATRIX_TURN_LISTENING_PORT}/${MATRIX_TURN_LISTENING_PORT}/g" \
+    -e "s/\${MATRIX_TURN_TLS_LISTENING_PORT}/${MATRIX_TURN_TLS_LISTENING_PORT}/g" \
+    -e "s/\${MATRIX_TURN_MIN_PORT}/${MATRIX_TURN_MIN_PORT:-49152}/g" \
+    -e "s/\${MATRIX_TURN_MAX_PORT}/${MATRIX_TURN_MAX_PORT:-65535}/g" \
+    -e "s/\${MATRIX_TURN_URI}/${MATRIX_TURN_URI}/g" \
+    -e "s/\${MATRIX_TURN_STATIC_AUTH_SECRET}/${MATRIX_TURN_STATIC_AUTH_SECRET}/g" \
     ./template/coturn-turnserver.conf \
     > ./config/coturn-turnserver.conf
 

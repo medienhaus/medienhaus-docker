@@ -36,6 +36,24 @@ database:
     cp_min: 5
     cp_max: 10
 
+email:
+  smtp_host: "${SMTP_HOST}"
+  smtp_port: ${SMTP_PORT}
+  smtp_user: "${SMTP_USERNAME}"
+  smtp_pass: "${SMTP_PASSWORD}"
+  #force_tls: true
+  #require_transport_security: true
+  #enable_tls: false
+  notif_from: "${SPACES_APP_PREFIX}/spaces <${SMTP_FROM_ADDESS}>"
+  app_name: "${SPACES_APP_PREFIX}/spaces"
+  enable_notifs: true
+  notif_for_new_users: false
+  # TODO: needs testing with link to medienhaus-spaces
+  client_base_url: "https://${SPACES_HOSTNAME}"
+  validation_token_lifetime: 15m
+  # TODO: needs testing with link to medienhaus-spaces
+  invite_client_location: "https://${SPACES_HOSTNAME}"
+
 modules:
   - module: "ldap_auth_provider.LdapAuthProviderModule"
     config:
@@ -71,19 +89,16 @@ trusted_key_servers:
   - server_name: "matrix.org"
 
 turn_uris:
-  - "turn://${COTURN_REALM}:${COTURN_LISTENING_PORT}?transport=udp"
-  - "turn://${COTURN_REALM}:${COTURN_LISTENING_PORT}?transport=tcp"
-  - "turn://${COTURN_REALM}:${COTURN_TLS_LISTENING_PORT}?transport=udp"
-  - "turn://${COTURN_REALM}:${COTURN_TLS_LISTENING_PORT}?transport=tcp"
-  - "turn://${COTURN_REALM}:${COTURN_ALT_LISTENING_PORT}?transport=udp"
-  - "turn://${COTURN_REALM}:${COTURN_ALT_LISTENING_PORT}?transport=tcp"
-  - "turn://${COTURN_REALM}:${COTURN_ALT_TLS_LISTENING_PORT}?transport=udp"
-  - "turn://${COTURN_REALM}:${COTURN_ALT_TLS_LISTENING_PORT}?transport=tcp"
+  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_LISTENING_PORT}?transport=udp"
+  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_LISTENING_PORT}?transport=tcp"
+  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=udp"
+  - "turn:${MATRIX_TURN_URI}:${MATRIX_TURN_TLS_LISTENING_PORT}?transport=tcp"
 
-turn_shared_secret: "${COTURN_STATIC_AUTH_SECRET}"
+turn_shared_secret: "${MATRIX_TURN_STATIC_AUTH_SECRET}"
+
+turn_user_lifetime: 86400000
 
 turn_allow_guests: true
-
 
 # less strict ratelimiting for medienhaus/spaces; see link below for details; defaults as comments below
 # https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#ratelimiting
