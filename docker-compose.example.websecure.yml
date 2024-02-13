@@ -57,7 +57,7 @@ services:
       #LLDAP_VERBOSE: true
       LLDAP_LDAP_PORT: "${LDAP_PORT}"
       LLDAP_HTTP_PORT: "80"
-      LLDAP_JWT_SECRET: "${LDAP_JWT_SECRET}"
+      LLDAP_JWT_SECRET: "${LLDAP_JWT_SECRET}"
       LLDAP_LDAP_BASE_DN: "${LDAP_BASE_DN}"
       LLDAP_LDAP_USER_DN: "${LDAP_BIND_USER}"
       LLDAP_LDAP_USER_EMAIL: "${ADMIN_CONTACT_LETSENCRYPT}"
@@ -76,7 +76,7 @@ services:
       #traefik.http.routers.lldap.entrypoints: "web"
       traefik.http.routers.lldap.entrypoints: "websecure"
       traefik.http.routers.lldap.tls.certresolver: "myresolver"
-      traefik.http.routers.lldap.rule: "Host(`${LDAP_HOSTNAME}`)"
+      traefik.http.routers.lldap.rule: "Host(`${LLDAP_HOSTNAME}`)"
     # NOTE: lldap does not expose ports automatically
     expose:
       - "80"
