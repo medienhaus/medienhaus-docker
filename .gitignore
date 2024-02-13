@@ -5,5 +5,7 @@
 /docker-compose.yml
 
 /config
+/_config-*
+
 /data
 /storage
