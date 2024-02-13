@@ -62,6 +62,17 @@ email:
 #      uri: "${LDAP_SCHEMA}://${LDAP_HOST}:${LDAP_PORT}"
 #      start_tls: ${LDAP_STARTTLS}
 #      base: "${LDAP_SEARCH_BASE}"
+#      # Python 3.10 seemingly introduces some problems(?) related to SSL/TLS,
+#      # hence we need some more configuration, at least for _our_ LDAP server
+#      #
+#      # https://ldap3.readthedocs.io/en/latest/ssltls.html#the-tls-object
+#      tls_options:
+#        validate: false
+#        # https://stackoverflow.com/a/52598420
+#        version: 5 # that is "PROTOCOL_TLSv1_2"
+#        # https://github.com/cannatag/ldap3/issues/993
+#        # https://github.com/goauthentik/authentik/issues/3110
+#        ciphers: "ECDHE+AESGCM:ECDHE+CHACHA20:DHE+AESGCM:DHE+CHACHA20:ECDH+AESGCM:DH+AESGCM:ECDH+AES:DH+AES:RSA+AESGCM:RSA+AES:!aNULL:!eNULL:!MD5:!DSS"
 #      attributes:
 #        uid: "${LDAP_ATTRIBUTE_UID}"
 #        mail: "${LDAP_ATTRIBUTE_MAIL}"
