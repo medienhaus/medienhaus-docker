@@ -78,6 +78,8 @@ EOF
 
 create_root_context_space() {
   if [[ -r medienhaus-spaces/structure.json ]]; then
+    printf "\n-- %s --\n\n" "$0: creating context structure ..."
+
     MEDIENHAUS_ROOT_CONTEXT_SPACE_ID=$(docker run \
       --network=medienhaus-docker_default \
       --rm \
