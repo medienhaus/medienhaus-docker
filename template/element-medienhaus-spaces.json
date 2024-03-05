@@ -1,4 +1,7 @@
 {
+  "element_call": {
+    "use_exclusively": true
+  },
   "features": {
     "feature_spotlight": true,
     "feature_thread": true,
