@@ -10,7 +10,8 @@
     "port": "5432",
     "database": "etherpad",
     "user": "etherpad",
-    "password": "${ETHERPAD_POSTGRES_PASSWORD}"
+    "password": "${ETHERPAD_POSTGRES_PASSWORD}",
+    "charset": "utf8mb4"
   },
   "defaultPadText": "",
   "padOptions": {
