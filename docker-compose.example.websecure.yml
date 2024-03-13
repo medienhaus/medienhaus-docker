@@ -276,7 +276,7 @@ services:
   # ------------------------------------------------------
 
   element:
-    image: vectorim/element-web:latest
+    image: vectorim/element-web:v1.11.57
     container_name: element
     restart: unless-stopped
     depends_on:

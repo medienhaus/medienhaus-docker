@@ -32,7 +32,7 @@ services:
       - medienhaus-spaces--.next:/app/.next:rw
 
   element-medienhaus-spaces:
-    image: vectorim/element-web:latest
+    image: vectorim/element-web:v1.11.57
     container_name: element-medienhaus-spaces
     restart: unless-stopped
     depends_on:
