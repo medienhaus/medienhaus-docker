@@ -47,6 +47,14 @@ This repository contains our Docker composition for a containerized runtime envi
    ```
    openssl rand -hex 32
    ```
+   💭 This can also be done programmatically, if the `.env` file does not(!) exist, via `bash`:
+   ```
+   if [[ ! -r .env ]]; then
+     while IFS= read -r line; do
+       sed "s/change_me/$(openssl rand -hex 32)/" <<< "$line"
+     done < .env.example > .env
+   fi
+   ```
 
 3. create `docker-compose.yml` file from example
    <br>
