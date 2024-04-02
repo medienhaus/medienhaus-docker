@@ -289,6 +289,14 @@ services:
       traefik.http.routers.element.entrypoints: "websecure"
       traefik.http.routers.element.tls.certresolver: "myresolver"
       traefik.http.routers.element.rule: "Host(`${ELEMENT_HOSTNAME}`)"
+      traefik.http.routers.element.middlewares: "element-headers@docker"
+      # @NOTE: element-web configuration best practices according to the repository’s README
+      # https://github.com/element-hq/element-web?tab=readme-ov-file#configuration-best-practices
+      # https://doc.traefik.io/traefik/middlewares/http/headers/#general
+      traefik.http.middlewares.element-headers.headers.customframeoptionsvalue: "sameorigin"
+      traefik.http.middlewares.element-headers.headers.contenttypenosniff: "true"
+      traefik.http.middlewares.element-headers.headers.browserxssfilter: "true"
+      traefik.http.middlewares.element-headers.headers.contentsecuritypolicy: "frame-ancestors 'self'"
     volumes:
       - ./config/element.json:/app/config.json:ro
 

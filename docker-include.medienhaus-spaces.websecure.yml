@@ -38,8 +38,15 @@ services:
       traefik.http.routers.element-medienhaus-spaces.entrypoints: "websecure"
       traefik.http.routers.element-medienhaus-spaces.tls.certresolver: "myresolver"
       traefik.http.routers.element-medienhaus-spaces.rule: "Host(`${SPACES_HOSTNAME}`) && PathPrefix(`/element/`)"
-      traefik.http.routers.element-medienhaus-spaces.middlewares: "element-medienhaus-spaces@docker"
-      traefik.http.middlewares.element-medienhaus-spaces.stripprefix.prefixes: "/element"
+      traefik.http.routers.element-medienhaus-spaces.middlewares: "element-medienhaus-spaces-stripprefix@docker,element-medienhaus-spaces-headers@docker"
+      traefik.http.middlewares.element-medienhaus-spaces-stripprefix.stripprefix.prefixes: "/element"
+      # @NOTE: element-web configuration best practices according to the repository’s README
+      # https://github.com/element-hq/element-web?tab=readme-ov-file#configuration-best-practices
+      # https://doc.traefik.io/traefik/middlewares/http/headers/#general
+      traefik.http.middlewares.element-medienhaus-spaces-headers.headers.customframeoptionsvalue: "sameorigin"
+      traefik.http.middlewares.element-medienhaus-spaces-headers.headers.contenttypenosniff: "true"
+      traefik.http.middlewares.element-medienhaus-spaces-headers.headers.browserxssfilter: "true"
+      traefik.http.middlewares.element-medienhaus-spaces-headers.headers.contentsecuritypolicy: "frame-ancestors 'self'"
     volumes:
       - ./config/element-medienhaus-spaces.json:/app/config.json:ro
 
