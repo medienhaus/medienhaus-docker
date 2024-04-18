@@ -31,11 +31,11 @@ module.exports = {
     /* *not_equal* to value stored in or does *not_exist* in client-side localStorage */
     // localStorage: {
     //   clearAfterUpgrade: true,
-    //   versionToken: "1",
+    //   versionToken: '1',
     // },
     templates: {
         // context: [
-        //   "context",
+        //   'context',
         // ],
         item: [
             'etherpad',
