@@ -154,9 +154,12 @@ configure_services() {
     ./template/medienhaus-spaces.config.js \
     > ./config/medienhaus-spaces.config.js
 
-  cp \
+  sed \
+    -e "s/\${HTTP_SCHEMA}/${HTTP_SCHEMA}/g" \
+    -e "s/\${MATRIX_BASEURL}/${MATRIX_BASEURL}/g" \
+    -e "s/\${MATRIX_SERVERNAME}/${MATRIX_SERVERNAME}/g" \
     ./template/element-medienhaus-spaces.json \
-    ./config/element-medienhaus-spaces.json
+    > ./config/element-medienhaus-spaces.json
 
 }
 
