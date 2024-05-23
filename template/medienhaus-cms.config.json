@@ -49,6 +49,6 @@
     "customServer": true,
     "allowSelectingRootContext": true,
     "allowManualApplicationSpaceId": false,
-    "api": "${HTTP_SCHEMA}://api.${SPACES_HOSTNAME}/api/v2"
+    "api": "${HTTP_SCHEMA}://api.${SPACES_HOSTNAME}/api/v2/"
   }
 }
